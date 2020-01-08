@@ -3,15 +3,15 @@ import {connect} from 'react-redux';
 import {navigate} from '../../../actions/actions';
 import { View, Text, Button } from 'react-native';
 
-const RideShareQuestion = props => {
+const LocationForm = props => {
     return (
         <View>
             <Text>
-                Form 3
+                Form 0
             </Text>
             <Button
                 title="Next"
-                onPress= {() => {props.navigate("new pickup", 4)}}
+                onPress= {() => {props.navigate("new pickup", 1)}}
             />
         </View>
     )
@@ -21,4 +21,4 @@ const mapDispatchToProps = {
     navigate: navigate
 }
 
-export default connect(null, mapDispatchToProps)(RideShareQuestion);
+export default connect(null, mapDispatchToProps)(LocationForm);
