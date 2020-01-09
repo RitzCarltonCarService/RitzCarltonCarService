@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { navigate } from '../../../redux/actions';
+import { updateScheduledPickups } from '../../../redux/actions';
 import { View, Text, Button } from 'react-native';
+import dummyData from '../../../dummyData/dummy_pickup_data';
+import { State } from 'react-native-gesture-handler';
 
 const SummaryScreen = props => {
     return (
@@ -10,14 +12,25 @@ const SummaryScreen = props => {
                 Form 4
             </Text>
             <Button
-                onPress={() => { props.setPage("home") }}
+                title="Confirm"
+                onPress={() => { 
+                    console.log("logging is working");
+                    props.updateScheduledPickups(dummyData);
+                    props.setPage("home");
+                }}
             />
         </View>
     )
 }
 
-const mapDispatchToProps = {
-    navigate: navigate
+const mapStateToProps = state => {
+    return {
+        nav: state.nav
+    }
 }
 
-export default connect(null, mapDispatchToProps)(SummaryScreen);
+const mapDispatchToProps = {
+    updateScheduledPickups: updateScheduledPickups
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SummaryScreen);
