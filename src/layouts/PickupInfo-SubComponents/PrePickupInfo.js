@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {navigate} from '../../actions/actions';
+import { connect } from 'react-redux';
+import { navigate } from '../../actions';
 import { View, Text, Button } from 'react-native';
 
 const PrePickupInfo = props => {
@@ -14,7 +14,7 @@ const PrePickupInfo = props => {
             </Text>
             <Button
                 title="Back"
-                onPress= {() => {props.setPage("home")}}
+                onPress={() => { props.setPage("home") }}
             />
         </View>
     )

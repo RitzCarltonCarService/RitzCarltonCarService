@@ -1,16 +1,16 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import Login_Signup from './Components/Login-Signup/Login-Signup';
+import { StyleSheet } from 'react-native';
 import rootReducer from './redux/reducers';
+import App from './src';
 
 let store = createStore(rootReducer);
 
 export default function App() {
    return (
       <Provider store={store}>
-         <Login_Signup />
+         <App />
       </Provider>
    );
 }
