@@ -7,6 +7,7 @@ const initialState = {
 }
 
 function navigateReducer(state = initialState, action) {
+    console.log("nav reducer runs")
     switch (action.type) {
         case NAVIGATE:
             return {

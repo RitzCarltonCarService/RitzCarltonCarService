@@ -17,3 +17,9 @@ export const LOG_OUT = 'LOG_OUT';
 export function logOut() {
     return { type: LOG_OUT }
 }
+
+export const UPDATE_SCHEDULED_PICKUPS = "UPDATE_SCHEDULED_PICKUPS";
+export function updateScheduledPickups(scheduledPickups) {
+    console.log(scheduledPickups);
+    return { type: UPDATE_SCHEDULED_PICKUPS, scheduledPickups: scheduledPickups };
+}

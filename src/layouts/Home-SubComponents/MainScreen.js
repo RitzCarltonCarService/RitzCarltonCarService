@@ -3,23 +3,26 @@ import { connect } from 'react-redux';
 import { navigate } from '../../redux/actions';
 import { View, Text, Button } from 'react-native';
 
-import pickupData from "./dummy_pickup_data";
-
 const MainScreen = props => {
 
     return (
         <View>
             <Text>
-                Main Screen
+                Scheduled Pickups:
             </Text>
-            {pickupData.map(pickup => {
+            {props.scheduledPickups.length > 0 ? 
+            props.scheduledPickups.map(pickup => {
                 return (
                     <Button
                         title={pickup.name}
                         onPress={() => { props.setPage("pickup info") }}
                     />
                 )
-            })}
+            }) :
+            <Text>
+                No Current Requests
+            </Text>
+            }
             <Button
                 title="New Pickup"
                 onPress={() => { props.setPage("new pickup") }}
@@ -28,8 +31,14 @@ const MainScreen = props => {
     )
 }
 
+const mapStateToProps = state => {
+    return {
+       scheduledPickups: state.scheduledPickups
+    }
+ }
+
 const mapDispatchToProps = {
     navigate: navigate
 }
 
-export default connect(null, mapDispatchToProps)(MainScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
