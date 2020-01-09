@@ -5,8 +5,7 @@ import { View, Text, Button } from 'react-native';
 import dummyData from '../../../dummyData/dummy_pickup_data';
 import { State } from 'react-native-gesture-handler';
 
-const SummaryScreen = props => {
-    return (
+const SummaryScreen = props => (
         <View>
             <Text>
                 Form 4
@@ -14,14 +13,12 @@ const SummaryScreen = props => {
             <Button
                 title="Confirm"
                 onPress={() => { 
-                    console.log("logging is working");
                     props.updateScheduledPickups(dummyData);
                     props.setPage("home");
                 }}
             />
         </View>
-    )
-}
+)
 
 const mapStateToProps = state => {
     return {

@@ -5,7 +5,7 @@ const { vh, vw } = require('react-native-viewport-units');
 
 export default TheWhiteSquare = props => {
     return (
-        <View style={styles.container}>
+        <View>
             <Surface style={styles.surface}>
                 {props.children}
             </Surface>
