@@ -1,14 +1,13 @@
 import React from "react";
-import { connect } from 'react-redux';
-import { Text } from 'react-native';
-import Background from "../components/Background";
+import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import Paragraph from "../components/Paragraph";
 
-const HomeScreen = ({ isLoggedIn, navigation, dispatch }) => (
-   <Background>
+const HomeScreen = ({ navigation }) => (
+   <>
+      <MapBackground />
       <Logo />
       <Header>Ritz Carlton Resident Login</Header>
 
@@ -20,15 +19,10 @@ const HomeScreen = ({ isLoggedIn, navigation, dispatch }) => (
          Login
       </Button>
 
-      <Button mode="outlined" onPress={() => /*navigation.navigate("RegisterScreen")*/dispatch({ type: 'LOG_IN' })}>
+      <Button mode="outlined" onPress={() => navigation.navigate("RegisterScreen")}>
          Sign Up
       </Button>
-      <Text>{`${isLoggedIn}`}</Text>
-   </Background>
+   </>
 );
 
-const mapStateToProsp = ({ isLoggedIn }) => ({
-   isLoggedIn,
-});
-
-export default connect(mapStateToProsp)(HomeScreen);
+export default HomeScreen;
