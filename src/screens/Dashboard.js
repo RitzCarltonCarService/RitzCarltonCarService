@@ -1,36 +1,38 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { navigate, toHome } from '../redux/actions';
-import { View, Text, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import NewPickup from '../layouts/Home-SubComponents/NewPickup';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
+import MapBackground from '../components/MapBackground'
+import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+const { vh, vw } = require('react-native-viewport-units');
 
 const Home = props => {
    const [page, setPage] = useState("home");
 
-   switch (page) {
-      case "new pickup":
-         return (
-            <View>
-               <NewPickup setPage={setPage} />
-            </View>
-         )
-      case "pickup info":
-         return (
-            <View>
-               <PrePickupInfo
-                  setPage={setPage}
-               />
-            </View>
-         )
-      default:
-         return (
-            <View>
-               <MainScreen setPage={setPage} />
-            </View>
-         )
-   }
+   return (
+      <View style={styles.container}>
+         <MapBackground />
+         {(() => {
+            switch (page) {
+               case "new pickup":
+                  return (
+                        <NewPickup setPage={setPage} />
+                  )
+               case "pickup info":
+                  return (
+                        <PrePickupInfo setPage={setPage} />
+                  )
+               default:
+                  return (
+                        <MainScreen setPage={setPage} />
+                  )
+            }
+         })()}
+      </View>
+   )
 }
 
 const mapStateToProps = state => {
@@ -44,3 +46,11 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+const styles = StyleSheet.create({
+   container: {
+      height: 100 * vh,
+      width: 100 * vw,
+      alignItems: "center"
+   }
+})
