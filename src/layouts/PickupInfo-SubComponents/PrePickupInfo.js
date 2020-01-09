@@ -1,6 +1,6 @@
-import React from './node_modules/react';
-import { connect } from './node_modules/react-redux';
-import { navigate } from '../../actions/actions';
+import React from 'react';
+import { connect } from 'react-redux';
+import { navigate } from '../../actions';
 import { View, Text, Button } from 'react-native';
 
 const PrePickupInfo = props => {

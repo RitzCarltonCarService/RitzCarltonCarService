@@ -1,5 +1,5 @@
-import React, { useState } from './node_modules/react';
-import { connect } from './node_modules/react-redux';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { navigate } from '../../redux/actions';
 import { View, Text, Button } from 'react-native';
 import LocationForm from './NewPickup-SubComponents/LocationForm.js';

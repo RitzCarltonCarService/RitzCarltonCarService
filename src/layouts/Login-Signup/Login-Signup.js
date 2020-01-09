@@ -7,7 +7,7 @@ import Login from './Login/Login';
 const Login_Signup = ({ isLoggedIn }) => (
    <View>
       <Text>
-         Is the user logged in? {`${isLoggedIn}`}
+         Is the user logged in? {isLoggedIn}
       </Text>
       {isLoggedIn ? <Home /> : <Login />}
    </View>

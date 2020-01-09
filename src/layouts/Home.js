@@ -1,6 +1,6 @@
-import React, { useState } from './node_modules/react';
-import { connect } from './node_modules/react-redux';
-import { navigate, toHome } from '../actions/actions';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { navigate, toHome } from '../actions';
 import { View, Text, Button } from 'react-native';
 import MainScreen from './Home-SubComponents/MainScreen';
 import NewPickup from './Home-SubComponents/NewPickup';
