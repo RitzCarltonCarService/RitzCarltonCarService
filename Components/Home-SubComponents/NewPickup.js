@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {navigate} from '../../actions/actions';
+import { connect } from 'react-redux';
+import { navigate } from '../../redux/actions';
 import { View, Text, Button } from 'react-native';
 import LocationForm from './NewPickup-SubComponents/LocationForm.js';
 import NumBags from './NewPickup-SubComponents/NumBags.js';
@@ -9,7 +9,7 @@ import RideShareQuestion from './NewPickup-SubComponents/RideShareQuestion.js';
 import SummaryScreen from './NewPickup-SubComponents/SummaryScreen.js';
 
 const NewPickup = props => {
-    switch(props.form) {
+    switch (props.form) {
         case 0:
             return (
                 <View>

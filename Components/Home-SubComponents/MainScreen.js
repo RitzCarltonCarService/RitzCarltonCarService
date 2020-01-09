@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {navigate} from '../../actions/actions';
+import { connect } from 'react-redux';
+import { navigate } from '../../redux/actions';
 import { View, Text, Button } from 'react-native';
 
 const MainScreen = props => {
@@ -11,7 +11,7 @@ const MainScreen = props => {
             </Text>
             <Button
                 title="New Pickup"
-                onPress={() => {props.navigate("new pickup", 0)}}
+                onPress={() => { props.navigate("new pickup", 0) }}
             />
         </View>
     )

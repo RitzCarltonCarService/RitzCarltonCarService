@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {navigate} from '../../../actions/actions';
+import { connect } from 'react-redux';
+import { navigate } from '../../../redux/actions';
 import { View, Text, Button } from 'react-native';
 
 const LocationForm = props => {
@@ -11,7 +11,7 @@ const LocationForm = props => {
             </Text>
             <Button
                 title="Next"
-                onPress= {() => {props.navigate("new pickup", 1)}}
+                onPress={() => { props.navigate("new pickup", 1) }}
             />
         </View>
     )
