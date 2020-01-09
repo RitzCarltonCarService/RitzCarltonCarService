@@ -1,17 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from './node_modules/react';
+import { connect } from './node_modules/react-redux';
 import { navigate } from '../../../redux/actions';
 import { View, Text, Button } from 'react-native';
 
-const NumBags = props => {
+const NumPassengers = props => {
     return (
         <View>
             <Text>
-                Form 1
+                Form 2
             </Text>
             <Button
                 title="Next"
-                onPress={() => { props.setForm(2) }}
+                onPress={() => { props.setForm(3) }}
             />
         </View>
     )
@@ -21,4 +21,4 @@ const mapDispatchToProps = {
     navigate: navigate
 }
 
-export default connect(null, mapDispatchToProps)(NumBags);
+export default connect(null, mapDispatchToProps)(NumPassengers);

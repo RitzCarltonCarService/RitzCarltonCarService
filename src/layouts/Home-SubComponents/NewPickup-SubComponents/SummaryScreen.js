@@ -1,17 +1,16 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from './node_modules/react';
+import { connect } from './node_modules/react-redux';
 import { navigate } from '../../../redux/actions';
 import { View, Text, Button } from 'react-native';
 
-const NumPassengers = props => {
+const SummaryScreen = props => {
     return (
         <View>
             <Text>
-                Form 2
+                Form 4
             </Text>
             <Button
-                title="Next"
-                onPress={() => { props.setForm(3) }}
+                onPress={() => { props.setPage("home") }}
             />
         </View>
     )
@@ -21,4 +20,4 @@ const mapDispatchToProps = {
     navigate: navigate
 }
 
-export default connect(null, mapDispatchToProps)(NumPassengers);
+export default connect(null, mapDispatchToProps)(SummaryScreen);

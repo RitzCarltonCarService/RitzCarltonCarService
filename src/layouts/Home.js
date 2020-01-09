@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import {connect} from 'react-redux';
-import {navigate, toHome} from '../actions/actions';
+import React, { useState } from './node_modules/react';
+import { connect } from './node_modules/react-redux';
+import { navigate, toHome } from '../actions/actions';
 import { View, Text, Button } from 'react-native';
 import MainScreen from './Home-SubComponents/MainScreen';
 import NewPickup from './Home-SubComponents/NewPickup';
@@ -9,11 +9,11 @@ import PrePickupInfo from './PickupInfo-SubComponents/PrePickupInfo';
 const Home = props => {
     const [page, setPage] = useState("home");
 
-    switch(page) {
+    switch (page) {
         case "new pickup":
             return (
                 <View>
-                    <NewPickup setPage={setPage}/>
+                    <NewPickup setPage={setPage} />
                 </View>
             )
         case "pickup info":
@@ -27,7 +27,7 @@ const Home = props => {
         default:
             return (
                 <View>
-                    <MainScreen setPage={setPage}/>
+                    <MainScreen setPage={setPage} />
                 </View>
             )
     }
@@ -44,4 +44,4 @@ const mapDispatchToProps = {
 
 }
 
-export default connect (mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
