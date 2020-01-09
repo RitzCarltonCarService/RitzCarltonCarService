@@ -1,14 +1,14 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Text } from 'react-native';
-import Background from "../components/Background";
+import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import Paragraph from "../components/Paragraph";
 
 const HomeScreen = ({ isLoggedIn, navigation, dispatch }) => (
-   <Background>
+   <MapBackground>
       <Logo />
       <Header>Ritz Carlton Resident Login</Header>
 
@@ -24,7 +24,7 @@ const HomeScreen = ({ isLoggedIn, navigation, dispatch }) => (
          Sign Up
       </Button>
       <Text>{`${isLoggedIn}`}</Text>
-   </Background>
+   </MapBackground>
 );
 
 const mapStateToProsp = ({ isLoggedIn }) => ({
