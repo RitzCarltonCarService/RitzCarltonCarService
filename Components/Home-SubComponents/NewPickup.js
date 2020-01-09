@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { navigate } from '../../redux/actions';
+import { navigate } from '../../actions/actions';
 import { View, Text, Button } from 'react-native';
 import LocationForm from './NewPickup-SubComponents/LocationForm.js';
 import NumBags from './NewPickup-SubComponents/NumBags.js';
@@ -9,35 +9,40 @@ import RideShareQuestion from './NewPickup-SubComponents/RideShareQuestion.js';
 import SummaryScreen from './NewPickup-SubComponents/SummaryScreen.js';
 
 const NewPickup = props => {
-    switch (props.form) {
+    const [form, setForm] = useState(0)
+
+    switch (form) {
         case 0:
             return (
                 <View>
-                    <LocationForm />
+                    <LocationForm setForm={setForm} />
                 </View>
             )
         case 1:
             return (
                 <View>
-                    <NumBags />
+                    <NumBags setForm={setForm} />
                 </View>
             )
         case 2:
             return (
                 <View>
-                    <NumPassengers />
+                    <NumPassengers setForm={setForm} />
                 </View>
             )
         case 3:
             return (
                 <View>
-                    <RideShareQuestion />
+                    <RideShareQuestion setForm={setForm} />
                 </View>
             )
         case 4:
             return (
                 <View>
-                    <SummaryScreen />
+                    <SummaryScreen setPage={props.setPage} />
+                    <Text>
+                        {props.setPage}
+                    </Text>
                 </View>
             )
         default:
@@ -47,7 +52,7 @@ const NewPickup = props => {
                         Uh-oh. Something went wrong.
                     </Text>
                     <Text>
-                        Form: {props.form}
+                        Form: {form}
                     </Text>
                 </View>
             )

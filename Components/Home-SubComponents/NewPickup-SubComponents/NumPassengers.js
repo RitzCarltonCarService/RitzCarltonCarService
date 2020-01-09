@@ -11,7 +11,7 @@ const NumPassengers = props => {
             </Text>
             <Button
                 title="Next"
-                onPress={() => { props.navigate("new pickup", 3) }}
+                onPress={() => { props.setForm(3) }}
             />
         </View>
     )

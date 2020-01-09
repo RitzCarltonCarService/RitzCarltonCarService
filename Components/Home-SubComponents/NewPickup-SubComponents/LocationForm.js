@@ -11,7 +11,7 @@ const LocationForm = props => {
             </Text>
             <Button
                 title="Next"
-                onPress={() => { props.navigate("new pickup", 1) }}
+                onPress={() => { props.setForm(1) }}
             />
         </View>
     )
