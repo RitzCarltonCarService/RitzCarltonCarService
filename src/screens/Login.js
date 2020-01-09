@@ -5,13 +5,13 @@ import { Alert, Button, TextInput, View, StyleSheet } from 'react-native';
 export default class App extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       username: '',
       password: '',
     };
   }
-  
+
   onLogin() {
     const { username, password } = this.state;
 
@@ -34,7 +34,7 @@ export default class App extends Component {
           secureTextEntry={true}
           style={styles.input}
         />
-        
+
         <Button
           title={'Login'}
           color="black"
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   loginScreenButton: {
     backgroundColor: 'black',
     color: 'white',
-    borderRadius:10,
+    borderRadius: 10,
     borderWidth: 5,
     borderColor: 'black'
   },
