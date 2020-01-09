@@ -11,7 +11,7 @@ const NumBags = props => {
             </Text>
             <Button
                 title="Next"
-                onPress= {() => {props.navigate("new pickup", 2)}}
+                onPress= {() => {props.setForm(2)}}
             />
         </View>
     )

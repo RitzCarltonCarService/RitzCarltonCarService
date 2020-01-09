@@ -11,7 +11,7 @@ const SummaryScreen = props => {
             </Text>
             <Button
                 title="Next"
-                onPress= {() => {props.navigate("home", 0)}}
+                onPress= {() => {props.setPage("home")}}
             />
         </View>
     )
