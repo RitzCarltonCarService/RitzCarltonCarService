@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {navigate} from '../../../actions/actions';
+import { connect } from 'react-redux';
+import { navigate } from '../../../redux/actions';
 import { View, Text, Button } from 'react-native';
 
 const SummaryScreen = props => {
@@ -10,7 +10,7 @@ const SummaryScreen = props => {
                 Form 4
             </Text>
             <Button
-                onPress= {() => {props.setPage("home")}}
+                onPress={() => { props.setPage("home") }}
             />
         </View>
     )

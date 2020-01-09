@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import {connect} from 'react-redux';
-import {navigate} from '../../actions/actions';
+import { connect } from 'react-redux';
+import { navigate } from '../../actions/actions';
 import { View, Text, Button } from 'react-native';
 import LocationForm from './NewPickup-SubComponents/LocationForm.js';
 import NumBags from './NewPickup-SubComponents/NumBags.js';
@@ -11,35 +11,35 @@ import SummaryScreen from './NewPickup-SubComponents/SummaryScreen.js';
 const NewPickup = props => {
     const [form, setForm] = useState(0)
 
-    switch(form) {
+    switch (form) {
         case 0:
             return (
                 <View>
-                    <LocationForm setForm={setForm}/>
+                    <LocationForm setForm={setForm} />
                 </View>
             )
         case 1:
             return (
                 <View>
-                    <NumBags setForm={setForm}/>
+                    <NumBags setForm={setForm} />
                 </View>
             )
         case 2:
             return (
                 <View>
-                    <NumPassengers setForm={setForm}/>
+                    <NumPassengers setForm={setForm} />
                 </View>
             )
         case 3:
             return (
                 <View>
-                    <RideShareQuestion setForm={setForm}/>
+                    <RideShareQuestion setForm={setForm} />
                 </View>
             )
         case 4:
             return (
                 <View>
-                    <SummaryScreen setPage={props.setPage}/>
+                    <SummaryScreen setPage={props.setPage} />
                     <Text>
                         {props.setPage}
                     </Text>

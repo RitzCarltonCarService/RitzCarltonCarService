@@ -1,4 +1,4 @@
-import { NAVIGATE, TO_HOME } from '../actions/actions';
+import { NAVIGATE, TO_HOME } from '../actions';
 
 const initialState = {
     nav: {
@@ -6,8 +6,8 @@ const initialState = {
     }
 }
 
-function rootReducer(state = initialState, action) {
-    switch(action.type) {
+function navigateReducer(state = initialState, action) {
+    switch (action.type) {
         case NAVIGATE:
             return {
                 nav: {
@@ -26,4 +26,4 @@ function rootReducer(state = initialState, action) {
     }
 }
 
-export default rootReducer;
+export default navigateReducer;
