@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {connect} from 'react-redux';
 import {navigate, toHome} from '../actions/actions';
 import { View, Text, Button } from 'react-native';
 import MainScreen from './Home-SubComponents/MainScreen';
 import NewPickup from './Home-SubComponents/NewPickup';
+import PrePickupInfo from './PickupInfo-SubComponents/PrePickupInfo';
 
 const Home = props => {
-    switch(props.nav.page) {
+    const [page, setPage] = useState("home");
+
+    switch(page) {
         case "new pickup":
             return (
                 <View>
-                    <NewPickup />
+                    <NewPickup setPage={setPage}/>
+                </View>
+            )
+        case "pickup info":
+            return (
+                <View>
+                    <PrePickupInfo
+                        setPage={setPage}
+                    />
                 </View>
             )
         default:
             return (
                 <View>
-                    <MainScreen />
+                    <MainScreen setPage={setPage}/>
                 </View>
             )
     }

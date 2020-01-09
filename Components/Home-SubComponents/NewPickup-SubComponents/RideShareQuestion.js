@@ -11,7 +11,7 @@ const RideShareQuestion = props => {
             </Text>
             <Button
                 title="Next"
-                onPress= {() => {props.navigate("new pickup", 4)}}
+                onPress= {() => {props.setForm(4)}}
             />
         </View>
     )
