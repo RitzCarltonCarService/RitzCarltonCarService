@@ -11,7 +11,7 @@ const Router = createStackNavigator(
       Login,
    },
    {
-      initialRouteName: "AuthLoadingScreen",
+      initialRouteName: "Dashboard",
       headerMode: "none"
    }
 );
