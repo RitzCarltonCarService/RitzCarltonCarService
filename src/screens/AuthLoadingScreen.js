@@ -1,10 +1,10 @@
-import React, { memo } from "react";
-import { ActivityIndicator } from "react-native";
-import firebase from "firebase/app";
+import React from "react";
 import "firebase/auth";
-import Background from "../components/Background";
-import { theme } from "../core/theme";
+import firebase from "firebase/app";
 import { FIREBASE_CONFIG } from "../core/config";
+import { ActivityIndicator } from "react-native";
+import { theme } from "../core/theme";
+import Background from "../components/Background";
 
 // Initialize Firebase
 firebase.initializeApp(FIREBASE_CONFIG);
@@ -16,7 +16,7 @@ const AuthLoadingScreen = ({ navigation }) => {
          navigation.navigate("Dashboard");
       } else {
          // User is not logged in
-         navigation.navigate("HomeScreen");
+         navigation.navigate("Login");
       }
    });
 
@@ -27,4 +27,4 @@ const AuthLoadingScreen = ({ navigation }) => {
    );
 };
 
-export default memo(AuthLoadingScreen);
+export default AuthLoadingScreen;
