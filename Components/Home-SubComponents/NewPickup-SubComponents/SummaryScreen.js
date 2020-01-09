@@ -10,7 +10,6 @@ const SummaryScreen = props => {
                 Form 4
             </Text>
             <Button
-                title="Next"
                 onPress= {() => {props.setPage("home")}}
             />
         </View>
