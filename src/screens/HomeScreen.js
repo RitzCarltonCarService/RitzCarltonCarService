@@ -4,27 +4,32 @@ import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";
-import Paragraph from "../components/Paragraph";
+import TheWhiteSquare from "../components/TheWhiteSquare";
 
 const HomeScreen = ({ navigation }) => (
    <>
       <MapBackground />
-      <View style={styles.wrapper}>
-         <Logo />
-         <Header>The Ritz Carlton Residences</Header>
+      <View style={styles.container}>
+         <TheWhiteSquare>
+            <Logo />
+            <Header>The Ritz Carlton Residences</Header>
 
-         <Button mode="contained" onPress={() => navigation.navigate("LoginScreen")}>
-            Login
-         </Button>
+            <Button mode="contained" onPress={() => navigation.navigate("LoginScreen")}>
+               Login
+            </Button>
 
-         <Button mode="outlined" onPress={() => navigation.navigate("RegisterScreen")}>
-            Sign Up
-         </Button>
+            <Button mode="outlined" onPress={() => navigation.navigate("SignupScreen")}>
+               Sign Up
+            </Button>
+         </TheWhiteSquare>
       </View>
    </>
 );
 
 const styles = StyleSheet.create({
+   container: {
+      alignItems: "center",
+   },
    wrapper: {
       flex: 1,
       width: "100%",
