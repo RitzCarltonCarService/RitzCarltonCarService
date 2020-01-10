@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
       backgroundColor: theme.colors.primary,
    },
    text: {
-      fontFamily: "Arial",
+      fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
       letterSpacing: 2,
       fontWeight: "bold",
       fontSize: 15,
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
    }
 });
 
-export default mem0(Button);
+export default memo(Button);
