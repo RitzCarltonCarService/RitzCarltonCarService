@@ -10,7 +10,7 @@ const HomeScreen = ({ navigation }) => (
    <>
       <MapBackground />
       <View style={styles.container}>
-         <TheWhiteSquare>
+         <TheWhiteSquare top={20}>
             <Logo />
             <Header>The Ritz Carlton Residences</Header>
 

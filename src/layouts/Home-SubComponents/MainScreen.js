@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../redux/actions';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Title } from 'react-native-paper';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
@@ -18,17 +18,17 @@ const MainScreen = props => {
                     </Text>
                 </View>
                 <View style={styles.mainContainer}>
-                    {props.scheduledPickups.length > 0 ? 
-                    props.scheduledPickups.map(pickup => {
-                        return (
-                            <Button
-                                title={pickup.name}
-                                onPress={() => { props.setPage("pickup info") }}
-                            />
-                        )
-                    }) :
-                    <Text style={styles.noRequestsNotification}>
-                        No Current Requests
+                    {props.scheduledPickups.length > 0 ?
+                        props.scheduledPickups.map(pickup => {
+                            return (
+                                <Button
+                                    title={pickup.name}
+                                    onPress={() => { props.setPage("pickup info") }}
+                                />
+                            )
+                        }) :
+                        <Text style={styles.noRequestsNotification}>
+                            No Current Requests
                     </Text>
                     }
                 </View>
@@ -37,10 +37,10 @@ const MainScreen = props => {
                 </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
-                <Button onPress={() => { props.setPage("new pickup")}} mode={"contained"}>
+                <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
                     Request a Ride Now
                 </Button>
-                <Button onPress={() => { props.setPage("new pickup")}} mode={"contained"}>
+                <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
                     Schedule a Ride in Advance
                 </Button>
             </View>
@@ -51,9 +51,9 @@ const MainScreen = props => {
 
 const mapStateToProps = state => {
     return {
-       scheduledPickups: state.scheduledPickups
+        scheduledPickups: state.scheduledPickups
     }
- }
+}
 
 const mapDispatchToProps = {
     navigate: navigate
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     title: {
-        fontFamily: "Arial",
+        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
         fontSize: 25,
         letterSpacing: 2,
         top: "50%"
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     noRequestsNotification: {
-        fontFamily: "Arial",
+        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
         color: "gray",
         letterSpacing: 2,
         top: "20%"
