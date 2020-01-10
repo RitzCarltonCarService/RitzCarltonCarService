@@ -24,14 +24,16 @@ const Button = ({ mode, style, children, ...props }) => (
 const styles = StyleSheet.create({
    button: {
       width: "100%",
-      marginVertical: 10
+      marginVertical: 10,
+      backgroundColor: theme.colors.primary,
    },
    text: {
       fontFamily: "Arial",
       letterSpacing: 2,
       fontWeight: "bold",
       fontSize: 15,
-      lineHeight: 26
+      lineHeight: 26,
+      color: theme.colors.secondary,
    }
 });
 

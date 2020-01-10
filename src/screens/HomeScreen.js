@@ -1,4 +1,5 @@
 import React from "react";
+import { View, StyleSheet } from 'react-native';
 import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
@@ -8,21 +9,34 @@ import Paragraph from "../components/Paragraph";
 const HomeScreen = ({ navigation }) => (
    <>
       <MapBackground />
-      <Logo />
-      <Header>Ritz Carlton Resident Login</Header>
+      <View style={styles.wrapper}>
+         <Logo />
+         <Header>The Ritz Carlton Residences</Header>
 
-      <Paragraph>
-         Welcome to the Ritz Carlton Resident Car Service! Please Login or Signup to continue
-      </Paragraph>
+         <Button mode="contained" onPress={() => navigation.navigate("LoginScreen")}>
+            Login
+         </Button>
 
-      <Button mode="contained" onPress={() => navigation.navigate("Login")}>
-         Login
-      </Button>
-
-      <Button mode="outlined" onPress={() => navigation.navigate("RegisterScreen")}>
-         Sign Up
-      </Button>
+         <Button mode="outlined" onPress={() => navigation.navigate("RegisterScreen")}>
+            Sign Up
+         </Button>
+      </View>
    </>
 );
+
+const styles = StyleSheet.create({
+   wrapper: {
+      flex: 1,
+      width: "100%",
+      maxWidth: 340,
+      maxHeight: 500,
+      marginTop: 80,
+      padding: 20,
+      alignSelf: "center",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: '#fff',
+   },
+});
 
 export default HomeScreen;
