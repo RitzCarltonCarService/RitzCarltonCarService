@@ -21,9 +21,10 @@ const AuthLoadingScreen = ({ navigation }) => {
    });
 
    return (
-      <Background>
+      <>
+         <MapBackground />
          <ActivityIndicator size="large" color={theme.colors.primary} />
-      </Background>
+      </>
    );
 };
 

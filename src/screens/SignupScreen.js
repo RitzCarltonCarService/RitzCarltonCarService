@@ -1,6 +1,6 @@
 import React, { memo, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import Background from "../components/Background";
+import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";
@@ -52,7 +52,8 @@ const RegisterScreen = ({ navigation }) => {
    };
 
    return (
-      <Background>
+      <>
+         <MapBackground />
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
 
          <Logo />
@@ -99,7 +100,7 @@ const RegisterScreen = ({ navigation }) => {
             style={styles.button}
          >
             Sign Up
-      </Button>
+         </Button>
 
          <View style={styles.row}>
             <Text style={styles.label}>Already have an account? </Text>
@@ -109,7 +110,7 @@ const RegisterScreen = ({ navigation }) => {
          </View>
 
          <Toast message={error} onDismiss={() => setError("")} />
-      </Background>
+      </>
    );
 };
 
