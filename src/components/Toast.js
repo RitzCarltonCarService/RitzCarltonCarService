@@ -11,8 +11,7 @@ const Toast = ({ type = "error", message, onDismiss }) => (
          duration={2000}
          onDismiss={onDismiss}
          style={{
-            backgroundColor:
-               type === "error" ? theme.colors.error : theme.colors.success
+            backgroundColor: type === "error" ? theme.colors.error : theme.colors.success
          }}
       >
          <Text style={styles.content}>{message}</Text>

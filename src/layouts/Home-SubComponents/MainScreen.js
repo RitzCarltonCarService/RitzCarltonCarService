@@ -49,9 +49,9 @@ const MainScreen = props => {
 
 const mapStateToProps = state => {
     return {
-       scheduledPickups: state.scheduledPickups
+        scheduledPickups: state.scheduledPickups
     }
- }
+}
 
 const mapDispatchToProps = {
     navigate: navigate
