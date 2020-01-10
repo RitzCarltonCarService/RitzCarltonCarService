@@ -11,27 +11,20 @@ export default TheWhiteSquare = props => {
     const height = props.height || 50;
 
     const styles = StyleSheet.create({
-        container: {
-            height: height * vh,
-            width: 100 * vw,
-            alignItems: "center",
-            elevation: 4
-        },
         surface: {
-            height: 50 * vh,
+            height: height * vh,
             width: 80 * vw,
             top: 20 * vh,
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            padding: 10
         }
     })
 
     return (
-        <View>
             <Surface style={styles.surface}>
                 {props.children}
             </Surface>
-        </View>
     )
 }
 
