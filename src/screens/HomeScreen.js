@@ -13,7 +13,7 @@ const HomeScreen = ({ navigation }) => (
          <Logo />
          <Header>The Ritz Carlton Residences</Header>
 
-         <Button mode="contained" onPress={() => navigation.navigate("Login")}>
+         <Button mode="contained" onPress={() => navigation.navigate("LoginScreen")}>
             Login
          </Button>
 

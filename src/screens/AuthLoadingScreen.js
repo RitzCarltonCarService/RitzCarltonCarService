@@ -16,7 +16,7 @@ const AuthLoadingScreen = ({ navigation }) => {
          navigation.navigate("Dashboard");
       } else {
          // User is not logged in
-         navigation.navigate("Login");
+         navigation.navigate("HomeScreen");
       }
    });
 
