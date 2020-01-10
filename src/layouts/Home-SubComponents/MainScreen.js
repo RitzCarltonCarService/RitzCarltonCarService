@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../redux/actions';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Title } from 'react-native-paper';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     title: {
-        // fontFamily: "Arial",
+        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
         fontSize: 25,
         letterSpacing: 2,
         top: "50%"
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     noRequestsNotification: {
-        // fontFamily: "Arial",
+        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
         color: "gray",
         letterSpacing: 2,
         top: "20%"
