@@ -2,6 +2,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "clear": "rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-*",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -15,6 +16,7 @@
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "^0.61.5",
+    "react-native-clean-project": "^3.3.0",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-maps": "^0.26.1",
     "react-native-paper": "^3.4.0",
