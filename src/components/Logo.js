@@ -1,16 +1,24 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 
-const Logo = () => (
-   <Image source={require('../../assets/RitzLogo.png')} style={styles.image} />
-);
+const Logo = (props) => {
 
-const styles = StyleSheet.create({
-   image: {
-      width: 128,
-      height: 128,
-      marginBottom: 12,
-   },
-});
+   const size = props.size || 128;
+   const marginBottom = props.marginBottom || 12;
+
+   const styles = StyleSheet.create({
+      image: {
+         width: size,
+         height: size,
+         marginBottom: marginBottom,
+      },
+   });
+
+   return (
+      <Image source={require('../../assets/RitzLogo.png')} style={styles.image} />
+   )
+};
+
+
 
 export default Logo;

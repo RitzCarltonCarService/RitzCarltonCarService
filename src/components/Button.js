@@ -28,6 +28,8 @@ const styles = StyleSheet.create({
       backgroundColor: theme.colors.primary,
    },
    text: {
+      fontFamily: "Arial",
+      letterSpacing: 2,
       fontWeight: "bold",
       fontSize: 15,
       lineHeight: 26,
