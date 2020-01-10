@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { navigate } from '../../redux/actions';
+import { updateScheduledPickups } from '../../redux/actions';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Title } from 'react-native-paper';
 import EntryListView from './MainScreen-SubComponents/EntryListView';
@@ -9,6 +9,7 @@ import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+import dummyData from '../../dummyData/dummy_pickup_data';
 
 const { vh, vw } = require('react-native-viewport-units');
 
@@ -32,14 +33,14 @@ const MainScreen = props => {
                     }
                 </View>
                 <View style={styles.logoContainer}>
-                    <Logo size={80} />
+                    <Logo style={{width: 80, height: 80}} />
                 </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
                 <Button onPress={() => { props.setPage("new pickup")}} mode={"contained"}>
                     Request a Ride Now
                 </Button>
-                <Button onPress={() => { props.setPage("new pickup")}} mode={"contained"}>
+                <Button onPress={() => { props.updateScheduledPickups(dummyData) }} mode={"contained"}>
                     Schedule a Ride in Advance
                 </Button>
             </View>
@@ -54,7 +55,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-    navigate: navigate
+    updateScheduledPickups: updateScheduledPickups
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         width: "100%",
-        height: "55%",
+        height: "60%",
         alignItems: "center"
     },
     noRequestsNotification: {
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
         height: "25%"
     },
     buttonContainer: {
-        top: "25%",
+        top: "20%",
         width: "80%"
     }
 })
