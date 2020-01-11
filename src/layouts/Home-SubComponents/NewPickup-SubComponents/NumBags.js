@@ -52,15 +52,12 @@ const NumBags = props => {
                     </View>
                     <View style={styles.border2}></View>
                 </View>
-                <View style={styles.logoBox}>
-                    <Logo  style={{height:80, width:80}}/>
-                </View>
+
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
                 <Button 
                     onPress={() => {props.setForm(0)}} 
                     mode={"contained"}
-                    // style={styles.requestButton}
                 >
                     Back
                 </Button>
@@ -76,7 +73,7 @@ const mapDispatchToProps = {
 const styles = StyleSheet.create({
     titleContainer: {
         width: "100%",
-        height: "30%",
+        height: "25%",
         alignItems: 'center',
     },
     title1: {

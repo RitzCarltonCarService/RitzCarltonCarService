@@ -7,6 +7,7 @@ import TheWhiteSquare from '../../../components/TheWhiteSquare';
 import Button from '../../../components/Button';
 import {Button as RitzButton} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Logo from '../../../components/Logo';
 
 const NumPassengers = props => {
     return (
@@ -52,19 +53,14 @@ const NumPassengers = props => {
                     </View>
                     <View style={styles.border2}></View>
                 </View>
-                <Button 
-                    onPress={() => {props.setForm(3)}} 
-                    mode={"contained"}
-                    style={styles.requestButton}
-                >
-                    Request a Ride Now
-                </Button>
+                <View style={styles.logoBox}>
+                    <Logo  style={{height:100, width:100}}/>
+                </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
                 <Button 
                     onPress={() => {props.setForm(1)}} 
                     mode={"contained"}
-                    // style={styles.requestButton}
                 >
                     Back
                 </Button>
@@ -80,7 +76,7 @@ const mapDispatchToProps = {
 const styles = StyleSheet.create({
     titleContainer: {
         width: "100%",
-        height: "30%",
+        height: "25%",
         alignItems: 'center',
     },
     title1: {
@@ -88,7 +84,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         letterSpacing: 2,
         fontWeight: 'bold',
-        top:"-30%",
+        top:"-25%",
     },
     title: {
         fontFamily: Platform.OS === "ios" ? "Arial" : "Roboto",
@@ -115,6 +111,9 @@ const styles = StyleSheet.create({
     numberSelect: {
         flexDirection: 'row',
         top:'5%',
+    },
+    logoBox: {
+        top:'30%'
     }
 })
 
