@@ -119,5 +119,4 @@ const styles = StyleSheet.create({
   }
 })
 
-//export default memo(DescribeRide);
 export default connect(null, mapDispatchToProps)(DescribeRide);
