@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../../redux/actions';
 import { View, Text, StyleSheet, Platform } from 'react-native';
-import { IconButton } from 'react-native-paper';
+import {IconButton, Button as RitzButton} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TheWhiteSquare from '../../../components/TheWhiteSquare';
 import Button from '../../../components/Button';
-import {Button as RitzButton} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Logo from '../../../components/Logo';
 
 const NumPassengers = props => {
@@ -66,7 +65,9 @@ const NumPassengers = props => {
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
                 <Button 
-                    onPress={() => {props.setForm(1)}} 
+                    onPress={() => {
+                        props.setForm(1)
+                        }} 
                     mode={"contained"}
                 >
                     Back
