@@ -14,7 +14,7 @@ const RideShareQuestion = (props) => {
 
     return (
         <View>
-            <DescribeRide 
+            <DescribeRide
                 title={title}
                 header1={header1}
                 header2={header2}
