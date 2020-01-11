@@ -49,52 +49,55 @@ const LoginScreen = ({ navigation }) => {
       <>
          <MapBackground />
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
+         <View style={styles.wrapper}>
+            <TheWhiteSquare height={75} top={15}>
+               <Logo />
 
-         <Logo />
+               <Header>Welcome back!</Header>
 
-         <Header>Welcome back!</Header>
+               <TextInput
+                  label="Email"
+                  returnKeyType="next"
+                  value={email.value}
+                  onChangeText={text => setEmail({ value: text, error: "" })}
+                  error={!!email.error}
+                  errorText={email.error}
+                  autoCapitalize="none"
+                  autoCompleteType="email"
+                  textContentType="emailAddress"
+                  keyboardType="email-address"
+               />
 
-         <TextInput
-            label="Email"
-            returnKeyType="next"
-            value={email.value}
-            onChangeText={text => setEmail({ value: text, error: "" })}
-            error={!!email.error}
-            errorText={email.error}
-            autoCapitalize="none"
-            autoCompleteType="email"
-            textContentType="emailAddress"
-            keyboardType="email-address"
-         />
+               <TextInput
+                  label="Password"
+                  returnKeyType="done"
+                  value={password.value}
+                  onChangeText={text => setPassword({ value: text, error: "" })}
+                  error={!!password.error}
+                  errorText={password.error}
+                  secureTextEntry
+                  autoCapitalize="none"
+               />
 
-         <TextInput
-            label="Password"
-            returnKeyType="done"
-            value={password.value}
-            onChangeText={text => setPassword({ value: text, error: "" })}
-            error={!!password.error}
-            errorText={password.error}
-            secureTextEntry
-            autoCapitalize="none"
-         />
+               <View style={styles.forgotPassword}>
+                  <TouchableOpacity
+                     onPress={() => navigation.navigate("ForgotPasswordScreen")}
+                  >
+                     <Text style={styles.label}>Forgot your password?</Text>
+                  </TouchableOpacity>
+               </View>
 
-         <View style={styles.forgotPassword}>
-            <TouchableOpacity
-               onPress={() => navigation.navigate("ForgotPasswordScreen")}
-            >
-               <Text style={styles.label}>Forgot your password?</Text>
-            </TouchableOpacity>
-         </View>
+               <Button loading={loading} mode="contained" onPress={_onLoginPressed}>
+                  Login
+               </Button>
 
-         <Button loading={loading} mode="contained" onPress={_onLoginPressed}>
-            Login
-         </Button>
-
-         <View style={styles.row}>
-            <Text style={styles.label}>Don’t have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
-               <Text style={styles.link}>Sign up</Text>
-            </TouchableOpacity>
+               <View style={styles.row}>
+                  <Text style={styles.label}>Don’t have an account? </Text>
+                  <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
+                     <Text style={styles.link}>Sign up</Text>
+                  </TouchableOpacity>
+               </View>
+            </TheWhiteSquare>
          </View>
 
          <Toast message={error} onDismiss={() => setError("")} />
