@@ -49,55 +49,52 @@ const LoginScreen = ({ navigation }) => {
       <>
          <MapBackground />
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
-         <View style={styles.wrapper}>
-            <TheWhiteSquare height={75} top={15}>
-               <Logo />
 
-               <Header>Welcome back!</Header>
+         <Logo />
 
-               <TextInput
-                  label="Email"
-                  returnKeyType="next"
-                  value={email.value}
-                  onChangeText={text => setEmail({ value: text, error: "" })}
-                  error={!!email.error}
-                  errorText={email.error}
-                  autoCapitalize="none"
-                  autoCompleteType="email"
-                  textContentType="emailAddress"
-                  keyboardType="email-address"
-               />
+         <Header>Welcome back!</Header>
 
-               <TextInput
-                  label="Password"
-                  returnKeyType="done"
-                  value={password.value}
-                  onChangeText={text => setPassword({ value: text, error: "" })}
-                  error={!!password.error}
-                  errorText={password.error}
-                  secureTextEntry
-                  autoCapitalize="none"
-               />
+         <TextInput
+            label="Email"
+            returnKeyType="next"
+            value={email.value}
+            onChangeText={text => setEmail({ value: text, error: "" })}
+            error={!!email.error}
+            errorText={email.error}
+            autoCapitalize="none"
+            autoCompleteType="email"
+            textContentType="emailAddress"
+            keyboardType="email-address"
+         />
 
-               <View style={styles.forgotPassword}>
-                  <TouchableOpacity
-                     onPress={() => navigation.navigate("ForgotPasswordScreen")}
-                  >
-                     <Text style={styles.label}>Forgot your password?</Text>
-                  </TouchableOpacity>
-               </View>
+         <TextInput
+            label="Password"
+            returnKeyType="done"
+            value={password.value}
+            onChangeText={text => setPassword({ value: text, error: "" })}
+            error={!!password.error}
+            errorText={password.error}
+            secureTextEntry
+            autoCapitalize="none"
+         />
 
-               <Button loading={loading} mode="contained" onPress={_onLoginPressed}>
-                  Login
-               </Button>
+         <View style={styles.forgotPassword}>
+            <TouchableOpacity
+               onPress={() => navigation.navigate("ForgotPasswordScreen")}
+            >
+               <Text style={styles.label}>Forgot your password?</Text>
+            </TouchableOpacity>
+         </View>
 
-               <View style={styles.row}>
-                  <Text style={styles.label}>Don’t have an account? </Text>
-                  <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
-                     <Text style={styles.link}>Sign up</Text>
-                  </TouchableOpacity>
-               </View>
-            </TheWhiteSquare>
+         <Button loading={loading} mode="contained" onPress={_onLoginPressed}>
+            Login
+         </Button>
+
+         <View style={styles.row}>
+            <Text style={styles.label}>Don’t have an account? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
+               <Text style={styles.link}>Sign up</Text>
+            </TouchableOpacity>
          </View>
 
          <Toast message={error} onDismiss={() => setError("")} />

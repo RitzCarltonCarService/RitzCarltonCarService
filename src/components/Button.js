@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
    }
 });
 
-export default memo(Button);
+export default mem0(Button);
