@@ -38,8 +38,7 @@ const Home = props => {
 
 const mapStateToProps = state => {
    return {
-      nav: state.nav,
-      region: state.home.region
+      nav: state.nav
    }
 }
 
@@ -47,11 +46,7 @@ const mapDispatchToProps = {
    navigate: navigate
 }
 
-const mapActionCreators = {
-   getCurrentLocation
-};
-
-export default connect(mapStateToProps, mapDispatchToProps, mapActionCreators)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
    container: {
