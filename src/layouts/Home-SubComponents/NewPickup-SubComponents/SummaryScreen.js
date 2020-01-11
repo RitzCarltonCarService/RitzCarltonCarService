@@ -17,10 +17,10 @@ const SummaryScreen = props => (
                     props.setPage("home");
                 }}
             />
-            {/* <Button
+            <Button
                 title="Back"
                 onPress={() => { props.setForm(3) }}
-            /> */}
+            />
         </View>
 )
 

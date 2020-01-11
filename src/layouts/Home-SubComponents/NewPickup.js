@@ -39,7 +39,7 @@ const NewPickup = props => {
         case 4:
             return (
                 <View>
-                    <SummaryScreen setPage={props.setPage} />
+                    <SummaryScreen setPage={props.setPage} setForm={setForm}/>
                     <Text>
                         {props.setPage}
                     </Text>
