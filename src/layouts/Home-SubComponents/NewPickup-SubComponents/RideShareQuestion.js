@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../../redux/actions';
-import { View, Text, Button } from 'react-native';
+import { View } from 'react-native';
 import DescribeRide from '../../../components/DescribeRide';
 
 const RideShareQuestion = (props) => {
@@ -23,18 +23,9 @@ const RideShareQuestion = (props) => {
                 nextForm={nextForm}
                 previousForm={previousForm}
             />
-            {/* <Button
-                title="Next"
-                onPress={() => { props.setForm(4) }}
-            />
-            <Button
-                title="Back"
-                onPress={() => { props.setForm(2) }}
-            /> */}
         </View>
     )
 }
-
 
 const mapDispatchToProps = {
     navigate: navigate

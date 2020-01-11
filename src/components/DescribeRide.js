@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../redux/actions';
 import { View, Text, StyleSheet, Platform } from 'react-native';
