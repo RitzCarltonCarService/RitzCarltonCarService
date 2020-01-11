@@ -41,10 +41,6 @@ const TheWhiteSquare = ({ style, width, height, top, children, ...props }) => {
         </Surface>
     )
 };
-<<<<<<< HEAD
-
-=======
->>>>>>> 4e8488df408d7e879d34f3827f0d6cd6f626130e
 
 
 export default memo(TheWhiteSquare);

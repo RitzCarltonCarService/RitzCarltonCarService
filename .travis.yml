@@ -1,6 +1,12 @@
 language: node_js
 node_js:
-    - "10.6.0"
+    - node
+    - lts/*
+cache:
+    directories:
+    - ~/.npm
 before_script:
-    - "npm install"
-    - "npm run start"
+    - npm install -g npm@latest
+script:
+    - npm ci
+    - npx jest --ci
