@@ -12,3 +12,9 @@ export const UPDATE_SCHEDULED_PICKUPS = "UPDATE_SCHEDULED_PICKUPS";
 export function updateScheduledPickups(scheduledPickups) {
     return { type: UPDATE_SCHEDULED_PICKUPS, scheduledPickups: scheduledPickups };
 }
+
+export const UPDATE_CURRENT_PICKUP = "UPDATE_CURRENT_PICKUP";
+export function updateCurrentPickup(newPickup) {
+    console.log("action dispatched")
+    return { type: UPDATE_CURRENT_PICKUP, newPickup: newPickup}
+}
