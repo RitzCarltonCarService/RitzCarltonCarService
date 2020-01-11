@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../../redux/actions';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet, Platform, TouchableHighlight } from 'react-native';
 import { IconButton, Avatar } from 'react-native-paper';
 import TheWhiteSquare from '../../../components/TheWhiteSquare';
 import Button from '../../../components/Button';
 import {Button as RitzButton} from 'react-native-paper';
-// import ScrollWheel from '../../../components/ScrollWheel';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Logo from '../../../components/Logo';
 
 const NumBags = props => {
     return (
@@ -26,57 +27,34 @@ const NumBags = props => {
                     </Text>
                     <View style={styles.border1}></View>
                     <Text style={styles.title}>
-                    How many
+                        How many bags of
                     </Text>
                     <Text style={styles.title}>
-                    passengers are
+                        luggage are traveling
                     </Text>
                     <Text style={styles.title}>
-                    traveling with you?
+                        with you?
                     </Text>
                     <View style={styles.numberSelect}>
-                        <IconButton
-                            icon="numeric-0" 
-                            size={40} 
-                            onPress={() => {
-                                console.log('ZERO')
+                        {[0,1,2,3,4].map((i, index)=> (
+                            <RitzButton
+                                mode="text"
+                                color='black'
+                                style={{marginHorizontal:'-5%'}}
+                                onPress={() => {
+                                console.log(`${i}`)
                                 props.setForm(2)
-                            }}
-                        />
-                        <IconButton
-                            icon="numeric-1" 
-                            size={40} 
-                            onPress={() => {
-                                console.log('ONE')
-                                props.setForm(2)
-                            }}
-                        />
-                        <RitzButton
-                            icon="numeric-2" 
-                            style={{height:50}}
-                            onPress={() => {
-                                console.log('TWO')
-                                props.setForm(2)
-                            }}
-                        />
-                        <IconButton
-                            icon="numeric-3" 
-                            size={40} 
-                            onPress={() => {
-                                console.log('THREE')
-                                props.setForm(2)
-                            }}
-                        />
+                                }}
+                            >
+                                <Icon key={index} size={50} name={`numeric-${i}`}/>
+                            </RitzButton>
+                        ))}
                     </View>
                     <View style={styles.border2}></View>
                 </View>
-                <Button 
-                    onPress={() => {props.setForm(2)}} 
-                    mode={"contained"}
-                    style={styles.requestButton}
-                >
-                    Request a Ride Now
-                </Button>
+                <View style={styles.logoBox}>
+                    <Logo  style={{height:80, width:80}}/>
+                </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
                 <Button 
@@ -106,7 +84,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         letterSpacing: 2,
         fontWeight: 'bold',
-        top:"-30%",
+        top:"-25%",
     },
     title: {
         fontFamily: Platform.OS === "ios" ? "Arial" : "Roboto",
@@ -133,6 +111,9 @@ const styles = StyleSheet.create({
     numberSelect: {
         flexDirection: 'row',
         top:'5%',
+    },
+    logoBox: {
+        top:'30%'
     }
 })
 

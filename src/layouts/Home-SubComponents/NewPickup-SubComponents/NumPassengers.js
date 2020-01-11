@@ -6,7 +6,7 @@ import { IconButton, Avatar } from 'react-native-paper';
 import TheWhiteSquare from '../../../components/TheWhiteSquare';
 import Button from '../../../components/Button';
 import {Button as RitzButton} from 'react-native-paper';
-// import ScrollWheel from '../../../components/ScrollWheel';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const NumPassengers = props => {
     return (
@@ -26,47 +26,29 @@ const NumPassengers = props => {
                     </Text>
                     <View style={styles.border1}></View>
                     <Text style={styles.title}>
-                    How many bags of
+                    How many
                     </Text>
                     <Text style={styles.title}>
-                    luggage are traveling
+                    passengers are
                     </Text>
                     <Text style={styles.title}>
-                    with you?
+                    traveling with you?
                     </Text>
                     <View style={styles.numberSelect}>
-                        <IconButton
-                            icon="numeric-0" 
-                            size={40} 
-                            onPress={() => {
-                                console.log('ZERO')
+                        {[0,1,2,3,4].map((i, index)=> (
+                            <RitzButton
+                                mode="text"
+                                key={index}
+                                color='black'
+                                style={{marginHorizontal:'-5%'}}
+                                onPress={() => {
+                                console.log(`${i}`)
                                 props.setForm(3)
-                            }}
-                        />
-                        <IconButton
-                            icon="numeric-1" 
-                            size={40} 
-                            onPress={() => {
-                                console.log('ONE')
-                                props.setForm(3)
-                            }}
-                        />
-                        <RitzButton
-                            icon="numeric-2" 
-                            style={{height:50}}
-                            onPress={() => {
-                                console.log('TWO')
-                                props.setForm(3)
-                            }}
-                        />
-                        <IconButton
-                            icon="numeric-3" 
-                            size={40} 
-                            onPress={() => {
-                                console.log('THREE')
-                                props.setForm(3)
-                            }}
-                        />
+                                }}
+                            >
+                                <Icon key={index} size={50} name={`numeric-${i}`}/>
+                            </RitzButton>
+                        ))}
                     </View>
                     <View style={styles.border2}></View>
                 </View>
