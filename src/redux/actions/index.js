@@ -22,5 +22,11 @@ export function updateScheduledPickups(scheduledPickups) {
 }
 
 export function updateGeoLocation(position) {
-    return { type: GET_CURRENT_LOCATION, payload: position };
+    return { type: GET_CURRENT_LOCATION, payload: position }
+};
+
+export const UPDATE_CURRENT_PICKUP = "UPDATE_CURRENT_PICKUP";
+
+export function updateCurrentPickup(newPickup) {
+    return { type: UPDATE_CURRENT_PICKUP, newPickup: newPickup}
 }
