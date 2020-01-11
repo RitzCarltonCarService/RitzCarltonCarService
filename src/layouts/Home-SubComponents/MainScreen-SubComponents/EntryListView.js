@@ -9,13 +9,18 @@ const EntryListView = props => {
 
     return (
             <ScrollView bounces={false}>
-                    {props.scheduledPickups.map(pickup => {
+                    {props.scheduledPickups.map((pickup, index) => {
                         return (
                         // <Button
                         //     title={pickup.name}
                         //     onPress={() => { props.setPage("pickup info") }}
                         // />
-                            <PickupEntry data={pickup} />
+                            <PickupEntry
+                                data={pickup}
+                                setPage={props.setPage}
+                                key={index}
+                                id={index}
+                            />
                         )
                     })}
             </ScrollView>

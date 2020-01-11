@@ -23,7 +23,7 @@ const Home = props => {
                   )
                case "pickup info":
                   return (
-                        <PrePickupInfo setPage={setPage} />
+                     <PrePickupInfo setPage={setPage} />
                   )
                default:
                   return (
