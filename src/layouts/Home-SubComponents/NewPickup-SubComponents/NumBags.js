@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../../redux/actions';
 import { View, Text, StyleSheet, Platform, TouchableHighlight } from 'react-native';
-import { IconButton, Avatar } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 import TheWhiteSquare from '../../../components/TheWhiteSquare';
 import Button from '../../../components/Button';
 import {Button as RitzButton} from 'react-native-paper';
@@ -39,6 +39,7 @@ const NumBags = props => {
                         {[0,1,2,3,4].map((i, index)=> (
                             <RitzButton
                                 mode="text"
+                                key={index}
                                 color='black'
                                 style={{marginHorizontal:'-5%'}}
                                 onPress={() => {
@@ -52,7 +53,9 @@ const NumBags = props => {
                     </View>
                     <View style={styles.border2}></View>
                 </View>
-
+                <View style={styles.logoBox}>
+                    <Logo  style={{height:100, width:100}}/>
+                </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
                 <Button 

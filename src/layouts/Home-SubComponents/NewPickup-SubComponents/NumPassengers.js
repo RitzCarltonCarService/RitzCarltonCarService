@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../../redux/actions';
 import { View, Text, StyleSheet, Platform } from 'react-native';
-import { IconButton, Avatar } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 import TheWhiteSquare from '../../../components/TheWhiteSquare';
 import Button from '../../../components/Button';
 import {Button as RitzButton} from 'react-native-paper';
@@ -10,6 +10,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Logo from '../../../components/Logo';
 
 const NumPassengers = props => {
+    //String 1 "individual Ride"
+    //String 2 "how many"
+    //string 3 "passengers are"
+    //string 4 "traveling with you"
+    // props.setForm(3)
+    //back button props.setForm(1)
+
     return (
         <>
             <TheWhiteSquare height={60}>
