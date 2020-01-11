@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { navigate } from '../../redux/actions';
 import { View, Text, StyleSheet, Platform, Modal, Portal } from 'react-native';
 import Button from '../../components/Button';
-import DriverInfo from './DriverInfo';
 import { theme } from '../../core/theme';
 
 const { vh, vw } = require('react-native-viewport-units');
@@ -42,18 +41,6 @@ const PrePickupInfo = props => {
             >
                 Cancel Request
             </Button>
-
-            {/* <View style={styles.bottomContainer}>
-
-                <View style={styles.driverInfo}>
-                    <View style={styles.driverPic}>
-                        <Text>PIC</Text>
-                    </View>
-                    <View style={styles.driverName}>
-                        <Text>Some driver info goes here</Text>
-                    </View>
-                </View>
-            </View> */}
 
             <View style={styles.buttonContainer}>
                 <Button onPress={() => { props.setPage("home") }}>

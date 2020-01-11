@@ -27,7 +27,7 @@ const MainScreen = props => {
                 <View style={styles.mainContainer}>
                     {props.scheduledPickups.length > 0 ?
                     <EntryListView scheduledPickups={props.scheduledPickups} setPage={props.setPage} />
-                     :
+                    :
                     <Text style={styles.noRequestsNotification}>
                         No Current Requests
                     </Text>
