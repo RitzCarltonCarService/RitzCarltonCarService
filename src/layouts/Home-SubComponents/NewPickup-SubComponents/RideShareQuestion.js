@@ -13,6 +13,10 @@ const RideShareQuestion = props => {
                 title="Next"
                 onPress={() => { props.setForm(4) }}
             />
+            <Button
+                title="Back"
+                onPress={() => { props.setForm(2) }}
+            />
         </View>
     )
 }
