@@ -15,7 +15,7 @@ const Home = props => {
 
    return (
       <View style={styles.container}>
-         <MapBackground />
+         <MapBackground region={props.region}/>
          {(() => {
             switch (page) {
                case "new pickup":
@@ -38,7 +38,8 @@ const Home = props => {
 
 const mapStateToProps = state => {
    return {
-      nav: state.nav
+      nav: state.nav,
+      region: state.geoLocation
    }
 }
 
