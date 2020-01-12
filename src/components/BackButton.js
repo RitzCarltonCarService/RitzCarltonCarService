@@ -2,9 +2,9 @@
  * The BackButton component is just a clickable image with some universal styling.
  * https://facebook.github.io/react-native/docs/touchableopacity#__docusaurus
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Params ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * @goBack - Type: Function, DESC: The function used to handle the onPress action
- * @style - Type: Object, DESC: Extra styles for the button
- * @imageStyle - Type: Object, DESC: Styles spacifically for the image, for example if you need to
+ * @goBack - TYPE: Function, DESC: The function used to handle the onPress action
+ * @style - TYPE: Object, DESC: Extra styles for the button
+ * @imageStyle - TYPE: Object, DESC: Styles spacifically for the image, for example if you need to
  *               change the width and height you can do so by passing it in here
  * @props - Any other props that TochableOpacity might take that you need will be passed in here,
  *          Please see the TochableOpacity Docs for a full list of props

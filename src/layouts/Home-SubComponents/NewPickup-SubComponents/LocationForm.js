@@ -8,22 +8,18 @@ import Button from '../../../components/Button.js'
 const LocationForm = props => {
     return (
         <View>
-            <TextInput 
+            <TextInput
                 style={styles.inputTo}
-                placeholder='Current Location' 
-                label='To:'/>
-            <TextInput style={styles.inputFrom} label='From:'/>
-            <TextInput style={styles.inputTime} label='Date:'/>
-<<<<<<< HEAD
+                placeholder='Current Location'
+                label='To:' />
+            <TextInput style={styles.inputFrom} label='From:' />
+            <TextInput style={styles.inputTime} label='Date:' />
             <Button
                 style={styles.confirmButton}
-                onPress={() => {props.setForm(1);}}
+                onPress={() => { props.setForm(1); }}
             >
                 Confirm
             </Button>
-=======
-            <Button style={styles.confirmButton}>Confirm</Button>
->>>>>>> master
             <Button style={styles.backButton}>Back</Button>
         </View>
     )

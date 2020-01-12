@@ -8,6 +8,7 @@
  *    'outlined' - button with an outline (medium emphasis)
  *    'contained' - button with a background color and elevation shadow (high emphasis)
  * @style - TYPE: Object, DESC: Allows you to add more styling to the button on top of the default ones
+ * @labelStyle - TYPE: Object, DESC: Allows you to add more styling to the text on top of the default ones
  * @children (Required) - TYPE: String, DESC: Label text of the button
  * @props - TYPE: Varied, DESC: Any other react-native-paper button props,
  *          please see the react-native-paper button docs for a full list of the other availible props

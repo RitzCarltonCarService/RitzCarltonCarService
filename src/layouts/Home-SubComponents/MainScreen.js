@@ -2,16 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../redux/actions';
 import { View, Text, StyleSheet, Platform } from 'react-native';
-import { Title } from 'react-native-paper';
 import EntryListView from './MainScreen-SubComponents/EntryListView';
-import PickupEntry from './MainScreen-SubComponents/PickupEntry';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
-import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 import dummyData from '../../dummyData/dummy_pickup_data';
-
-const { vh, vw } = require('react-native-viewport-units');
 
 const MainScreen = props => {
 
@@ -26,19 +21,19 @@ const MainScreen = props => {
                 <View style={styles.divider} />
                 <View style={styles.mainContainer}>
                     {props.scheduledPickups.length > 0 ?
-                    <EntryListView scheduledPickups={props.scheduledPickups} setPage={props.setPage} />
-                    :
-                    <Text style={styles.noRequestsNotification}>
-                        No Current Requests
+                        <EntryListView scheduledPickups={props.scheduledPickups} setPage={props.setPage} />
+                        :
+                        <Text style={styles.noRequestsNotification}>
+                            No Current Requests
                     </Text>
                     }
                 </View>
                 <View style={styles.logoContainer}>
-                    <Logo style={{width: 80, height: 80}} />
+                    <Logo style={{ width: 80, height: 80 }} />
                 </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
-                <Button onPress={() => { props.setPage("new pickup")}} mode={"contained"}>
+                <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
                     Request a Ride Now
                 </Button>
                 <Button onPress={() => { props.updateScheduledPickups(dummyData) }} mode={"contained"}>
@@ -68,7 +63,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     title: {
-        fontFamily: Platform.OS === "ios" ? "Arial" : "Roboto",
+        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
         fontSize: 25,
         letterSpacing: 2,
         top: "60%"

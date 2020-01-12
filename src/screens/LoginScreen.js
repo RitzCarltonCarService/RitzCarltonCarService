@@ -1,5 +1,8 @@
 import React, { memo, useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { emailValidator, passwordValidator } from "../core/untilities";
+import { loginUser } from '../core/auth-api';
+import { theme } from "../core/theme";
 import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
@@ -7,10 +10,7 @@ import Button from "../components/Button";
 import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import TheWhiteSquare from '../components/TheWhiteSquare';
-import { theme } from "../core/theme";
-import { emailValidator, passwordValidator } from "../core/untilities";
 import Toast from "../components/Toast";
-import firebase from 'firebase';
 
 const worker = false;
 
@@ -34,7 +34,10 @@ const LoginScreen = ({ navigation }) => {
 
       setLoading(true);
 
-      const response = await firebase.auth().signInWithEmailAndPassword(email.value, password.value);
+      const response = await loginUser({
+         email: email.value,
+         password: password.value
+      });
 
       if (response.error) {
          setError(response.error);
@@ -99,7 +102,7 @@ const LoginScreen = ({ navigation }) => {
 
                <View style={styles.row}>
                   <Text style={styles.label}>Don’t have an account? </Text>
-                  <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
+                  <TouchableOpacity onPress={() => navigation.navigate("SignupScreen")}>
                      <Text style={styles.link}>Sign up</Text>
                   </TouchableOpacity>
                </View>
