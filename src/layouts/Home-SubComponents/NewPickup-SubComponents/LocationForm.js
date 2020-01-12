@@ -8,7 +8,10 @@ import Button from '../../../components/Button.js'
 const LocationForm = props => {
     return (
         <View>
-            <TextInput style={styles.inputTo} label='To:'/>
+            <TextInput 
+                style={styles.inputTo}
+                placeholder='Current Location' 
+                label='To:'/>
             <TextInput style={styles.inputFrom} label='From:'/>
             <TextInput style={styles.inputTime} label='Date:'/>
             <Button
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
     inputTime: {
         width: '300%',
         alignSelf: 'center',
-        marginBottom: '275%'
+        marginBottom: '200%'
     },
     confirmButton: {
         width: '300%',
