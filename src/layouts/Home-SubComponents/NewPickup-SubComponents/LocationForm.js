@@ -14,16 +14,7 @@ const LocationForm = props => {
                 label='To:'/>
             <TextInput style={styles.inputFrom} label='From:'/>
             <TextInput style={styles.inputTime} label='Date:'/>
-<<<<<<< HEAD
-            <Button
-                style={styles.confirmButton}
-                onPress={() => {props.setForm(1);}}
-            >
-                Confirm
-            </Button>
-=======
             <Button style={styles.confirmButton}>Confirm</Button>
->>>>>>> master
             <Button style={styles.backButton}>Back</Button>
         </View>
     )
