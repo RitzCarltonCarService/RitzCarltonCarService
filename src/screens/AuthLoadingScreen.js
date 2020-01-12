@@ -35,7 +35,7 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
    useEffect(() => {
      getCurrentLocation()
       .then((position) => {
-         console.log("This is the position", position)
+         // console.log("This is the position", position)
          let coords = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
