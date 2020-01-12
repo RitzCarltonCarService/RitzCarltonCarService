@@ -42,7 +42,7 @@ const MainScreen = props => {
                     Request a Ride Now
                 </Button>
                 <Button onPress={() => { props.updateScheduledPickups(dummyData) }} mode={"contained"}>
-                    Schedule a Ride in Advance
+                    Schedule a Ride
                 </Button>
             </View>
         </>

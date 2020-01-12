@@ -12,6 +12,8 @@ import { emailValidator, passwordValidator } from "../core/untilities";
 import Toast from "../components/Toast";
 import firebase from 'firebase';
 
+const worker = false;
+
 const LoginScreen = ({ navigation }) => {
    const [email, setEmail] = useState({ value: "", error: "" });
    const [password, setPassword] = useState({ value: "", error: "" });
@@ -38,8 +40,12 @@ const LoginScreen = ({ navigation }) => {
          setError(response.error);
       }
 
-      if (!response.error) {
+      if (!response.error && !worker) { //implements new testing variable worker
          navigation.navigate("Dashboard");
+      }
+      //redirects drivers to a different screen than customers
+      if (!response.error && worker) {
+         navigation.navigate("DriverDash");
       }
 
       setLoading(false);
