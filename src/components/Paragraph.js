@@ -2,7 +2,7 @@
  * The Paragraph is just a Text tag with some universal styling.
  * https://facebook.github.io/react-native/docs/text#__docusaurus
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Params ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * @style - Type: Object, DESC: Extra styles for the Text Tag if needed
+ * @style - TYPE: Object, DESC: Extra styles for the Text Tag if needed
  * @children (Required) - TYPE: String, DESC: The text in the Text Tag
  * @props - Any other props that the Text Tag might take that you need will be passed in here,
  *          Please see the Text Docs for a full list of props

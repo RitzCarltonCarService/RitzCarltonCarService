@@ -7,47 +7,44 @@ import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
 
-const MainScreen = props => {
-
-    return (
-        <View>
-            <TheWhiteSquare>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>
-                        Scheduled Pickups:
+const MainScreen = props => (
+    <View>
+        <TheWhiteSquare>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>
+                    Scheduled Pickups:
                     </Text>
-                </View>
-                <View style={styles.mainContainer}>
-                    {props.scheduledPickups.length > 0 ?
-                        props.scheduledPickups.map(pickup => {
-                            return (
-                                <Button
-                                    title={pickup.name}
-                                    onPress={() => { props.setPage("pickup info") }}
-                                />
-                            )
-                        }) :
-                        <Text style={styles.noRequestsNotification}>
-                            No Current Requests
-                    </Text>
-                    }
-                </View>
-                <View style={styles.logoContainer}>
-                    <Logo size={80} />
-                </View>
-            </TheWhiteSquare>
-            <View style={styles.buttonContainer}>
-                <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
-                    Request a Ride Now
-                </Button>
-                <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
-                    Schedule a Ride in Advance
-                </Button>
             </View>
-
+            <View style={styles.mainContainer}>
+                {props.scheduledPickups.length > 0 ?
+                    props.scheduledPickups.map(pickup => {
+                        return (
+                            <Button
+                                title={pickup.name}
+                                onPress={() => { props.setPage("pickup info") }}
+                            />
+                        )
+                    }) :
+                    <Text style={styles.noRequestsNotification}>
+                        No Current Requests
+                    </Text>
+                }
+            </View>
+            <View style={styles.logoContainer}>
+                <Logo style={{ width: 20, height: 20 }} />
+            </View>
+        </TheWhiteSquare>
+        <View style={styles.buttonContainer}>
+            <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
+                Request a Ride Now
+                </Button>
+            <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
+                Schedule a Ride in Advance
+                </Button>
         </View>
-    )
-}
+
+    </View>
+);
 
 const mapStateToProps = state => {
     return {

@@ -1,5 +1,10 @@
 import React, { memo, useState } from "react";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
+import { emailValidator, passwordValidator } from "../core/untilities";
+import { Header as NavHeader } from 'react-navigation-stack';
+import { loginUser } from '../core/auth-api';
+import { theme } from "../core/theme";
 import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
@@ -7,10 +12,7 @@ import Button from "../components/Button";
 import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import TheWhiteSquare from '../components/TheWhiteSquare';
-import { theme } from "../core/theme";
-import { emailValidator, passwordValidator } from "../core/untilities";
 import Toast from "../components/Toast";
-import firebase from 'firebase';
 
 const LoginScreen = ({ navigation }) => {
    const [email, setEmail] = useState({ value: "", error: "" });
@@ -32,7 +34,10 @@ const LoginScreen = ({ navigation }) => {
 
       setLoading(true);
 
-      const response = await firebase.auth().signInWithEmailAndPassword(email.value, password.value);
+      const response = await loginUser({
+         email: email.value,
+         password: password.value
+      });
 
       if (response.error) {
          setError(response.error);
@@ -48,6 +53,11 @@ const LoginScreen = ({ navigation }) => {
    return (
       <>
          <MapBackground />
+         {/* <KeyboardAvoidingView
+            keyboardVerticalOffset={Platform.select({ ios: 0, android: 500 })}
+            behavior={(Platform.OS === 'ios') ? "padding" : null}
+            style={styles.wrapper}
+         > */}
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
          <View style={styles.wrapper}>
             <TheWhiteSquare height={75} top={15}>
@@ -89,11 +99,11 @@ const LoginScreen = ({ navigation }) => {
 
                <Button loading={loading} mode="contained" onPress={_onLoginPressed}>
                   Login
-               </Button>
+                  </Button>
 
                <View style={styles.row}>
                   <Text style={styles.label}>Don’t have an account? </Text>
-                  <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
+                  <TouchableOpacity onPress={() => navigation.navigate("SignupScreen")}>
                      <Text style={styles.link}>Sign up</Text>
                   </TouchableOpacity>
                </View>
@@ -101,6 +111,7 @@ const LoginScreen = ({ navigation }) => {
          </View>
 
          <Toast message={error} onDismiss={() => setError("")} />
+         {/* </KeyboardAvoidingView> */}
       </>
    );
 };
