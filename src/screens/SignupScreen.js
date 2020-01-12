@@ -1,11 +1,12 @@
 import React, { memo, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import Background from "../components/Background";
+import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
+import TheWhiteSquare from '../components/TheWhiteSquare';
 import { theme } from "../core/theme";
 import {
    emailValidator,
@@ -52,64 +53,67 @@ const RegisterScreen = ({ navigation }) => {
    };
 
    return (
-      <Background>
+      <>
+         <MapBackground />
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
+         <View style={styles.wrapper}>
+            <TheWhiteSquare height={85} top={6}>
+               <Logo />
 
-         <Logo />
+               <Header>Create Account</Header>
 
-         <Header>Create Account</Header>
+               <TextInput
+                  label="Name"
+                  returnKeyType="next"
+                  value={name.value}
+                  onChangeText={text => setName({ value: text, error: "" })}
+                  error={!!name.error}
+                  errorText={name.error}
+               />
 
-         <TextInput
-            label="Name"
-            returnKeyType="next"
-            value={name.value}
-            onChangeText={text => setName({ value: text, error: "" })}
-            error={!!name.error}
-            errorText={name.error}
-         />
+               <TextInput
+                  label="Email"
+                  returnKeyType="next"
+                  value={email.value}
+                  onChangeText={text => setEmail({ value: text, error: "" })}
+                  error={!!email.error}
+                  errorText={email.error}
+                  autoCapitalize="none"
+                  autoCompleteType="email"
+                  textContentType="emailAddress"
+                  keyboardType="email-address"
+               />
 
-         <TextInput
-            label="Email"
-            returnKeyType="next"
-            value={email.value}
-            onChangeText={text => setEmail({ value: text, error: "" })}
-            error={!!email.error}
-            errorText={email.error}
-            autoCapitalize="none"
-            autoCompleteType="email"
-            textContentType="emailAddress"
-            keyboardType="email-address"
-         />
+               <TextInput
+                  label="Password"
+                  returnKeyType="done"
+                  value={password.value}
+                  onChangeText={text => setPassword({ value: text, error: "" })}
+                  error={!!password.error}
+                  errorText={password.error}
+                  secureTextEntry
+                  autoCapitalize="none"
+               />
 
-         <TextInput
-            label="Password"
-            returnKeyType="done"
-            value={password.value}
-            onChangeText={text => setPassword({ value: text, error: "" })}
-            error={!!password.error}
-            errorText={password.error}
-            secureTextEntry
-            autoCapitalize="none"
-         />
+               <Button
+                  loading={loading}
+                  mode="contained"
+                  onPress={_onSignUpPressed}
+                  style={styles.button}
+               >
+                  Sign Up
+               </Button>
 
-         <Button
-            loading={loading}
-            mode="contained"
-            onPress={_onSignUpPressed}
-            style={styles.button}
-         >
-            Sign Up
-      </Button>
-
-         <View style={styles.row}>
-            <Text style={styles.label}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
-               <Text style={styles.link}>Login</Text>
-            </TouchableOpacity>
+               <View style={styles.row}>
+                  <Text style={styles.label}>Already have an account? </Text>
+                  <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
+                     <Text style={styles.link}>Login</Text>
+                  </TouchableOpacity>
+               </View>
+            </TheWhiteSquare>
          </View>
-
          <Toast message={error} onDismiss={() => setError("")} />
-      </Background>
+      </>
    );
 };
 
@@ -127,6 +131,9 @@ const styles = StyleSheet.create({
    link: {
       fontWeight: "bold",
       color: theme.colors.primary
+   },
+   wrapper: {
+      alignItems: 'center'
    }
 });
 

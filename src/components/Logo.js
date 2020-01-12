@@ -1,24 +1,30 @@
-import React from 'react';
+/*
+ * The Header is just a Image tag with some universal styling.
+ * https://facebook.github.io/react-native/docs/images#__docusaurus
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Params ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * @style - TYPE: Object, DESC: Extra styles for the Text Tag
+ * @props - Any other props that the Text Tag might take that you need will be passed in here,
+ *          Please see the Image Docs for a full list of props
+ */
+
+import React, { memo } from 'react';
 import { Image, StyleSheet } from 'react-native';
 
-const Logo = (props) => {
+const Logo = ({ style, ...props }) => (
 
-   const size = props.size || 128;
-   const marginBottom = props.marginBottom || 12;
+    // if (!style) {
+    //     style = styles.image;
+    // }
 
-   const styles = StyleSheet.create({
-      image: {
-         width: size,
-         height: size,
-         marginBottom: marginBottom,
-      },
-   });
+    <Image source={require('../../assets/RitzLogo.png')} style={[styles.image, style]} {...props} />
+)
 
-   return (
-      <Image source={require('../../assets/RitzLogo.png')} style={styles.image} />
-   )
-};
+const styles = StyleSheet.create({
+   image: {
+      width: 128,
+      height: 128,
+      marginBottom: 12,
+   },
+});
 
-
-
-export default Logo;
+export default memo(Logo);
