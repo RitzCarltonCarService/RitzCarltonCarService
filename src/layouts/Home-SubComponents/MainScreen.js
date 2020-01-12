@@ -1,50 +1,48 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { navigate } from '../../redux/actions';
+import { updateScheduledPickups } from '../../redux/actions';
 import { View, Text, StyleSheet, Platform } from 'react-native';
-import { Title } from 'react-native-paper';
+import EntryListView from './MainScreen-SubComponents/EntryListView';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
+import dummyData from '../../dummyData/dummy_pickup_data';
 
-const MainScreen = props => (
-    <View>
-        <TheWhiteSquare>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>
-                    Scheduled Pickups:
-                    </Text>
-            </View>
-            <View style={styles.mainContainer}>
-                {props.scheduledPickups.length > 0 ?
-                    props.scheduledPickups.map(pickup => {
-                        return (
-                            <Button
-                                title={pickup.name}
-                                onPress={() => { props.setPage("pickup info") }}
-                            />
-                        )
-                    }) :
-                    <Text style={styles.noRequestsNotification}>
-                        No Current Requests
-                    </Text>
-                }
-            </View>
-            <View style={styles.logoContainer}>
-                <Logo style={{ width: 20, height: 20 }} />
-            </View>
-        </TheWhiteSquare>
-        <View style={styles.buttonContainer}>
-            <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
-                Request a Ride Now
-                </Button>
-            <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
-                Schedule a Ride in Advance
-                </Button>
-        </View>
+const MainScreen = props => {
 
-    </View>
-);
+    return (
+        <>
+            <TheWhiteSquare>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>
+                        Scheduled Pickups:
+                    </Text>
+                </View>
+                <View style={styles.divider} />
+                <View style={styles.mainContainer}>
+                    {props.scheduledPickups.length > 0 ?
+                        <EntryListView scheduledPickups={props.scheduledPickups} setPage={props.setPage} />
+                        :
+                        <Text style={styles.noRequestsNotification}>
+                            No Current Requests
+                    </Text>
+                    }
+                </View>
+                <View style={styles.logoContainer}>
+                    <Logo style={{ width: 80, height: 80 }} />
+                </View>
+            </TheWhiteSquare>
+            <View style={styles.buttonContainer}>
+                <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
+                    Request a Ride Now
+                </Button>
+                <Button onPress={() => { props.updateScheduledPickups(dummyData) }} mode={"contained"}>
+                    Schedule a Ride
+                </Button>
+            </View>
+        </>
+    )
+}
 
 const mapStateToProps = state => {
     return {
@@ -53,7 +51,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-    navigate: navigate
+    updateScheduledPickups: updateScheduledPickups
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
@@ -61,14 +59,20 @@ export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
 const styles = StyleSheet.create({
     titleContainer: {
         width: "100%",
-        height: "20%",
+        height: "30%",
         alignItems: "center"
     },
     title: {
         fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
         fontSize: 25,
         letterSpacing: 2,
-        top: "50%"
+        top: "60%"
+    },
+    divider: {
+        borderBottomColor: "black",
+        borderBottomWidth: 1,
+        width: "100%",
+        marginBottom: 10
     },
     mainContainer: {
         width: "100%",
@@ -76,15 +80,16 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     noRequestsNotification: {
-        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
+        fontFamily: Platform.OS === "ios" ? "Arial" : "Roboto",
         color: "gray",
         letterSpacing: 2,
         top: "20%"
     },
     logoContainer: {
-        height: "20%"
+        height: "25%"
     },
     buttonContainer: {
-        top: "40%"
+        top: "20%",
+        width: "80%"
     }
 })

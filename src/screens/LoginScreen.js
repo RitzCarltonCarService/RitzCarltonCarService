@@ -1,8 +1,6 @@
 import React, { memo, useState } from "react";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { TouchableOpacity, StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { emailValidator, passwordValidator } from "../core/untilities";
-import { Header as NavHeader } from 'react-navigation-stack';
 import { loginUser } from '../core/auth-api';
 import { theme } from "../core/theme";
 import MapBackground from "../components/MapBackground";
@@ -13,6 +11,8 @@ import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import TheWhiteSquare from '../components/TheWhiteSquare';
 import Toast from "../components/Toast";
+
+const worker = false;
 
 const LoginScreen = ({ navigation }) => {
    const [email, setEmail] = useState({ value: "", error: "" });
@@ -43,8 +43,12 @@ const LoginScreen = ({ navigation }) => {
          setError(response.error);
       }
 
-      if (!response.error) {
+      if (!response.error && !worker) { //implements new testing variable worker
          navigation.navigate("Dashboard");
+      }
+      //redirects drivers to a different screen than customers
+      if (!response.error && worker) {
+         navigation.navigate("DriverDash");
       }
 
       setLoading(false);
@@ -53,11 +57,6 @@ const LoginScreen = ({ navigation }) => {
    return (
       <>
          <MapBackground />
-         {/* <KeyboardAvoidingView
-            keyboardVerticalOffset={Platform.select({ ios: 0, android: 500 })}
-            behavior={(Platform.OS === 'ios') ? "padding" : null}
-            style={styles.wrapper}
-         > */}
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
          <View style={styles.wrapper}>
             <TheWhiteSquare height={75} top={15}>
@@ -99,7 +98,7 @@ const LoginScreen = ({ navigation }) => {
 
                <Button loading={loading} mode="contained" onPress={_onLoginPressed}>
                   Login
-                  </Button>
+               </Button>
 
                <View style={styles.row}>
                   <Text style={styles.label}>Don’t have an account? </Text>
@@ -111,7 +110,6 @@ const LoginScreen = ({ navigation }) => {
          </View>
 
          <Toast message={error} onDismiss={() => setError("")} />
-         {/* </KeyboardAvoidingView> */}
       </>
    );
 };
