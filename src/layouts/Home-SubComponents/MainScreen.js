@@ -23,10 +23,11 @@ const MainScreen = props => {
                         Scheduled Pickups:
                     </Text>
                 </View>
+                <View style={styles.divider} />
                 <View style={styles.mainContainer}>
                     {props.scheduledPickups.length > 0 ?
                     <EntryListView scheduledPickups={props.scheduledPickups} setPage={props.setPage} />
-                     :
+                    :
                     <Text style={styles.noRequestsNotification}>
                         No Current Requests
                     </Text>
@@ -70,7 +71,13 @@ const styles = StyleSheet.create({
         fontFamily: Platform.OS === "ios" ? "Arial" : "Roboto",
         fontSize: 25,
         letterSpacing: 2,
-        top: "45%"
+        top: "60%"
+    },
+    divider: {
+        borderBottomColor: "black",
+        borderBottomWidth: 1,
+        width: "100%",
+        marginBottom: 10
     },
     mainContainer: {
         width: "100%",

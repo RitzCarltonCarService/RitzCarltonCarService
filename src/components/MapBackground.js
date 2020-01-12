@@ -9,7 +9,6 @@
  * @props - TYPE: Varied, DESC: Any other react-native-paper button props,
  *          please see the react-native-maps mapView docs for a full list of the other availible props
  */
-
 import React, { memo } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
@@ -17,22 +16,17 @@ import { aubergineMapStyle, silverMapStyle } from '../core/mapStyles';
 
 const MapBackground = ({ style, region, scrollEnabled, ...props }) => {
    let hour = new Date().getHours();
-   let defaultRegion = {
-      latitude: 37.78825,
-      longitude: -122.4324,
-      latitudeDelta: 0.015,
-      longitudeDelta: 0.0121,
-   };
 
    return (
       <MapView
+         region={region}
+         showsUserLocation={true} // enables geoLocation on the phone and asks new user to 'Deny' or 'Allow'
          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
          customMapStyle={hour > 18 || hour < 6 ? aubergineMapStyle : silverMapStyle}
          style={[
             styles.map,
             style
          ]}
-         region={region || defaultRegion}
          scrollEnabled={scrollEnabled}
          {...props}
       />
