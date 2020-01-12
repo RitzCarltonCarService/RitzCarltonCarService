@@ -7,21 +7,35 @@ import { ActivityIndicator } from "react-native";
 import { theme } from "../core/theme";
 import { updateGeoLocation } from "../redux/actions";
 import MapBackground from "../components/MapBackground";
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 // Initialize Firebase
 firebase.initializeApp(FIREBASE_CONFIG);
 
 const AuthLoadingScreen = ({ navigation, dispatch }) => {
 
-   const getCurrentLocation = () =>  {
-      return new Promise((resolve, reject) => {
-         navigator.geolocation.getCurrentPosition(position => resolve(position), e => reject(e));
-      });
-  };
+   // const getCurrentLocation = () =>  {
+   //    return new Promise((resolve, reject) => {
+   //       navigator.geolocation.getCurrentPosition(position => resolve(position), e => reject(e));
+   //    });
+   // };
   
+   const getCurrentLocation = async () => {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        this.setState({
+          errorMessage: 'Permission to access location was denied',
+        });
+      }
+  
+      return await Location.getCurrentPositionAsync({});
+   }
+
    useEffect(() => {
-      getCurrentLocation()
+     getCurrentLocation()
       .then((position) => {
+         console.log("This is the position", position)
          let coords = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
