@@ -15,7 +15,7 @@ const Router = createStackNavigator(
       SignupScreen,
    },
    {
-      initialRouteName: "AuthLoadingScreen",
+      initialRouteName: "HomeScreen",
       headerMode: "none"
    }
 );
