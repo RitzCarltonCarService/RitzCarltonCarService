@@ -17,7 +17,7 @@ const Router = createStackNavigator(
       DriverDash,
    },
    {
-      initialRouteName: "HomeScreen",
+      initialRouteName: "AuthLoadingScreen",
       headerMode: "none"
    }
 );
