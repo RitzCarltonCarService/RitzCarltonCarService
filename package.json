@@ -19,7 +19,6 @@
     "react-native-clean-project": "^3.3.0",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-maps": "^0.26.1",
-    "react-native-modal-dropdown": "^0.7.0",
     "react-native-paper": "^3.4.0",
     "react-native-reanimated": "~1.4.0",
     "react-native-safe-area-context": "0.6.0",
@@ -36,12 +35,6 @@
   },
   "devDependencies": {
     "babel-preset-expo": "~8.0.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-plugin-import": "^2.20.0",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.17.0",
-    "eslint-plugin-react-hooks": "^1.7.0",
     "redux-logger": "^3.0.6"
   },
   "private": true
