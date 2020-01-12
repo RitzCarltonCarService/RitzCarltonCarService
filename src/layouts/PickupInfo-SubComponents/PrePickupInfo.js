@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../redux/actions';
-import { View, Text, StyleSheet, Platform, Modal, Portal } from 'react-native';
+import CancelModal from './CancelModal';
+import { View, Text, StyleSheet, Platform } from 'react-native';
+import { Modal, Portal, Provider } from 'react-native-paper'
 import Button from '../../components/Button';
 import { theme } from '../../core/theme';
 
 const { vh, vw } = require('react-native-viewport-units');
 
 const PrePickupInfo = props => {
-    console.log(props.scheduledPickups);
-    console.log(props.currentPickup);
+    
+    let [modalOpen, setModalOpen] = useState(false)
 
     const pickup = props.scheduledPickups[props.currentPickup];
 
@@ -38,6 +40,7 @@ const PrePickupInfo = props => {
             <Button
                 style={styles.cancelButton}
                 labelStyle={styles.cancelButtonText}
+                onPress={() => {setModalOpen(true)}}
             >
                 Cancel Request
             </Button>
@@ -47,6 +50,16 @@ const PrePickupInfo = props => {
                     Back
                 </Button>
             </View>
+
+            <Provider>
+                <Portal>
+                    <Modal
+                        visible={modalOpen}
+                    >
+                        <CancelModal setModalOpen={setModalOpen} setPage={props.setPage}/>
+                    </Modal>
+                </Portal>
+            </Provider>
 
         </>
     )
