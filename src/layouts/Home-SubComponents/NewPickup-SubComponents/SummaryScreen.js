@@ -10,6 +10,15 @@ const SummaryScreen = props => (
             <Text>
                 Form 4
             </Text>
+            <Text>
+                MORE STUFF
+            </Text>
+            <Text>
+                MORE STUFF
+            </Text>
+            <Text>
+                {props.requestObject.bags} bags {props.requestObject.passengers} passengers
+            </Text>
             <Button
                 title="Confirm"
                 onPress={() => { 

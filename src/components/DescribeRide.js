@@ -43,8 +43,9 @@ return (
                             color='black'
                             style={{marginHorizontal:'-5%'}}
                             onPress={() => {
-                            console.log(`${i}`)
-                            props.setForm(props.nextForm)
+                                console.log(`${i}`);
+                                props.setField(i);
+                                props.setForm(props.nextForm)
                             }}
                         >
                             <Icon key={index} size={50} name={`numeric-${i}`}/>
