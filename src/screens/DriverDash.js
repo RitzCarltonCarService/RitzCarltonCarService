@@ -16,7 +16,7 @@ import firebase from 'firebase';
 const DriverDash = ({ navigation }) => {
    const [date, setDate] = useState(new Date());
    const [punch, setPunch] = useState({ val: "Clocked Out" });
-   const [dropdownVal, setdropdownVal] = useState({ ddv: "xxx" });
+   const [dropdownVal, setdropdownVal] = useState({ ddv: "0" });
 
    const dropdownOptions = [
      'CLOCK IN',
@@ -40,6 +40,7 @@ const DriverDash = ({ navigation }) => {
    }
 
    function statusUpdate() {
+     console.log(dropdownVal.ddv)
     switch (dropdownVal.ddv) {
       case '1':
         punch.val = "Clocked Out";
@@ -79,7 +80,7 @@ const DriverDash = ({ navigation }) => {
                <Header>Status: { punch.val }</Header>
                <Header>{date.toLocaleTimeString()}</Header>
                <ModalDropdown 
-                defaultValue={ punch.val === 'Clocked In' ? 'CLOCK OUT' : 'CLOCK IN' }
+                // defaultValue={ punch.val === 'Clocked In' ? 'CLOCK OUT' : 'CLOCK IN' }
                 options={dropdownOptions}
                 style={styles.picker}
                 textStyle={styles.picker_text}
