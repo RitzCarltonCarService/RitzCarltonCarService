@@ -1,15 +1,51 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../../redux/actions';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { GoogleAutoComplete } from 'react-native-google-autocomplete';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useState, useEffect } from 'react';
 import TextInput from '../../../components/TextInput.js'
 import Button from '../../../components/Button.js'
-import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import LocationItem from './LocationItem';
 
 const LocationForm = props => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
     // Making a random change to test .gitignore
+
+    // Hooks for storing 'toLocation', 'fromLocation' and 'Date'
+    const [date, setDate] = useState({ date: new Date(), mode: 'date', show: false });
+    const [toLocation, setTo] = useState('');
+    // pass down Redux currect location as initial state for 'setFrom' ???
+    const [fromLocation, setFrom] = useState('');
+
+    // useEffect((event, date) => {
+    //     date = date;
+    // })
+    
+    //   setDate = (event, date) => {
+    //     date = date || this.state.date;
+    
+    //     this.setState({
+    //       show: Platform.OS === 'ios' ? true : false,
+    //       date,
+    //     });
+    //   }
+    
+    //   show = mode => {
+    //     this.setState({
+    //       show: true,
+    //       mode,
+    //     });
+    //   }
+    
+    //   datepicker = () => {
+    //     this.show('date');
+    //   }
+    
+    //   timepicker = () => {
+    //     this.show('time');
+    //   }
+
     return (
         <>
             <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500}>
@@ -29,6 +65,7 @@ const LocationForm = props => {
                                 onChangeText={handleTextChange}
                                 value={inputValue}
                             />
+                            <Button title="Confirm" onPress={() => { clearSearch(); setTo(inputValue); }} />
                             <Button title="Clear" onPress={clearSearch} />
                         </View>
                         {isSearching && <ActivityIndicator size="large" color="red" />}
@@ -61,6 +98,7 @@ const LocationForm = props => {
                                 onChangeText={handleTextChange}
                                 value={inputValue}
                             />
+                            <Button title="Confirm" onPress={() => { clearSearch(); setFrom(inputValue); }} />
                             <Button title="Clear" onPress={clearSearch} />
                         </View>
                         {isSearching && <ActivityIndicator size="large" color="red" />}
