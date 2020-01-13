@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 class ToLocationItem extends PureComponent {
     _handlePress = async () => {
         const res = await this.props.fetchDetails(this.props.place_id);
-        Alert.alert(JSON.stringify(res))
+        console.log("This is the result", res);
     }
 
     render() {
@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
     root: {
         height: 40,
         borderBottomWidth: StyleSheet.hairlineWidth,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: 'white'
     }
 })
 

@@ -43,9 +43,3 @@ export function updateFromLocation(fromLocation) {
     return { type: ADD_FROM_LOCATION, newFromLocation: fromLocation}
 }
 
-export const TRAVEL_DATE = "TRAVEL_DATE";
-
-export function updateTravelDate(newDate) {
-    return { type: TRAVEL_DATE, newPickup: newDate}
-}
-

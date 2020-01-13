@@ -2,17 +2,11 @@ import { connect } from 'react-redux';
 import { navigate, updateToLocation, updateFromLocation, updateTravelDate  } from '../../../redux/actions';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState, useEffect } from 'react';
 import TextInput from '../../../components/TextInput.js'
 import Button from '../../../components/Button.js'
 import FromLocationItem from './FromLocationItem';
 import ToLocationItem from './ToLocationItem';
-
-// Exporting contexts to LocationItem component as state and setState with React Hooks
-export const FromContext = React.createContext();
-export const ToContext = React.createContext();
-export const DateContext = React.createContext()
 
 const LocationForm = props => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
@@ -36,10 +30,11 @@ const LocationForm = props => {
     //  https://github.com/bramus/react-native-maps-directions
     //  https://stackoverflow.com/questions/40541095/render-multiple-marker-in-react-native-maps
 
-    // Hooks for storing 'toLocation', 'fromLocation' and 'Date'
-    const [date, setDate] = useState({ date: new Date(), mode: 'date', show: false });
+    // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFrom] = useState('Current Location');
-    const [toLocation, setTo] = useState('');
+    const [toLocation, setTo] = useState('Type in your desination here...');
+    const [fromSelected, selectFrom] = useState(false);
+    const [toSelected, selectTo] = useState(false);
 
     updateFromState = (fromItem) => {
         setFrom(fromItem);
@@ -49,129 +44,202 @@ const LocationForm = props => {
         setTo(toItem)
     }
     
+    // pass fromLocation to redux store and use to display an updated Map background based on from coordinates
     useEffect(() => {
         console.log("This is the current fromLocation: ", fromLocation)
       }, [fromLocation]); // Only re-run the effect if count changes
 
+    // pass fromLocation to redux store and use to display an updated Map background based on to coordinates
     useEffect(() => {
         console.log("This is the current ToLocation: ", toLocation)
     }, [toLocation]); // Only re-run the effect if count changes
-      
-    // https://github.com/react-native-community/react-native-datetimepicker#react-native-datetimepicker
-    // Render Date/Time Picker if there are confirmed dates in From/To Locations  
-    // useEffect(() => {
-    //     if (toLocation !== '') {
-            
-    //     }
-    // });
+
 
     return (
-        <>
-            <GoogleAutoComplete apiKey={""} debounce={500} components={"country:usa"}>
-                {({ handleTextChange, 
-                    locationResults, 
-                    fetchDetails, 
-                    isSearching,
-                    inputValue,
-                    clearSearch
-                    }) => (
-                    <React.Fragment>
-                        {console.log('locationResults:', locationResults[0])}
-                        <View style={styles.inputTo}>
-                            <TextInput
-                                style={styles.inputTo}
-                                placeholder={fromLocation}
-                                onChangeText={handleTextChange}
-                                value={inputValue}
-                            />
-                            <Button title="Clear" onPress={clearSearch} />
-                        </View>
-                        {isSearching && <ActivityIndicator size="large" color="red" />}
-                        <ScrollView>
-                            {locationResults.map(el => (
-                                    <FromLocationItem
-                                        {...el}                                    
-                                        key={el.id}
-                                        fetchDetails={fetchDetails}
-                                        clearSearch={clearSearch}
-                                        updateFromState={updateFromState}
-                                    />
-                                ))}
-                        </ScrollView>
-                    </React.Fragment>
-                )}
-            </GoogleAutoComplete>
-            <GoogleAutoComplete apiKey={""} debounce={500}>
-                {({ handleTextChange, 
-                    locationResults, 
-                    fetchDetails, 
-                    isSearching,
-                    inputValue,
-                    clearSearch
-                    }) => (
-                    <React.Fragment>
-                        {console.log('locationResults:', locationResults[0])}
-                        <View style={styles.inputTo}>
-                            <TextInput
-                                style={styles.inputTo}
-                                placeholder={toLocation}
-                                onChangeText={handleTextChange}
-                                value={inputValue}
-                            />
-                            <Button title="Clear" onPress={clearSearch} />
-                        </View>
-                        {isSearching && <ActivityIndicator size="large" color="red" />}
-                        <ScrollView>
-                            {locationResults.map(el => (
-                                    <ToLocationItem
-                                        {...el}
-                                        key={el.id}
-                                        fetchDetails={fetchDetails}
-                                        clearSearch={clearSearch}
-                                        updateToState={updateToState}
-                                    />
-                                ))}
-                        </ScrollView>
-                    </React.Fragment>
-                )}
-            </GoogleAutoComplete>
-        </>
+        <View style={styles.container}>
+            <View style={styles.fromWrapper}>
+                <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
+                    {({ handleTextChange, 
+                        locationResults, 
+                        fetchDetails, 
+                        isSearching,
+                        inputValue,
+                        clearSearch
+                        }) => (
+                        <React.Fragment>
+                            {console.log('locationResults:', locationResults[0])}
+                            <View>
+                                <TextInput style={styles.textInput}
+                                    placeholder={fromLocation}
+                                    onChangeText={handleTextChange}
+                                    value={inputValue}
+                                />
+                            </View>
+                            <Button title="Clear" style={styles.clearButton} onPress={clearSearch}>Clear</Button>
+                            {isSearching && <ActivityIndicator size="large" color="purple" />}
+                            <ScrollView>
+                                {locationResults.map(el => (
+                                        <FromLocationItem
+                                            {...el}                                    
+                                            key={el.id}
+                                            fetchDetails={fetchDetails}
+                                            clearSearch={clearSearch}
+                                            updateFromState={updateFromState}
+                                        />
+                                    ))}
+                            </ScrollView>
+                        </React.Fragment>
+                    )}
+                </GoogleAutoComplete>
+            </View>
+            <View style={styles.toWrapper}>
+                <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
+                    {({ handleTextChange, 
+                        locationResults, 
+                        fetchDetails, 
+                        isSearching,
+                        inputValue,
+                        clearSearch
+                        }) => (
+                        <React.Fragment>
+                            {console.log('locationResults:', locationResults[0])}
+                            <View>
+                                <TextInput style={styles.textInput}
+                                    placeholder={toLocation}
+                                    onChangeText={handleTextChange}
+                                    value={inputValue}
+                                />
+                            </View>
+                            <Button title="Clear" style={styles.clearButton} onPress={clearSearch}>Clear</Button>
+                            {isSearching && <ActivityIndicator size="large" color="purple" />}
+                            <ScrollView>
+                                {locationResults.map(el => (
+                                        <ToLocationItem
+                                            {...el}
+                                            key={el.id}
+                                            fetchDetails={fetchDetails}
+                                            clearSearch={clearSearch}
+                                            updateToState={updateToState}
+                                        />
+                                    ))}
+                            </ScrollView>
+                        </React.Fragment>
+                    )}
+                </GoogleAutoComplete>
+            </View>
+            <View style={styles.nextButton}>
+                <Button>Select a Date & Time</Button>
+            </View>
+            <View style={styles.backButton}>
+                <Button>Back</Button>
+            </View>
+        </View>
     )
 }
 
+/* 
+
+return (
+      <View style={{
+        flex: 1,
+        width: 500,
+        height: 500,
+        alignItems: 'center',
+        paddingVertical: 0,
+        paddingRight: 0,
+      }}>
+        <View style={{
+          flex: 1,
+          width: 500,
+          height: 150,
+          justifyContent: 'center',
+          alignContent: 'flex-end',
+          marginTop: 0,
+          borderTopWidth: '',
+        }}>
+          <View style={{
+            flex: 1,
+            width: 400,
+            height: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+          }} />
+          <View style={{
+            flex: 1,
+            width: 400,
+            height: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+          }} />
+        </View>
+        <View style={{
+          flex: 1,
+          width: 400,
+          height: 40,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 300,
+        }} />
+      </View>
+    );
+
+*/
+
+
+
 const styles = StyleSheet.create({
-    inputTo: {
-        marginTop: '2%',
-        width: 300,
-        alignSelf: 'center',
+    container: {
+        flex: 1,
+        width: 500,
+        height: 500,
+        alignItems: 'center',
+        padding: 20
+    },
+    fromWrapper: {
+        flex: 1,
+        width: '100%',
+        height: 40,
+        marginLeft: '20%',
+        alignItems: 'center',
         flexDirection: 'row'
     },
-    inputFrom: {
-        marginTop: '2%',
-        width: 300,
-        alignSelf: 'center',
+    toWrapper: {
+        flex: 1,
+        width: '100%',
+        marginLeft: '20%',
+        height: 40,
+        alignItems: 'center',
         flexDirection: 'row'
     },
-    inputTime: {
-        width: '300%',
-        alignSelf: 'center',
-        marginBottom: '200%'
+    textInput: {
+        width: '80%'
     },
-    confirmButton: {
-        width: '300%',
-        alignSelf: 'center'
+    clearButton: {
+        width: '5%'
+    },
+    nextButton: {
+        flex: 1,
+        width: 400,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 300
     },
     backButton: {
-        width: '300%',
-        alignSelf: 'center'
+        flex: 1,
+        width: 400,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 
 const mapDispatchToProps = {
     navigate: navigate,
     updateToLocation: updateToLocation,
-    updateFromLocation: updateFromLocation, 
-    updateTravelDate: updateTravelDate
+    updateFromLocation: updateFromLocation
 }
 
 export default connect(null, mapDispatchToProps)(LocationForm);
