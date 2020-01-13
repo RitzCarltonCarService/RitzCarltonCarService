@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../../redux/actions';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import TextInput from '../../../components/TextInput.js'
 import Button from '../../../components/Button.js'
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
@@ -13,7 +13,13 @@ const LocationForm = props => {
     return (
         <>
             <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500}>
-                {({ handleTextChange, locationResults }) => (
+                {({ handleTextChange, 
+                    locationResults, 
+                    fetchDetails, 
+                    isSearching,
+                    inputValue,
+                    clearSearch
+                    }) => (
                     <React.Fragment>
                         {console.log('locationResults:', locationResults[0])}
                         <View style={styles.inputTo}>
@@ -21,27 +27,55 @@ const LocationForm = props => {
                                 style={styles.inputTo}
                                 placeholder="Current Location"
                                 onChangeText={handleTextChange}
+                                value={inputValue}
                             />
+                            <Button title="Clear" onPress={clearSearch} />
                         </View>
+                        {isSearching && <ActivityIndicator size="large" color="red" />}
                         <ScrollView>
                             {locationResults.map(el => (
                                 <LocationItem
                                     {...el}
                                     key={el.id}
+                                    fetchDetails={fetchDetails}
                                 />
                             ))}
                         </ScrollView>
                     </React.Fragment>
                 )}
             </GoogleAutoComplete>
-            <TextInput style={styles.inputTime} label='Date:'/>
-            <Button
-                style={styles.confirmButton}
-                onPress={() => {props.setForm(1);}}
-            >
-                Confirm
-            </Button>
-            <Button style={styles.backButton}>Back</Button>
+            <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500}>
+                {({ handleTextChange, 
+                    locationResults, 
+                    fetchDetails, 
+                    isSearching,
+                    inputValue,
+                    clearSearch
+                    }) => (
+                    <React.Fragment>
+                        {console.log('locationResults:', locationResults[0])}
+                        <View style={styles.inputTo}>
+                            <TextInput
+                                style={styles.inputTo}
+                                placeholder="To:"
+                                onChangeText={handleTextChange}
+                                value={inputValue}
+                            />
+                            <Button title="Clear" onPress={clearSearch} />
+                        </View>
+                        {isSearching && <ActivityIndicator size="large" color="red" />}
+                        <ScrollView>
+                            {locationResults.map(el => (
+                                <LocationItem
+                                    {...el}
+                                    key={el.id}
+                                    fetchDetails={fetchDetails}
+                                />
+                            ))}
+                        </ScrollView>
+                    </React.Fragment>
+                )}
+            </GoogleAutoComplete>
         </>
     )
 }
@@ -50,11 +84,14 @@ const styles = StyleSheet.create({
     inputTo: {
         marginTop: '2%',
         width: 300,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        flexDirection: 'row'
     },
     inputFrom: {
-        width: '300%',
-        alignSelf: 'center'
+        marginTop: '2%',
+        width: 300,
+        alignSelf: 'center',
+        flexDirection: 'row'
     },
     inputTime: {
         width: '300%',

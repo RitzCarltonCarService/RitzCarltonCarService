@@ -1,22 +1,27 @@
 import React, { PureComponent } from 'react';
-import { View, Text, Stylesheet } from 'react-native';
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 
 class LocationItem extends PureComponent {
+    _handlePress = async () => {
+        const res = await this.props.fetchDetails(this.props.place_id);
+        Alert.alert(JSON.stringify(res))
+    }
+
     render() {
         return (
-            <View>
+            <TouchableOpacity style={styles.root} onPress={this._handlePress}>
                 <Text>{this.props.description}</Text>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
 
-// const styles = Stylesheet.create({
-//     root: {
-//         height: 40,
-//         borderBottomWidth: Stylesheet.hairlineWidth,
-//         justifyContent: 'center'
-//     }
-// })
+const styles = StyleSheet.create({
+    root: {
+        height: 40,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        justifyContent: 'center'
+    }
+})
 
 export default LocationItem;

@@ -14,12 +14,6 @@ import * as Permissions from 'expo-permissions';
 firebase.initializeApp(FIREBASE_CONFIG);
 
 const AuthLoadingScreen = ({ navigation, dispatch }) => {
-
-   // const getCurrentLocation = () =>  {
-   //    return new Promise((resolve, reject) => {
-   //       navigator.geolocation.getCurrentPosition(position => resolve(position), e => reject(e));
-   //    });
-   // };
   
    const getCurrentLocation = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -35,7 +29,6 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
    useEffect(() => {
      getCurrentLocation()
       .then((position) => {
-         // console.log("This is the position", position)
          let coords = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
