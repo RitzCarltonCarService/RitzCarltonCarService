@@ -9,6 +9,7 @@ import LocationItem from './LocationItem';
 
 const LocationForm = props => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
+    // Making a random change to test .gitignore
     return (
         <>
             <GoogleAutoComplete apiKey={"Add here!"} debounce={500}>
