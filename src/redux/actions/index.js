@@ -30,3 +30,22 @@ export const UPDATE_CURRENT_PICKUP = "UPDATE_CURRENT_PICKUP";
 export function updateCurrentPickup(newPickup) {
     return { type: UPDATE_CURRENT_PICKUP, newPickup: newPickup}
 }
+
+export const ADD_TO_LOCATION = "ADD_TO_LOCATION";
+
+export function updateToLocation(toLocation) {
+    return { type: ADD_TO_LOCATION, newToLocation: toLocation}
+}
+
+export const ADD_FROM_LOCATION = "ADD_FROM_LOCATION";
+
+export function updateFromLocation(fromLocation) {
+    return { type: ADD_FROM_LOCATION, newFromLocation: fromLocation}
+}
+
+export const TRAVEL_DATE = "TRAVEL_DATE";
+
+export function updateTravelDate(newDate) {
+    return { type: TRAVEL_DATE, newPickup: newDate}
+}
+
