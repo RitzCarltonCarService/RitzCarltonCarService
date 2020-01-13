@@ -30,26 +30,9 @@ const HomeScreen = ({ navigation, region }) => (
 const styles = StyleSheet.create({
    container: {
       alignItems: "center",
-   },
-   wrapper: {
-      flex: 1,
-      width: "100%",
-      maxWidth: 340,
-      maxHeight: 500,
-      marginTop: 80,
-      padding: 20,
-      alignSelf: "center",
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: '#fff',
-   },
+   }
 });
 
-const mapStatetoProps = (state) => {
-   console.log("This is the state", state)
-   return {
-      region: state.geoLocation
-   }
-}
+const mapStatetoProps = ({ geoLocation }) => ({ region: geoLocation });
 
-export default connect()(HomeScreen);
+export default connect(mapStatetoProps)(HomeScreen);

@@ -1,22 +1,24 @@
 import React, { memo, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import MapBackground from "../components/MapBackground";
+import { setUserData } from "../redux/actions";
+import { signUpUser } from '../core/auth-api';
+import { connect } from 'react-redux';
+import { theme } from "../core/theme";
 import Logo from "../components/Logo";
+import Toast from "../components/Toast";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
+import MapBackground from "../components/MapBackground";
 import TheWhiteSquare from '../components/TheWhiteSquare';
-import { theme } from "../core/theme";
 import {
    emailValidator,
    passwordValidator,
    nameValidator
 } from "../core/untilities";
-import Toast from "../components/Toast";
-import { signUpUser } from '../core/auth-api';
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation, dispatch }) => {
    const [name, setName] = useState({ value: "", error: "" });
    const [email, setEmail] = useState({ value: "", error: "" });
    const [password, setPassword] = useState({ value: "", error: "" });
@@ -35,7 +37,7 @@ const RegisterScreen = ({ navigation }) => {
          setEmail({ ...email, error: emailError });
          setPassword({ ...password, error: passwordError });
          return;
-      }
+      };
 
       setLoading(true);
 
@@ -45,15 +47,22 @@ const RegisterScreen = ({ navigation }) => {
          password: password.value
       });
 
-      if (response.error) {
-         setError(response.error);
-      }
-
-      if (!response.error) {
-         navigation.navigate("Dashboard");
-      }
+      dispatch(setUserData({
+         uid: response.uid,
+         displayName: response.displayName,
+         email: response.email,
+         phoneNumber: response.phoneNumber,
+         photoURL: response.photoURL,
+      }));
 
       setLoading(false);
+
+      if (response.error) {
+         setError(response.error);
+         return
+      };
+
+      navigation.navigate("Dashboard");
    };
 
    return (
@@ -116,7 +125,12 @@ const RegisterScreen = ({ navigation }) => {
                </View>
             </TheWhiteSquare>
          </View>
-         <Toast message={error} onDismiss={() => setError("")} />
+
+         <Toast
+            type={'error'}
+            message={error}
+            onDismiss={() => setError("")}
+         />
       </>
    );
 };
@@ -141,4 +155,4 @@ const styles = StyleSheet.create({
    }
 });
 
-export default memo(RegisterScreen);
+export default connect()(memo(RegisterScreen));

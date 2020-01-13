@@ -1,20 +1,22 @@
 import React, { memo, useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { emailValidator, passwordValidator } from "../core/untilities";
+import { setUserData } from "../redux/actions";
 import { loginUser } from '../core/auth-api';
+import { connect } from 'react-redux';
 import { theme } from "../core/theme";
-import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
+import Toast from "../components/Toast";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
+import MapBackground from "../components/MapBackground";
 import TheWhiteSquare from '../components/TheWhiteSquare';
-import Toast from "../components/Toast";
 
 const worker = false;
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, dispatch }) => {
    const [email, setEmail] = useState({ value: "", error: "" });
    const [password, setPassword] = useState({ value: "", error: "" });
    const [loading, setLoading] = useState(false);
@@ -30,7 +32,7 @@ const LoginScreen = ({ navigation }) => {
          setEmail({ ...email, error: emailError });
          setPassword({ ...password, error: passwordError });
          return;
-      }
+      };
 
       setLoading(true);
 
@@ -39,19 +41,30 @@ const LoginScreen = ({ navigation }) => {
          password: password.value
       });
 
-      if (response.error) {
-         setError(response.error);
-      }
-
-      if (!response.error && !worker) { //implements new testing variable worker
-         navigation.navigate("Dashboard");
-      }
-      //redirects drivers to a different screen than customers
-      if (!response.error && worker) {
-         navigation.navigate("DriverDash");
-      }
+      dispatch(setUserData({
+         uid: response.uid,
+         displayName: response.displayName,
+         email: response.email,
+         phoneNumber: response.phoneNumber,
+         photoURL: response.photoURL,
+      }));
 
       setLoading(false);
+
+      if (response.error) {
+         setError(response.error);
+         return
+      };
+
+      //implements new testing variable worker
+      if (!worker) {
+         navigation.navigate("Dashboard");
+      };
+
+      //redirects drivers to a different screen than customers
+      if (worker) {
+         navigation.navigate("DriverDash");
+      };
    };
 
    return (
@@ -109,7 +122,11 @@ const LoginScreen = ({ navigation }) => {
             </TheWhiteSquare>
          </View>
 
-         <Toast message={error} onDismiss={() => setError("")} />
+         <Toast
+            type={'error'}
+            message={error}
+            onDismiss={() => setError("")}
+         />
       </>
    );
 };
@@ -136,4 +153,4 @@ const styles = StyleSheet.create({
    }
 });
 
-export default memo(LoginScreen);
+export default connect()(memo(LoginScreen));

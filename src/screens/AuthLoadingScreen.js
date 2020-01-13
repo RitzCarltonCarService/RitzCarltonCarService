@@ -1,14 +1,15 @@
-import React, { useState, useEffect, memo } from "react";
-import "firebase/auth";
-import firebase from "firebase/app";
-import { connect } from 'react-redux';
-import { FIREBASE_CONFIG } from "../core/config";
-import { ActivityIndicator } from "react-native";
-import { theme } from "../core/theme";
+import React, { useState, memo } from "react";
 import { updateGeoLocation, setUserData } from "../redux/actions";
-import Toast from '../components/Toast';
-import * as Location from 'expo-location';
+import { ActivityIndicator } from "react-native";
+import { FIREBASE_CONFIG } from "../core/config";
+import { connect } from 'react-redux';
+import { theme } from "../core/theme";
 import * as Permissions from 'expo-permissions';
+import LogoBackground from '../components/LogoBackground';
+import * as Location from 'expo-location';
+import firebase from "firebase/app";
+import Toast from '../components/Toast';
+import "firebase/auth";
 
 // Initialize Firebase
 firebase.initializeApp(FIREBASE_CONFIG);
@@ -24,33 +25,33 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
       };
 
       return await Location.getCurrentPositionAsync({});
-   }
-
-   useEffect(() => {
-      getCurrentLocation()
-         .then((position) => {
-            dispatch(updateGeoLocation({
-               latitude: position.coords.latitude,
-               longitude: position.coords.longitude,
-               latitudeDelta: 0.003,
-               longitudeDelta: 0.003,
-            }));
-         });
-   }, []);
+   };
 
    firebase.auth().onAuthStateChanged(user => {
-      console.log(user)
       // User is logged in
       if (user) {
-         dispatch(setUserData({
-            //jmCk1SOieDfSWd3yiWkqqWOj7eQ2
-            uid: user.uid,
-            displayName: user.displayName,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-            photoURL: user.photoURL,
-         }));
-         navigation.navigate("Dashboard");
+         try {
+            dispatch(setUserData({
+               uid: user.uid,
+               displayName: user.displayName,
+               email: user.email,
+               phoneNumber: user.phoneNumber,
+               photoURL: user.photoURL,
+            }));
+
+            getCurrentLocation()
+               .then((position) => {
+                  dispatch(updateGeoLocation({
+                     latitude: position.coords.latitude,
+                     longitude: position.coords.longitude,
+                     latitudeDelta: 0.003,
+                     longitudeDelta: 0.003,
+                  }));
+                  navigation.navigate("Dashboard");
+               });
+         } catch (error) {
+            setError(error);
+         };
       };
 
       // User is not logged in
@@ -60,10 +61,14 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
    });
 
    return (
-      <>
+      <LogoBackground>
          <ActivityIndicator size="large" color={theme.colors.primary} />
-         <Toast message={error} onDismiss={() => setError("")} />
-      </>
+         <Toast
+            type={'error'}
+            message={error}
+            onDismiss={() => setError("")}
+         />
+      </LogoBackground>
    );
 };
 
