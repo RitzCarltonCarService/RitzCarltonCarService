@@ -24,4 +24,4 @@ const Router = createStackNavigator(
    }
 );
 
-export default createAppContainer(Router);
+export default createAppContainer(HomeScreen);
