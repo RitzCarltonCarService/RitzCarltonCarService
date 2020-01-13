@@ -12,6 +12,12 @@ const LocationForm = props => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
     // Making a random change to test .gitignore
 
+    // Conditional rendering of DateTimePicker based on if toLocation and fromLocation both exist
+    // Update mapBackground with input of toLocation
+    // Once input of fromLocation, store fromLocation in Redux store, map over all coordinates and
+    //  update map background: https://stackoverflow.com/questions/40541095/render-multiple-marker-in-react-native-maps
+    // Store fromLocation, toLocation, Date in Redux store to be passed into database
+
     // Hooks for storing 'toLocation', 'fromLocation' and 'Date'
     const [date, setDate] = useState({ date: new Date(), mode: 'date', show: false });
     const [toLocation, setTo] = useState('');
@@ -48,7 +54,7 @@ const LocationForm = props => {
 
     return (
         <>
-            <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500}>
+            <GoogleAutoComplete apiKey={""} debounce={500}>
                 {({ handleTextChange, 
                     locationResults, 
                     fetchDetails, 
@@ -81,7 +87,7 @@ const LocationForm = props => {
                     </React.Fragment>
                 )}
             </GoogleAutoComplete>
-            <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500}>
+            <GoogleAutoComplete apiKey={""} debounce={500}>
                 {({ handleTextChange, 
                     locationResults, 
                     fetchDetails, 
