@@ -12,10 +12,10 @@ const LocationForm = props => {
     // Making a random change to test .gitignore
     return (
         <>
-            <GoogleAutoComplete apiKey={"Add here!"} debounce={500}>
+            <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500}>
                 {({ handleTextChange, locationResults }) => (
                     <React.Fragment>
-                        {console.log('locationResults:', locationResults)}
+                        {console.log('locationResults:', locationResults[0])}
                         <View style={styles.inputTo}>
                             <TextInput
                                 style={styles.inputTo}
