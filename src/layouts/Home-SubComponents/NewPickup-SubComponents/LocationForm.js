@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { navigate, updateToLocation, updateFromLocation, updateTravelDate  } from '../../../redux/actions';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
+import { Surface } from 'react-native-paper';
 import React, { useState, useEffect } from 'react';
 import TextInput from '../../../components/TextInput.js'
 import Button from '../../../components/Button.js'
@@ -31,8 +32,12 @@ const LocationForm = props => {
     //  https://stackoverflow.com/questions/40541095/render-multiple-marker-in-react-native-maps
 
     // Hooks for storing 'toLocation' and 'fromLocation'
+    let fromLocationsArr = [];
+    let toLocationsArr = [];
     const [fromLocation, setFrom] = useState('Current Location');
     const [toLocation, setTo] = useState('Type in your desination here...');
+    const [fromLocations, setFromLocations] = useState([]);
+    const [toLocations, setToLocations] = useState([]);
     const [fromSelected, selectFrom] = useState(false);
     const [toSelected, selectTo] = useState(false);
 
@@ -43,7 +48,7 @@ const LocationForm = props => {
     updateToState = (toItem) => {
         setTo(toItem)
     }
-    
+
     // pass fromLocation to redux store and use to display an updated Map background based on from coordinates
     useEffect(() => {
         console.log("This is the current fromLocation: ", fromLocation)
@@ -54,140 +59,107 @@ const LocationForm = props => {
         console.log("This is the current ToLocation: ", toLocation)
     }, [toLocation]); // Only re-run the effect if count changes
 
+    // onChange of textInput, boolean value to determine what elements should be displayed in destinations component
+    // map over locationResults, call fetch detail on each item and push into hook state, 
+    //  then iterate over hook state, and based on boolean value, dispay To/From Components
 
     return (
         <View style={styles.container}>
-            <View style={styles.fromWrapper}>
-                <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
-                    {({ handleTextChange, 
-                        locationResults, 
-                        fetchDetails, 
-                        isSearching,
-                        inputValue,
-                        clearSearch
-                        }) => (
-                        <React.Fragment>
-                            {console.log('locationResults:', locationResults[0])}
-                            <View>
-                                <TextInput style={styles.textInput}
-                                    placeholder={fromLocation}
-                                    onChangeText={handleTextChange}
-                                    value={inputValue}
-                                />
-                            </View>
-                            <Button title="Clear" style={styles.clearButton} onPress={clearSearch}>Clear</Button>
-                            {isSearching && <ActivityIndicator size="large" color="purple" />}
-                            <ScrollView>
-                                {locationResults.map(el => (
-                                        <FromLocationItem
-                                            {...el}                                    
-                                            key={el.id}
-                                            fetchDetails={fetchDetails}
-                                            clearSearch={clearSearch}
-                                            updateFromState={updateFromState}
+            <Surface style={styles.surface}>
+                <View style={styles.fromWrapper}>
+                    <GoogleAutoComplete apiKey={""} debounce={500} components={"country:usa"}>
+                        {({ handleTextChange, 
+                            locationResults, 
+                            fetchDetails, 
+                            isSearching,
+                            inputValue,
+                            clearSearch
+                            }) => (
+                                <React.Fragment>
+                                    <TextInput 
+                                        onChange={() => {selectFrom(true); selectTo(false)}}
+                                        placeholder={fromLocation}
+                                        onChangeText={handleTextChange}
+                                        value={inputValue}
+                                    />
+                                    <Button onPress={clearSearch}>Clear</Button>
+                                    {locationResults.map(element => {
+                                        let fromResult = {
+                                            description: element.description,
+                                            fetchDetails: fetchDetails,
+                                            clearSearch: clearSearch
+                                        };
+                                        console.log("This is the from object: ", fromResult)
+                                        console.log("This is the value of fromState: ", fromSelected)
+                                        console.log("This is the value of toState: ", toSelected)
+                                        fromLocationsArr.push(fromResult);
+                                        console.log("This is the value of fromLocationsArr: ", fromLocationsArr)
+                                    })}
+                                </React.Fragment>
+                            )}
+                    </GoogleAutoComplete>
+                </View>
+                <View style={styles.toWrapper}>
+                    <GoogleAutoComplete apiKey={""} debounce={500} components={"country:usa"}>
+                            {({ handleTextChange, 
+                                locationResults, 
+                                fetchDetails, 
+                                isSearching,
+                                inputValue,
+                                clearSearch
+                                }) => (
+                                    <React.Fragment>
+                                        <TextInput 
+                                            onChange={() => {selectTo(true); selectFrom(false)}}
+                                            placeholder={fromLocation}
+                                            onChangeText={handleTextChange}
+                                            value={inputValue}
                                         />
-                                    ))}
-                            </ScrollView>
-                        </React.Fragment>
-                    )}
-                </GoogleAutoComplete>
+                                        <Button onPress={clearSearch}>Clear</Button>
+                                        {locationResults.map(element => {
+                                            let toResult = {
+                                                description: element.description,
+                                                fetchDetails: fetchDetails,
+                                                clearSearch: clearSearch
+                                            };
+                                            console.log("This is the result object: ", toResult)
+                                            console.log("This is the value of toState: ", toSelected)
+                                            toLocationsArr.push(toResult);
+                                            console.log("This is the value of toLocationsArr: ", toLocationsArr)
+                                        })}
+                                    </React.Fragment>
+                                )}
+                        </GoogleAutoComplete>
+                </View>
+            </Surface>
+            <View style={styles.destinations}>
+               <React.Fragment>
+                    <ScrollView>
+                        {fromSelected ? fromLocationsArr.map((el, index) => {
+                            <FromLocationItem
+                                {...el}
+                                key={index}
+                                fetchDetails={el.fetchDetails}
+                            />
+                        }) : <View></View>
+                        }
+                        {toSelected ? toLocationsArr.map((el, index) => {
+                            <ToLocationItem
+                                {...el}
+                                key={index}
+                                fetchDetails={el.fetchDetails}
+                            />
+                        }) : <View></View>
+                        }
+                    </ScrollView>
+               </React.Fragment>
             </View>
-            <View style={styles.toWrapper}>
-                <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
-                    {({ handleTextChange, 
-                        locationResults, 
-                        fetchDetails, 
-                        isSearching,
-                        inputValue,
-                        clearSearch
-                        }) => (
-                        <React.Fragment>
-                            {console.log('locationResults:', locationResults[0])}
-                            <View>
-                                <TextInput style={styles.textInput}
-                                    placeholder={toLocation}
-                                    onChangeText={handleTextChange}
-                                    value={inputValue}
-                                />
-                            </View>
-                            <Button title="Clear" style={styles.clearButton} onPress={clearSearch}>Clear</Button>
-                            {isSearching && <ActivityIndicator size="large" color="purple" />}
-                            <ScrollView>
-                                {locationResults.map(el => (
-                                        <ToLocationItem
-                                            {...el}
-                                            key={el.id}
-                                            fetchDetails={fetchDetails}
-                                            clearSearch={clearSearch}
-                                            updateToState={updateToState}
-                                        />
-                                    ))}
-                            </ScrollView>
-                        </React.Fragment>
-                    )}
-                </GoogleAutoComplete>
-            </View>
-            <View style={styles.nextButton}>
-                <Button>Select a Date & Time</Button>
-            </View>
-            <View style={styles.backButton}>
-                <Button>Back</Button>
+            <View style={styles.back}>
+                <Button>Back</Button> 
             </View>
         </View>
     )
 }
-
-/* 
-
-return (
-      <View style={{
-        flex: 1,
-        width: 500,
-        height: 500,
-        alignItems: 'center',
-        paddingVertical: 0,
-        paddingRight: 0,
-      }}>
-        <View style={{
-          flex: 1,
-          width: 500,
-          height: 150,
-          justifyContent: 'center',
-          alignContent: 'flex-end',
-          marginTop: 0,
-          borderTopWidth: '',
-        }}>
-          <View style={{
-            flex: 1,
-            width: 400,
-            height: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-          }} />
-          <View style={{
-            flex: 1,
-            width: 400,
-            height: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-          }} />
-        </View>
-        <View style={{
-          flex: 1,
-          width: 400,
-          height: 40,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 300,
-        }} />
-      </View>
-    );
-
-*/
-
-
 
 const styles = StyleSheet.create({
     container: {
@@ -195,44 +167,50 @@ const styles = StyleSheet.create({
         width: 500,
         height: 500,
         alignItems: 'center',
-        padding: 20
+        paddingVertical: 0,
+        paddingRight: 0,
+    },
+    surface: {
+        flex: 1,
+        width: 500,
+        height: 150,
+        justifyContent: 'center',
+        alignContent: 'flex-end',
+        marginTop: 0
     },
     fromWrapper: {
         flex: 1,
-        width: '100%',
+        width: 400,
         height: 40,
-        marginLeft: '20%',
+        justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row'
+        alignSelf: 'center'
     },
     toWrapper: {
         flex: 1,
-        width: '100%',
-        marginLeft: '20%',
+        width: 400,
         height: 40,
+        justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row'
+        alignSelf: 'center'
     },
-    textInput: {
-        width: '80%'
-    },
-    clearButton: {
-        width: '5%'
-    },
-    nextButton: {
+    destinations: {
         flex: 1,
         width: 400,
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 300
+        marginTop: 0,
+        flexGrow: 1
     },
-    backButton: {
+    back: {
         flex: 1,
         width: 400,
         height: 40,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginBottom: 20
     }
 });
 
