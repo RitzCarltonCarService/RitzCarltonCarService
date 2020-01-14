@@ -14,7 +14,7 @@ import {
    nameValidator
 } from "../core/untilities";
 import Toast from "../components/Toast";
-import firebase from 'firebase';
+import { signUpUser } from '../core/auth-api';
 
 const RegisterScreen = ({ navigation }) => {
    const [name, setName] = useState({ value: "", error: "" });
@@ -39,7 +39,11 @@ const RegisterScreen = ({ navigation }) => {
 
       setLoading(true);
 
-      const response = await firebase.auth().createUserWithEmailAndPassword(email.value, password.value);
+      const response = await signUpUser({
+         name: name.value,
+         email: email.value,
+         password: password.value
+      });
 
       if (response.error) {
          setError(response.error);

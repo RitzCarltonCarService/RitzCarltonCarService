@@ -6,6 +6,7 @@ import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import NewPickup from '../layouts/Home-SubComponents/NewPickup';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
 import MapBackground from '../components/MapBackground'
+import getCurrentLocation from '../redux/actions/index.js';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 const { vh, vw } = require('react-native-viewport-units');
 
@@ -14,7 +15,7 @@ const Home = props => {
 
    return (
       <View style={styles.container}>
-         <MapBackground />
+         <MapBackground region={props.region}/>
          {(() => {
             switch (page) {
                case "new pickup":
@@ -37,7 +38,8 @@ const Home = props => {
 
 const mapStateToProps = state => {
    return {
-      nav: state.nav
+      nav: state.nav,
+      region: state.geoLocation
    }
 }
 

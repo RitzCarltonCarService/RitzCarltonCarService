@@ -8,6 +8,7 @@
  *    'outlined' - button with an outline (medium emphasis)
  *    'contained' - button with a background color and elevation shadow (high emphasis)
  * @style - TYPE: Object, DESC: Allows you to add more styling to the button on top of the default ones
+ * @labelStyle - TYPE: Object, DESC: Allows you to add more styling to the text on top of the default ones
  * @children (Required) - TYPE: String, DESC: Label text of the button
  * @props - TYPE: Varied, DESC: Any other react-native-paper button props,
  *          please see the react-native-paper button docs for a full list of the other availible props
@@ -18,7 +19,7 @@ import { StyleSheet } from "react-native";
 import { Button as PaperButton } from "react-native-paper";
 import { theme } from "../core/theme";
 
-const Button = ({ mode, style, children, ...props }) => (
+const Button = ({ mode, style, labelStyle, children, ...props }) => (
    <PaperButton
       mode={mode}
       style={[
@@ -28,7 +29,8 @@ const Button = ({ mode, style, children, ...props }) => (
       ]}
       labelStyle={[
          styles.text,
-         mode === "contained" && { color: theme.colors.surface }
+         mode === "contained" && { color: theme.colors.surface },
+         labelStyle
       ]}
       {...props}
    >
@@ -39,15 +41,16 @@ const Button = ({ mode, style, children, ...props }) => (
 const styles = StyleSheet.create({
    button: {
       width: "100%",
-      marginVertical: 10,
+      marginVertical: 15,
       backgroundColor: theme.colors.primary,
+      borderRadius: 10
    },
    text: {
       fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
       letterSpacing: 2,
       fontWeight: "bold",
       fontSize: 15,
-      lineHeight: 26,
+      lineHeight: 40,
       color: theme.colors.secondary,
    }
 });
