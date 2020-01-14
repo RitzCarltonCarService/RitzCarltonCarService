@@ -41,13 +41,18 @@ const LocationForm = props => {
     const [fromSelected, selectFrom] = useState(false);
     const [toSelected, selectTo] = useState(false);
 
+    // Function to update the setFrom location for Map based on user's selection
     updateFromState = (fromItem) => {
         setFrom(fromItem);
     }
 
+    // Function to update the setTo location for Map based on user's selection
     updateToState = (toItem) => {
         setTo(toItem)
     }
+
+    // Trigger re-rendering based on change in fromLocations
+
 
     // pass fromLocation to redux store and use to display an updated Map background based on from coordinates
     useEffect(() => {
@@ -67,7 +72,7 @@ const LocationForm = props => {
         <View style={styles.container}>
             <Surface style={styles.surface}>
                 <View style={styles.fromWrapper}>
-                    <GoogleAutoComplete apiKey={""} debounce={500} components={"country:usa"}>
+                    <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
                         {({ handleTextChange, 
                             locationResults, 
                             fetchDetails, 
@@ -77,21 +82,20 @@ const LocationForm = props => {
                             }) => (
                                 <React.Fragment>
                                     <TextInput 
+                                        style={styles.fromInput}
                                         onChange={() => {selectFrom(true); selectTo(false)}}
                                         placeholder={fromLocation}
                                         onChangeText={handleTextChange}
                                         value={inputValue}
                                     />
-                                    <Button onPress={clearSearch}>Clear</Button>
+                                    <Button style={styles.fromButton} onPress={clearSearch}>Clear</Button>
+                                    {/* For API results, map over elements, and create new object, store description and functions */}
                                     {locationResults.map(element => {
                                         let fromResult = {
                                             description: element.description,
                                             fetchDetails: fetchDetails,
                                             clearSearch: clearSearch
                                         };
-                                        console.log("This is the from object: ", fromResult)
-                                        console.log("This is the value of fromState: ", fromSelected)
-                                        console.log("This is the value of toState: ", toSelected)
                                         fromLocationsArr.push(fromResult);
                                         console.log("This is the value of fromLocationsArr: ", fromLocationsArr)
                                     })}
@@ -100,7 +104,7 @@ const LocationForm = props => {
                     </GoogleAutoComplete>
                 </View>
                 <View style={styles.toWrapper}>
-                    <GoogleAutoComplete apiKey={""} debounce={500} components={"country:usa"}>
+                    <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
                             {({ handleTextChange, 
                                 locationResults, 
                                 fetchDetails, 
@@ -109,21 +113,21 @@ const LocationForm = props => {
                                 clearSearch
                                 }) => (
                                     <React.Fragment>
-                                        <TextInput 
+                                        <TextInput
+                                            style={styles.toInput}
                                             onChange={() => {selectTo(true); selectFrom(false)}}
-                                            placeholder={fromLocation}
+                                            placeholder={toLocation}
                                             onChangeText={handleTextChange}
                                             value={inputValue}
                                         />
-                                        <Button onPress={clearSearch}>Clear</Button>
+                                        <Button style={styles.toButton} onPress={clearSearch}>Clear</Button>
+                                        {/* For API results, map over elements, and create new object, store description and functions */}
                                         {locationResults.map(element => {
                                             let toResult = {
                                                 description: element.description,
                                                 fetchDetails: fetchDetails,
                                                 clearSearch: clearSearch
                                             };
-                                            console.log("This is the result object: ", toResult)
-                                            console.log("This is the value of toState: ", toSelected)
                                             toLocationsArr.push(toResult);
                                             console.log("This is the value of toLocationsArr: ", toLocationsArr)
                                         })}
@@ -134,24 +138,34 @@ const LocationForm = props => {
             </Surface>
             <View style={styles.destinations}>
                <React.Fragment>
-                    <ScrollView>
-                        {fromSelected ? fromLocationsArr.map((el, index) => {
+                <ScrollView>
+                    {/* If 'fromSelected' is true, then create ScrollView showing all 'Fromlocations' from search  */}
+                    {fromSelected && fromLocations.map((el, index) => {
+                        return (
                             <FromLocationItem
                                 {...el}
+                                updateFromState={updateFromState}
                                 key={index}
+                                fetchDetails={el.clearSearch}
                                 fetchDetails={el.fetchDetails}
                             />
-                        }) : <View></View>
-                        }
-                        {toSelected ? toLocationsArr.map((el, index) => {
+                        )
+                    })}
+                </ScrollView>
+                <ScrollView>
+                    {/* If 'toSelected' is true, then create ScrollView showing all 'ToLocations' from search  */}
+                    {toSelected && toLocationsArr.map((el, index) => {
+                        return (
                             <ToLocationItem
                                 {...el}
+                                updateFromState={updateFromState}
                                 key={index}
+                                fetchDetails={el.clearSearch}
                                 fetchDetails={el.fetchDetails}
                             />
-                        }) : <View></View>
-                        }
-                    </ScrollView>
+                        )
+                    })}
+                </ScrollView>
                </React.Fragment>
             </View>
             <View style={styles.back}>
@@ -166,33 +180,49 @@ const styles = StyleSheet.create({
         flex: 1,
         width: 500,
         height: 500,
-        alignItems: 'center',
-        paddingVertical: 0,
-        paddingRight: 0,
+        alignItems: 'center'
     },
     surface: {
         flex: 1,
         width: 500,
         height: 150,
-        justifyContent: 'center',
-        alignContent: 'flex-end',
-        marginTop: 0
+        alignContent: 'center'
     },
     fromWrapper: {
         flex: 1,
         width: 400,
         height: 40,
         justifyContent: 'center',
+        flexDirection: 'row',
         alignItems: 'center',
-        alignSelf: 'center'
+        display: 'flex'
+    },
+    fromInput: {
+        width: '70%',
+        marginLeft: '30%',
+        marginVertical: 0
+    },
+    fromButton: {
+        width: '25%',
+        marginVertical: 0
     },
     toWrapper: {
         flex: 1,
         width: 400,
         height: 40,
         justifyContent: 'center',
+        flexDirection: 'row',
         alignItems: 'center',
-        alignSelf: 'center'
+        display: 'flex'
+    },
+    toInput: {
+        width: '70%',
+        marginLeft: '30%',
+        marginVertical: 0
+    },
+    toButton: {
+        width: '20%',
+        marginVertical: 0
     },
     destinations: {
         flex: 1,
@@ -200,8 +230,7 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 0,
-        flexGrow: 1
+        flexGrow: 1.5
     },
     back: {
         flex: 1,
@@ -209,8 +238,7 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        alignSelf: 'center',
-        marginBottom: 20
+        alignSelf: 'center'
     }
 });
 

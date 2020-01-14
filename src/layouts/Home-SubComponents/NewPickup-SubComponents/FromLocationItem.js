@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 
 class FromLocationItem extends PureComponent {
+
     _handlePress = async () => {
         const res = await this.props.fetchDetails(this.props.place_id);
         console.log("This is the result", res);
