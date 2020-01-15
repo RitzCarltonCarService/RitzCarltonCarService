@@ -55,56 +55,26 @@ const LocationForm = props => {
 
 
     // pass fromLocation to redux store and use to display an updated Map background based on from coordinates
-    useEffect(() => {
-        console.log("This is the current fromLocation: ", fromLocation)
-      }, [fromLocation]); // Only re-run the effect if count changes
+    // useEffect(() => {
+    //     console.log("This is the current fromLocation: ", fromLocation)
+    //   }, [fromLocation]); // Only re-run the effect if count changes
 
     // pass fromLocation to redux store and use to display an updated Map background based on to coordinates
-    useEffect(() => {
-        console.log("This is the current ToLocation: ", toLocation)
-    }, [toLocation]); // Only re-run the effect if count changes
+    // useEffect(() => {
+    //     console.log("This is the current ToLocation: ", toLocation)
+    // }, [toLocation]); // Only re-run the effect if count changes
 
     // onChange of textInput, boolean value to determine what elements should be displayed in destinations component
     // map over locationResults, call fetch detail on each item and push into hook state, 
     //  then iterate over hook state, and based on boolean value, dispay To/From Components
 
-    return (
-        <View style={styles.container}>
-            <Surface style={styles.surface}>
-                <View style={styles.fromWrapper}>
-                    <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
-                        {({ handleTextChange, 
-                            locationResults, 
-                            fetchDetails, 
-                            isSearching,
-                            inputValue,
-                            clearSearch
-                            }) => (
-                                <React.Fragment>
-                                    <TextInput 
-                                        style={styles.fromInput}
-                                        onChange={() => {selectFrom(true); selectTo(false)}}
-                                        placeholder={fromLocation}
-                                        onChangeText={handleTextChange}
-                                        value={inputValue}
-                                    />
-                                    <Button style={styles.fromButton} onPress={clearSearch}>Clear</Button>
-                                    {/* For API results, map over elements, and create new object, store description and functions */}
-                                    {locationResults.map(element => {
-                                        let fromResult = {
-                                            description: element.description,
-                                            fetchDetails: fetchDetails,
-                                            clearSearch: clearSearch
-                                        };
-                                        fromLocationsArr.push(fromResult);
-                                        console.log("This is the value of fromLocationsArr: ", fromLocationsArr)
-                                    })}
-                                </React.Fragment>
-                            )}
-                    </GoogleAutoComplete>
-                </View>
-                <View style={styles.toWrapper}>
-                    <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
+
+    if (fromSelected) {
+        return (
+            <View style={styles.container}>
+                <Surface style={styles.surface}>
+                    <View style={styles.fromWrapper}>
+                        <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
                             {({ handleTextChange, 
                                 locationResults, 
                                 fetchDetails, 
@@ -113,66 +83,255 @@ const LocationForm = props => {
                                 clearSearch
                                 }) => (
                                     <React.Fragment>
-                                        <TextInput
-                                            style={styles.toInput}
-                                            onChange={() => {selectTo(true); selectFrom(false)}}
-                                            placeholder={toLocation}
+                                        <TextInput 
+                                            style={styles.fromInput}
+                                            onChange={() => {selectFrom(true); selectTo(false)}}
+                                            placeholder={fromLocation}
                                             onChangeText={handleTextChange}
                                             value={inputValue}
                                         />
-                                        <Button style={styles.toButton} onPress={clearSearch}>Clear</Button>
+                                        <Button style={styles.fromButton} onPress={clearSearch}>Clear</Button>
                                         {/* For API results, map over elements, and create new object, store description and functions */}
                                         {locationResults.map(element => {
-                                            let toResult = {
+                                            let fromResult = {
                                                 description: element.description,
                                                 fetchDetails: fetchDetails,
                                                 clearSearch: clearSearch
                                             };
-                                            toLocationsArr.push(toResult);
-                                            console.log("This is the value of toLocationsArr: ", toLocationsArr)
+                                            fromLocationsArr.push(fromResult);
+                                            console.log("This is the value of fromLocationsArr: ", fromLocationsArr)
+                                        })}
+                                        {/* {setFromLocations(fromLocationsArr)} */}
+                                        {console.log("This is our hook from locations: ", fromLocations)}
+                                    </React.Fragment>
+                                )}
+                        </GoogleAutoComplete>
+                    </View>
+                    <View style={styles.toWrapper}>
+                        <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
+                                {({ handleTextChange, 
+                                    locationResults, 
+                                    fetchDetails, 
+                                    isSearching,
+                                    inputValue,
+                                    clearSearch
+                                    }) => (
+                                        <React.Fragment>
+                                            <TextInput
+                                                style={styles.toInput}
+                                                onChange={() => {selectTo(true); selectFrom(false)}}
+                                                placeholder={toLocation}
+                                                onChangeText={handleTextChange}
+                                                value={inputValue}
+                                            />
+                                            <Button style={styles.toButton} onPress={clearSearch}>Clear</Button>
+                                            {/* For API results, map over elements, and create new object, store description and functions */}
+                                            {locationResults.map(element => {
+                                                let toResult = {
+                                                    description: element.description,
+                                                    fetchDetails: fetchDetails,
+                                                    clearSearch: clearSearch
+                                                };
+                                                toLocationsArr.push(toResult);
+                                                console.log("This is the value of toLocationsArr: ", toLocationsArr)
+                                            })}
+                                        </React.Fragment>
+                                    )}
+                            </GoogleAutoComplete>
+                    </View>
+                </Surface>
+                <View style={styles.destinations}>
+                   <React.Fragment>
+                    <ScrollView>
+                        {/* If 'fromSelected' is true, then create ScrollView showing all 'Fromlocations' from search  */}
+                        {fromLocations.map((el, index) => {
+                            return (
+                                <FromLocationItem
+                                    {...el}
+                                    updateFromState={updateFromState}
+                                    key={index}
+                                    fetchDetails={el.clearSearch}
+                                    fetchDetails={el.fetchDetails}
+                                />
+                            )
+                        })}
+                    </ScrollView>
+                   </React.Fragment>
+                </View>
+                <View style={styles.back}>
+                    <Button>Back</Button> 
+                </View>
+            </View>
+        )
+    } else if (toSelected) {
+        return (
+            <View style={styles.container}>
+                <Surface style={styles.surface}>
+                    <View style={styles.fromWrapper}>
+                        <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
+                            {({ handleTextChange, 
+                                locationResults, 
+                                fetchDetails, 
+                                isSearching,
+                                inputValue,
+                                clearSearch
+                                }) => (
+                                    <React.Fragment>
+                                        <TextInput 
+                                            style={styles.fromInput}
+                                            onChange={() => {selectFrom(true); selectTo(false)}}
+                                            placeholder={fromLocation}
+                                            onChangeText={handleTextChange}
+                                            value={inputValue}
+                                        />
+                                        <Button style={styles.fromButton} onPress={clearSearch}>Clear</Button>
+                                        {/* For API results, map over elements, and create new object, store description and functions */}
+                                        {locationResults.map(element => {
+                                            let fromResult = {
+                                                description: element.description,
+                                                fetchDetails: fetchDetails,
+                                                clearSearch: clearSearch
+                                            };
+                                            fromLocationsArr.push(fromResult);
+                                            console.log("This is the value of fromLocationsArr: ", fromLocationsArr)
                                         })}
                                     </React.Fragment>
                                 )}
                         </GoogleAutoComplete>
+                    </View>
+                    <View style={styles.toWrapper}>
+                        <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
+                                {({ handleTextChange, 
+                                    locationResults, 
+                                    fetchDetails, 
+                                    isSearching,
+                                    inputValue,
+                                    clearSearch
+                                    }) => (
+                                        <React.Fragment>
+                                            <TextInput
+                                                style={styles.toInput}
+                                                onChange={() => {selectTo(true); selectFrom(false)}}
+                                                placeholder={toLocation}
+                                                onChangeText={handleTextChange}
+                                                value={inputValue}
+                                            />
+                                            <Button style={styles.toButton} onPress={clearSearch}>Clear</Button>
+                                            {/* For API results, map over elements, and create new object, store description and functions */}
+                                            {locationResults.map(element => {
+                                                let toResult = {
+                                                    description: element.description,
+                                                    fetchDetails: fetchDetails,
+                                                    clearSearch: clearSearch
+                                                };
+                                                toLocationsArr.push(toResult);
+                                                console.log("This is the value of toLocationsArr: ", toLocationsArr)
+                                            })}
+                                        </React.Fragment>
+                                    )}
+                            </GoogleAutoComplete>
+                    </View>
+                </Surface>
+                <View style={styles.destinations}>
+                   <React.Fragment>
+                    <ScrollView>
+                        {/* If 'toSelected' is true, then create ScrollView showing all 'ToLocations' from search  */}
+                        {toLocations.map((el, index) => {
+                            return (
+                                <ToLocationItem
+                                    {...el}
+                                    updateFromState={updateFromState}
+                                    key={index}
+                                    fetchDetails={el.clearSearch}
+                                    fetchDetails={el.fetchDetails}
+                                />
+                            )
+                        })}
+                    </ScrollView>
+                   </React.Fragment>
                 </View>
-            </Surface>
-            <View style={styles.destinations}>
-               <React.Fragment>
-                <ScrollView>
-                    {/* If 'fromSelected' is true, then create ScrollView showing all 'Fromlocations' from search  */}
-                    {fromSelected && fromLocations.map((el, index) => {
-                        return (
-                            <FromLocationItem
-                                {...el}
-                                updateFromState={updateFromState}
-                                key={index}
-                                fetchDetails={el.clearSearch}
-                                fetchDetails={el.fetchDetails}
-                            />
-                        )
-                    })}
-                </ScrollView>
-                <ScrollView>
-                    {/* If 'toSelected' is true, then create ScrollView showing all 'ToLocations' from search  */}
-                    {toSelected && toLocationsArr.map((el, index) => {
-                        return (
-                            <ToLocationItem
-                                {...el}
-                                updateFromState={updateFromState}
-                                key={index}
-                                fetchDetails={el.clearSearch}
-                                fetchDetails={el.fetchDetails}
-                            />
-                        )
-                    })}
-                </ScrollView>
-               </React.Fragment>
+                <View style={styles.back}>
+                    <Button>Back</Button> 
+                </View>
             </View>
-            <View style={styles.back}>
-                <Button>Back</Button> 
+        )
+    } else {
+        return (
+            <View style={styles.container}>
+                <Surface style={styles.surface}>
+                    <View style={styles.fromWrapper}>
+                        <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
+                            {({ handleTextChange, 
+                                locationResults, 
+                                fetchDetails, 
+                                isSearching,
+                                inputValue,
+                                clearSearch
+                                }) => (
+                                    <React.Fragment>
+                                        <TextInput 
+                                            style={styles.fromInput}
+                                            onChange={() => {selectFrom(true); selectTo(false)}}
+                                            placeholder={fromLocation}
+                                            onChangeText={handleTextChange}
+                                            value={inputValue}
+                                        />
+                                        <Button style={styles.fromButton} onPress={clearSearch}>Clear</Button>
+                                        {/* For API results, map over elements, and create new object, store description and functions */}
+                                        {locationResults.map(element => {
+                                            let fromResult = {
+                                                description: element.description,
+                                                fetchDetails: fetchDetails,
+                                                clearSearch: clearSearch
+                                            };
+                                            fromLocationsArr.push(fromResult);
+                                            console.log("This is the value of fromLocationsArr: ", fromLocationsArr)
+                                        })}
+                                    </React.Fragment>
+                                )}
+                        </GoogleAutoComplete>
+                    </View>
+                    <View style={styles.toWrapper}>
+                        <GoogleAutoComplete apiKey={"AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s"} debounce={500} components={"country:usa"}>
+                                {({ handleTextChange, 
+                                    locationResults, 
+                                    fetchDetails, 
+                                    isSearching,
+                                    inputValue,
+                                    clearSearch
+                                    }) => (
+                                        <React.Fragment>
+                                            <TextInput
+                                                style={styles.toInput}
+                                                onChange={() => {selectTo(true); selectFrom(false)}}
+                                                placeholder={toLocation}
+                                                onChangeText={handleTextChange}
+                                                value={inputValue}
+                                            />
+                                            <Button style={styles.toButton} onPress={clearSearch}>Clear</Button>
+                                            {/* For API results, map over elements, and create new object, store description and functions */}
+                                            {locationResults.map(element => {
+                                                let toResult = {
+                                                    description: element.description,
+                                                    fetchDetails: fetchDetails,
+                                                    clearSearch: clearSearch
+                                                };
+                                                toLocationsArr.push(toResult);
+                                                console.log("This is the value of toLocationsArr: ", toLocationsArr)
+                                            })}
+                                        </React.Fragment>
+                                    )}
+                            </GoogleAutoComplete>
+                    </View>
+                </Surface>
+                <View style={styles.destinations}>
+                </View>
+                <View style={styles.back}>
+                    <Button>Back</Button> 
+                </View>
             </View>
-        </View>
-    )
+        )
+    }
 }
 
 const styles = StyleSheet.create({
