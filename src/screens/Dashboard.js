@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { vh, vw } from 'react-native-viewport-units';
+import Toast from '../components/Toast';
+import NewPickup from '../layouts/Home-SubComponents/NewPickup';
+import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import MapBackground from '../components/MapBackground';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
-import MainScreen from '../layouts/Home-SubComponents/MainScreen';
-import NewPickup from '../layouts/Home-SubComponents/NewPickup';
-import Toast from '../components/Toast';
 
 const Home = ({ region, userData }) => {
    const [page, setPage] = useState("home");
@@ -19,7 +19,7 @@ const Home = ({ region, userData }) => {
             value: `Welcome, ${userData.displayName}`
          });
       };
-   }, [userData.displayName])
+   }, [userData.displayName]);
 
    return (
       <>

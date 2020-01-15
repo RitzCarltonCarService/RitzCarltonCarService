@@ -1,27 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../../redux/actions';
-import { View, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
+import Button from '../../../components/Button';
 import dummyData from '../../../dummyData/dummy_pickup_data';
-import { State } from 'react-native-gesture-handler';
+import { logoutUser } from '../../../core/auth-api';
 
 const SummaryScreen = props => (
-        <View>
-            <Text>
-                Form 4
+    <View>
+        <Text>
+            Form 4
             </Text>
-            <Button
-                title="Confirm"
-                onPress={() => { 
-                    props.updateScheduledPickups(dummyData);
-                    props.setPage("home");
-                }}
-            />
-            {/* <Button
+        <Button
+            mode='contained'
+            onPress={() => {
+                props.updateScheduledPickups(dummyData);
+                props.setPage("home");
+            }}
+        >
+            Confirm
+        </Button>
+        {/* <Button
                 title="Back"
                 onPress={() => { props.setForm(3) }}
             /> */}
-        </View>
+        <Button mode="contained" onPress={() => {
+            logoutUser();
+            props.setPage('home');
+        }}>
+            Logout
+        </Button>
+    </View>
 )
 
 const mapStateToProps = state => {

@@ -18,7 +18,7 @@ import {
    nameValidator
 } from "../core/untilities";
 
-const RegisterScreen = ({ navigation, dispatch }) => {
+const RegisterScreen = ({ region, navigation, dispatch }) => {
    const [name, setName] = useState({ value: "", error: "" });
    const [email, setEmail] = useState({ value: "", error: "" });
    const [password, setPassword] = useState({ value: "", error: "" });
@@ -67,7 +67,7 @@ const RegisterScreen = ({ navigation, dispatch }) => {
 
    return (
       <>
-         <MapBackground />
+         <MapBackground region={region} />
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
          <View style={styles.wrapper}>
             <TheWhiteSquare height={85} top={6}>
@@ -155,4 +155,6 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect()(memo(RegisterScreen));
+const mapStateToProps = ({ geoLocation }) => ({ region: geoLocation })
+
+export default connect(mapStateToProps)(memo(RegisterScreen));

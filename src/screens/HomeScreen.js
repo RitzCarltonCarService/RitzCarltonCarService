@@ -1,13 +1,13 @@
 import React from "react";
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import TheWhiteSquare from "../components/TheWhiteSquare";
+import MapBackground from "../components/MapBackground";
 
-const HomeScreen = ({ navigation, region }) => (
+const HomeScreen = ({ region, navigation }) => (
    <>
       <MapBackground region={region} />
       <View style={styles.container}>
@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
    }
 });
 
-const mapStatetoProps = ({ geoLocation }) => ({ region: geoLocation });
+const mapStateToProps = ({ geoLocation }) => ({ region: geoLocation })
 
-export default connect(mapStatetoProps)(HomeScreen);
+export default connect(mapStateToProps)(HomeScreen);
