@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { navigate, updateToLocation, updateFromLocation } from '../../../redux/actions';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import { Surface } from 'react-native-paper';
 import TextInput from '../../../components/TextInput.js'
-import Button from '../../../components/Button.js'
 import FromLocationItem from './FromLocationItem';
 import ToLocationItem from './ToLocationItem';
 
 const LocationForm = props => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
+
+
+    
+    // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
+
+
 
     // Make current state of From Location to current location
     //  set text value of From Component to hooks' "From" state (initially, "Current Location")
@@ -32,8 +37,8 @@ const LocationForm = props => {
     //  https://stackoverflow.com/questions/40541095/render-multiple-marker-in-react-native-maps
 
     // Hooks for storing 'toLocation' and 'fromLocation'
-    const [fromLocation, setFrom] = useState('Current Location');
-    const [toLocation, setTo] = useState('Type in your desination here...');
+    const [fromLocation, setFrom] = useState('');
+    const [toLocation, setTo] = useState('');
 
     // Initial states of Text Input for To/From 
     const [focusedThing, setFocusedThing] = useState(false);
@@ -41,6 +46,10 @@ const LocationForm = props => {
     // Initial state of From/To destination results
     const [fromResults, setFromResults] = useState([]);
     const [toResults, setToResults] = useState([]);
+
+    const updateFromState = (fromLocation) => {
+        setFrom(fromLocation);
+    };
 
     // pass fromLocation to redux store and use to display an updated Map background based on from coordinates
     // useEffect(() => {
@@ -53,78 +62,92 @@ const LocationForm = props => {
     // }, [toLocation]); // Only re-run the effect if count changes
 
     return (
-        <React.Fragment>
-            <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
-                {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
-                    <React.Fragment>
-                        {setFromResults(locationResults)}
-                        <TextInput style={{
-                            height: 40,
-                            width: 300,
-                            borderWidth: 1,
-                            paddingHorizontal: 16
-                            }}
-                            value={inputValue}
-                            onFocus={() => {setFocusedThing(1)}}
-                            onChangeText={handleTextChange}
-                            placeholder="Current Location..."
-                        />
-                    </React.Fragment>
-                )}
-            </GoogleAutoComplete>
-            <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
-                {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
-                    <React.Fragment>
-                        {setToResults(locationResults)}
-                        <TextInput style={{
-                            height: 40,
-                            width: 300,
-                            borderWidth: 1,
-                            paddingHorizontal: 16,
-                            }}
-                            onFocus={() => {setFocusedThing(2)}}
-                            value={inputValue}
-                            onChangeText={handleTextChange}
-                            placeholder="Where are you going?"
-                        />
-                    </React.Fragment>
-                )}
-            </GoogleAutoComplete>
-            <ScrollView style={{ maxHeight: 100, top: 200}}>
-                {focusedThing === 1 ?
-                    fromResults.map((el, i) => (
-                        <Text key={i}>{el.description}</Text>
-                    )) :
-                    toResults.map((el, i) => (
-                        <Text key={i}>{el.description}</Text>
-                    ))
-                }
-            </ScrollView>
-        </React.Fragment>
+        <View style={styles.container}>
+        <Surface style={styles.surface}>
+            <React.Fragment>
+                <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
+                    {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
+                        <View style={styles.fromWrapper}>
+                            <React.Fragment>
+                                {setFromResults(locationResults)}
+                                <TextInput style={{
+                                    width: 300,
+                                    paddingLeft: 40 
+                                    }}
+                                    editable={true}
+                                    defaultValue={fromLocation}
+                                    value={inputValue}
+                                    onFocus={() => {setFocusedThing(1)}}
+                                    onChangeText={handleTextChange}
+                                    placeholder="Current Location..."
+                                />
+                                <Button title="Clear" onPress={() => {clearSearch}}></Button>
+                            </React.Fragment>
+                        </View>
+                    )}
+                </GoogleAutoComplete>
+                <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
+                    {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
+                        <View style={styles.toWrapper}>
+                            <React.Fragment>
+                                {setToResults(locationResults)}
+                                <TextInput style={{
+                                    width: 300,
+                                    paddingLeft: 40
+                                    }}
+                                    onFocus={() => {setFocusedThing(2)}}
+                                    value={toLocation}
+                                    onChangeText={handleTextChange}
+                                    placeholder="Where are you going?"
+                                />
+                                <Button title="Clear" onPress={clearSearch}></Button>
+                            </React.Fragment>
+                        </View>
+                    )}
+                </GoogleAutoComplete>
+            </React.Fragment>
+        </Surface>
+                <ScrollView style={{ maxHeight: 200, paddingLeft: '10%' }}>
+                    {focusedThing === 1 ?
+                        fromResults.map((el, i) => (
+                            <FromLocationItem
+                                {...el}
+                                key={el.id}
+                                updateFromState={updateFromState}
+                            >
+                            </FromLocationItem>
+                        )) :
+                        toResults.map((el, i) => (
+                            <Text key={i}>{el.description}</Text>
+                        ))
+                    }
+                </ScrollView>   
+        </View>
     )
 }        
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: 500,
-        height: 500,
-        alignItems: 'center'
+        width: '100%'
     },
     surface: {
         flex: 1,
-        width: 500,
-        height: 150,
-        alignContent: 'center'
+        width: 450,
+        maxHeight: 200,
+        paddingVertical: 0,
+        alignContent: 'center',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start'
     },
     fromWrapper: {
         flex: 1,
-        width: 400,
-        height: 40,
-        justifyContent: 'center',
+        width: 325,
+        height: 60,
+        marginVertical: 0,
+        paddingVertical: 0,
         flexDirection: 'row',
-        alignItems: 'center',
-        display: 'flex'
+        alignItems: 'center'
     },
     fromInput: {
         width: '70%',
@@ -137,12 +160,10 @@ const styles = StyleSheet.create({
     },
     toWrapper: {
         flex: 1,
-        width: 400,
-        height: 40,
-        justifyContent: 'center',
+        width: 325,
+        height: 60,
         flexDirection: 'row',
-        alignItems: 'center',
-        display: 'flex'
+        alignItems: 'center'
     },
     toInput: {
         width: '70%',
