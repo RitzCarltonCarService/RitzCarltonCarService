@@ -115,10 +115,6 @@ const styles = StyleSheet.create({
    }
 });
 
-<<<<<<< HEAD
 const mapStateToProps = ({ geoLocation }) => ({ region: geoLocation })
 
 export default connect(mapStateToProps)(memo(ForgotPasswordScreen));
-=======
-export default memo(ForgotPasswordScreen);
->>>>>>> 554c0b5103673871698a812d3908ca32de7876fa
