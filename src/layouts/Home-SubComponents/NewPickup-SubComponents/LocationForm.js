@@ -11,11 +11,17 @@ import ToLocationItem from './ToLocationItem';
 const LocationForm = props => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
 
-
-    
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
 
+    // Import Google Places Autocomplete - replace current Google Auto Complete
+    //  test
 
+    // When user selects a from and a two location, pass both to Redux Store
+    //  in MapBackground, create conditional rendering based on coordinates in Redux store (ensure
+    //  there are coordinates, and not blank strings)
+    
+    // In Map Background, import MapViewDirections and conditionally render when
+    //  there is both a From and a To Location in redux store
 
     // Make current state of From Location to current location
     //  set text value of From Component to hooks' "From" state (initially, "Current Location")
@@ -76,9 +82,9 @@ const LocationForm = props => {
                                     }}
                                     editable={true}
                                     defaultValue={fromLocation}
-                                    value={inputValue}
+                                    value={fromLocation}
                                     onFocus={() => {setFocusedThing(1)}}
-                                    onChangeText={handleTextChange}
+                                    onChangeText={() => { handleTextChange; setFrom(null)}}
                                     placeholder="Current Location..."
                                 />
                                 <Button title="Clear" onPress={() => {clearSearch}}></Button>

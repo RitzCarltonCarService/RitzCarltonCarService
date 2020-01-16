@@ -11,13 +11,8 @@ import React, { memo } from 'react';
 import { Image, StyleSheet } from 'react-native';
 
 const Logo = ({ style, ...props }) => (
-
-    // if (!style) {
-    //     style = styles.image;
-    // }
-
-    <Image source={require('../../assets/RitzLogo.png')} style={[styles.image, style]} {...props} />
-)
+   <Image source={require('../../assets/RitzLogo.png')} style={[styles.image, style]} {...props} />
+);
 
 const styles = StyleSheet.create({
    image: {

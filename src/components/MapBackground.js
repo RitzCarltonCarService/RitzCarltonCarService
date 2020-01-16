@@ -9,6 +9,14 @@
  * @props - TYPE: Varied, DESC: Any other react-native-paper button props,
  *          please see the react-native-maps mapView docs for a full list of the other availible props
  */
+
+// When user selects a from and a two location, pass both to Redux Store
+//  in MapBackground, create conditional rendering based on coordinates in Redux store (ensure
+//  there are coordinates, and not blank strings)
+
+// In Map Background, import MapViewDirections and conditionally render when
+//  there is both a From and a To Location in redux store
+
 import React, { memo } from 'react';
 import { StyleSheet } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
