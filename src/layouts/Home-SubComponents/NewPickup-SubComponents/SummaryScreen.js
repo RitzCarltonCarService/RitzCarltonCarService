@@ -14,7 +14,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const SummaryScreen = props => {
     return (
         <>
-            <TheWhiteSquare height={70}>
+            <TheWhiteSquare height={70} style={{borderWidth:3}}>
+            <View style={styles.requestScreen}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>
                         Your new Pick-up:
@@ -22,7 +23,7 @@ const SummaryScreen = props => {
                     <Text style={styles.title}>
                         Request:
                     </Text>
-                    <View style={styles.divider} />
+                    <View style={styles.divider}/>
                 </View>
                 <View style={styles.descriptor}>
                     <Text>
@@ -50,8 +51,8 @@ const SummaryScreen = props => {
                 <View style={styles.carAndDriver}>
                     <IconButton icon="account" size={50} color="black"></IconButton>
                     <View style={{marginTop: "5%"}}>
-                    <Text style={{fontWeight: "bold"}}>Your Driver: </Text>
-                    <Text>Jonathan Keane </Text>
+                        <Text style={{fontWeight: "bold"}}>Your Driver: </Text>
+                        <Text>JONathan Keane </Text>
                     </View>
                 </View>
                 <View style={styles.logoContainer}>
@@ -63,24 +64,14 @@ const SummaryScreen = props => {
                     >
                     Submit Ride Request
                     </Button>
-                    {/* <Button
-                    onPress={() => {
-                        console.log('build route to complete screen')
-                        //props.updateScheduledPickups(dummyData);
-                        //props.setPage("home");
-                    }}
-                    >
-                    Edit Request
-                    </Button> */}
                 </View>
                 <View style={styles.logoBox}>
                     <Logo  style={{height:100, width:100}}/>
                 </View>
+            </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
-                <Button
-                onPress={() => { props.setForm(3) }}
-                >
+                <Button onPress={() => { props.setForm(3) }}>
                     Back
                 </Button>
             </View>
@@ -89,17 +80,26 @@ const SummaryScreen = props => {
 }
 
 const styles = StyleSheet.create({
+    requestScreen: {
+        width: "100%",
+        alignContent: "center",
+        top: "5%",
+    },
     titleContainer: {
         width: "100%",
         alignItems: "center",
-        top: "5%",
-        borderColor: "black",
     },
     title: {
         fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
         fontSize: 25,
         letterSpacing: 2,
-        top: "12%"
+        top: "12%",
+    },
+    divider: {
+        borderBottomColor: "black",
+        borderBottomWidth: 1,
+        width: "100%",
+        top: "15%",
     },
     descriptor: {
         fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
@@ -107,31 +107,27 @@ const styles = StyleSheet.create({
         letterSpacing: 2,
         flexDirection: 'column',
         alignSelf: 'flex-start',
-        top: "10%",
+        top: "3%",
     },
-    divider: {
-        borderBottomColor: "black",
-        borderBottomWidth: 1,
+    carAndDriver: {
+        flexDirection: "row",
+        position: 'relative',
         width: "100%",
-        top: "25%"
+        paddingRight: "35%",
+        top: "8%",
     },
     logoContainer: {
         width: "100%",
-        top: '5%'
+        top: '0%',
     },
     buttonContainer: {
         top: "18%",
     },  
     logoBox: {
-        top: "0%"
+        alignSelf: "center",
+        top: "-5%",
     },
-    carAndDriver: {
-        top: "20%",
-        flexDirection: "row",
-        position: 'relative',
-        width: "100%",
-        paddingRight: "35%",
-    },
+
 })
 
 
