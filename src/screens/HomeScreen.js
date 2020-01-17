@@ -11,7 +11,7 @@ const HomeScreen = ({ region, navigation }) => (
    <>
       <MapBackground region={region} />
       <View style={styles.container}>
-         <TheWhiteSquare top={20}>
+         <TheWhiteSquare top={20} height={55}>
             <Logo />
             <Header>The Ritz Carlton Residences</Header>
 

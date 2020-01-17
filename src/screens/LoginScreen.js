@@ -1,5 +1,5 @@
-import React, { memo, useState } from "react";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import React, { memo, useState, useEffect } from "react";
+import { TouchableOpacity, StyleSheet, Text, View, Keyboard } from "react-native";
 import { emailValidator, passwordValidator } from "../core/untilities";
 import { setUserData } from "../redux/actions";
 import { loginUser } from '../core/auth-api';
@@ -17,8 +17,10 @@ import TheWhiteSquare from '../components/TheWhiteSquare';
 const worker = false;
 
 const LoginScreen = ({ region, navigation, dispatch }) => {
-   const [email, setEmail] = useState({ value: "", error: "" });
+   const [animationData, setAnimationData] = useState({ height: 72, top: 13, duration: 250 });
    const [password, setPassword] = useState({ value: "", error: "" });
+   const [email, setEmail] = useState({ value: "", error: "" });
+   const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState("");
 
@@ -67,12 +69,46 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
       };
    };
 
+   useEffect(() => {
+      const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+         setKeyboardIsOpen(true)
+      });
+
+      const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+         setKeyboardIsOpen(false)
+      });
+
+      if (email.error || password.error) {
+         if (keyboardIsOpen) {
+            setAnimationData({ ...animationData, height: 68, top: 0 });
+         } else {
+            setAnimationData({ ...animationData, height: 74, top: 11 });
+         };
+      };
+
+      if (email.error && password.error) {
+         if (keyboardIsOpen) {
+            setAnimationData({ ...animationData, height: 73, top: 0 });
+         } else {
+            setAnimationData({ ...animationData, height: 78, top: 9 });
+         };
+      };
+
+      if (!email.error && !password.error) {
+         if (keyboardIsOpen) {
+            setAnimationData({ ...animationData, height: 64, top: 0 })
+         } else {
+            setAnimationData({ ...animationData, height: 72, top: 13 })
+         };
+      };
+   }, [email.error, password.error, keyboardIsOpen]);
+
    return (
       <>
          <MapBackground region={region} />
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
          <View style={styles.wrapper}>
-            <TheWhiteSquare height={75} top={15}>
+            <TheWhiteSquare height={73} top={13} animationData={animationData}>
                <Logo />
 
                <Header>Welcome back!</Header>
@@ -122,6 +158,7 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
             </TheWhiteSquare>
          </View>
 
+
          <Toast
             type={'error'}
             message={error}
@@ -149,10 +186,17 @@ const styles = StyleSheet.create({
       color: theme.colors.primary
    },
    wrapper: {
-      alignItems: 'center'
+      alignItems: 'center',
    }
 });
 
 const mapStateToProps = ({ geoLocation }) => ({ region: geoLocation })
+
+const mstp = (store) => {
+   return {
+      region: store.geoLocation,
+      userData: store.userData
+   }
+};
 
 export default connect(mapStateToProps)(memo(LoginScreen));

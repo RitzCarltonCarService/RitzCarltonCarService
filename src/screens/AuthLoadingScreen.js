@@ -14,7 +14,7 @@ import "firebase/auth";
 // Initialize Firebase
 firebase.initializeApp(FIREBASE_CONFIG);
 
-const AuthLoadingScreen = ({ region, navigation, dispatch }) => {
+const AuthLoadingScreen = ({ navigation, dispatch }) => {
    const [error, setError] = useState("");
 
    const getCurrentLocation = async () => {
