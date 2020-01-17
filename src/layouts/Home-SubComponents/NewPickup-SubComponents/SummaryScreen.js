@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../../redux/actions';
+<<<<<<< HEAD
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton, Button as AccountButton } from 'react-native-paper';
 import dummyData from '../../../dummyData/dummy_pickup_data';
@@ -130,6 +131,39 @@ const styles = StyleSheet.create({
 
 })
 
+=======
+import { View, Text } from 'react-native';
+import Button from '../../../components/Button';
+import dummyData from '../../../dummyData/dummy_pickup_data';
+import { logoutUser } from '../../../core/auth-api';
+
+const SummaryScreen = props => (
+    <View>
+        <Text>
+            Form 4
+            </Text>
+        <Button
+            mode='contained'
+            onPress={() => {
+                props.updateScheduledPickups(dummyData);
+                props.setPage("home");
+            }}
+        >
+            Confirm
+        </Button>
+        {/* <Button
+                title="Back"
+                onPress={() => { props.setForm(3) }}
+            /> */}
+        <Button mode="contained" onPress={() => {
+            logoutUser();
+            props.setPage('home');
+        }}>
+            Logout
+        </Button>
+    </View>
+)
+>>>>>>> 5e3a76a7e9cd3c05bcbc866923b2e3b7b011ef24
 
 const mapStateToProps = state => {
     return {
