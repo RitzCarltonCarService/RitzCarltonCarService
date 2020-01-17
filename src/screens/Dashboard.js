@@ -8,7 +8,7 @@ import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import MapBackground from '../components/MapBackground';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
 
-const Home = ({ region, userData }) => {
+const Home = ({ region, userData, fromLocation, toLocation }) => {
    const [page, setPage] = useState("home");
    const [toast, setToast] = useState({ value: "", type: "" });
 
@@ -23,7 +23,7 @@ const Home = ({ region, userData }) => {
 
    return (
       <>
-         <MapBackground region={region} fromLocation={props.fromLocation} toLocation={props.toLocation}/>
+         <MapBackground region={region} fromLocation={fromLocation} toLocation={toLocation}/>
          <View style={styles.container}>
             {(() => {
                switch (page) {
@@ -60,9 +60,11 @@ const styles = StyleSheet.create({
    }
 });
 
-const mapStateToProps = ({ geoLocation, userData }) => ({
+const mapStateToProps = ({ geoLocation, userData, fromLocation, toLocation }) => ({
    region: geoLocation,
-   userData,
+   userData: userData,
+   fromLocation: fromLocation,
+   toLocation: toLocation
 });
 
 export default connect(mapStateToProps)(Home);
