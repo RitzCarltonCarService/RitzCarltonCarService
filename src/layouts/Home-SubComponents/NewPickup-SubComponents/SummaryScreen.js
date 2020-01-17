@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
         width: "100%",
         top: '0%',
     },
-    buttonContainer: {
-        top: "18%",
-    },  
     logoBox: {
         alignSelf: "center",
         top: "-5%",
     },
+    buttonContainer: {
+        top: "18%",
+    },  
 
 })
 
