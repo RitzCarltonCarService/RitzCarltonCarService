@@ -33,7 +33,9 @@ const styles = StyleSheet.create({
    }
 });
 
+
 const mapStatetoProps = (state) => {
+   console.log("This is the state", state)
    return {
       region: state.geoLocation,
       fromLocation: state.fromLocation,
