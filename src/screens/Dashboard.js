@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { vh, vw } from 'react-native-viewport-units';
+import Bread from '../components/Bread';
 import Toast from '../components/Toast';
 import NewPickup from '../layouts/Home-SubComponents/NewPickup';
+import MenuButton from '../components/MenuButton';
 import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import MapBackground from '../components/MapBackground';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
@@ -11,6 +13,7 @@ import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
 const Home = ({ region, userData }) => {
    const [page, setPage] = useState("home");
    const [toast, setToast] = useState({ value: "", type: "" });
+   const [visible, setVisibility] = useState(false);
 
    useEffect(() => {
       if (userData.displayName) {
@@ -24,6 +27,7 @@ const Home = ({ region, userData }) => {
    return (
       <>
          <MapBackground region={region} />
+         <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
 
          <View style={styles.container}>
             {(() => {
@@ -43,6 +47,8 @@ const Home = ({ region, userData }) => {
                }
             })()}
          </View>
+
+         <Bread visible={visible} onDismiss={() => setVisibility(false)} />
 
          <Toast
             type={toast.type}

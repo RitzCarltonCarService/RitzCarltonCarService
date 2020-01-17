@@ -17,7 +17,7 @@ import TheWhiteSquare from '../components/TheWhiteSquare';
 const worker = false;
 
 const LoginScreen = ({ region, navigation, dispatch }) => {
-   const [animationData, setAnimationData] = useState({ height: 72, top: 13, duration: 250 });
+   const [animationData, setAnimationData] = useState({ height: 72, top: 13 });
    const [password, setPassword] = useState({ value: "", error: "" });
    const [email, setEmail] = useState({ value: "", error: "" });
    const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
@@ -108,7 +108,7 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
          <MapBackground region={region} />
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
          <View style={styles.wrapper}>
-            <TheWhiteSquare height={73} top={13} animationData={animationData}>
+            <TheWhiteSquare height={73} top={13} animationData={animationData} duration={250}>
                <Logo />
 
                <Header>Welcome back!</Header>

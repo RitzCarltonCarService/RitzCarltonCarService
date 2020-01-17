@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Keyboard } from "react-native";
+import { emailValidator, passwordValidator, nameValidator } from "../core/untilities";
 import { setUserData } from "../redux/actions";
 import { signUpUser } from '../core/auth-api';
 import { connect } from 'react-redux';
@@ -12,14 +13,9 @@ import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import MapBackground from "../components/MapBackground";
 import TheWhiteSquare from '../components/TheWhiteSquare';
-import {
-   emailValidator,
-   passwordValidator,
-   nameValidator
-} from "../core/untilities";
 
 const RegisterScreen = ({ region, navigation, dispatch }) => {
-   const [animationData, setAnimationData] = useState({ height: 78, top: 10, fontSize: 26, duration: 250 });
+   const [animationData, setAnimationData] = useState({ height: 78, top: 10, fontSize: 26 });
    const [password, setPassword] = useState({ value: "", error: "" });
    const [email, setEmail] = useState({ value: "", error: "" });
    const [keyboardIsOpen, setKeyboardIsOpen] = useState(false);
@@ -111,7 +107,7 @@ const RegisterScreen = ({ region, navigation, dispatch }) => {
          <MapBackground region={region} />
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
          <View style={styles.wrapper}>
-            <TheWhiteSquare height={78} top={10} animationData={animationData}>
+            <TheWhiteSquare height={78} top={10} animationData={animationData} duration={250}>
                <Logo />
 
                <Header animationData={animationData} >Create Account</Header>
