@@ -18,7 +18,7 @@ const SummaryScreen = props => {
             <View style={styles.requestScreen}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>
-                        Your new Pick-up:
+                        Your new Pick-up
                     </Text>
                     <Text style={styles.title}>
                         Request:
