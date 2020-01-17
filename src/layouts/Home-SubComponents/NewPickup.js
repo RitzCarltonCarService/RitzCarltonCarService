@@ -13,6 +13,7 @@ const NewPickup = props => {
 
     const [from, setFrom] = useState(null);
     const [to, setTo] = useState(null);
+    const [time, setTime] = useState(null);
     const [passengers, setPassengers] = useState(null);
     const [bags, setBags] = useState(null);
     const [rideShare, setRideShare] = useState(true);
@@ -21,7 +22,7 @@ const NewPickup = props => {
         case 0:
             return (
                 <View>
-                    <LocationForm setForm={setForm} setFrom={setFrom} setTo={setTo}/>
+                    <LocationForm setForm={setForm} setFrom={setFrom} setTo={setTo} setTime={setTime}/>
                 </View>
             )
         case 1:
@@ -50,6 +51,7 @@ const NewPickup = props => {
                         requestObject={{
                             from: from,
                             to: to,
+                            time: time,
                             bags: bags,
                             passengers: passengers,
                             rideShare: rideShare
