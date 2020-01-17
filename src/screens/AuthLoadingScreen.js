@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useState, memo } from "react";
-=======
-import React, { useState, useEffect, memo } from "react";
->>>>>>> da0e541bd27c3e128352c68319b3ad35e40bca3c
 import { updateGeoLocation, setUserData } from "../redux/actions";
 import { ActivityIndicator } from "react-native";
 import { FIREBASE_CONFIG } from "../core/config";
