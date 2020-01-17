@@ -1,18 +1,19 @@
 import React, { memo, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { emailValidator } from "../core/untilities";
-import { theme } from "../core/theme";
 import { sendEmailWithPassword } from "../core/auth-api";
-import MapBackground from "../components/MapBackground";
-import BackButton from "../components/BackButton";
+import { emailValidator } from "../core/untilities";
+import { connect } from 'react-redux';
+import { theme } from "../core/theme";
 import Logo from "../components/Logo";
-import Header from "../components/Header";
-import TextInput from "../components/TextInput";
-import Button from "../components/Button";
 import Toast from "../components/Toast";
+import Header from "../components/Header";
+import Button from "../components/Button";
+import TextInput from "../components/TextInput";
+import BackButton from "../components/BackButton";
+import MapBackground from "../components/MapBackground";
 import TheWhiteSquare from '../components/TheWhiteSquare';
 
-const ForgotPasswordScreen = ({ navigation }) => {
+const ForgotPasswordScreen = ({ region, navigation }) => {
    const [email, setEmail] = useState({ value: "", error: "" });
    const [loading, setLoading] = useState(false);
    const [toast, setToast] = useState({ value: "", type: "" });
@@ -45,7 +46,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
    return (
       <>
-         <MapBackground />
+         <MapBackground region={region} />
          <BackButton goBack={() => navigation.navigate("LoginScreen")} />
          <View style={styles.wrapper}>
             <TheWhiteSquare top={20} height={57}>
@@ -114,4 +115,6 @@ const styles = StyleSheet.create({
    }
 });
 
-export default memo(ForgotPasswordScreen);
+const mapStateToProps = ({ geoLocation }) => ({ region: geoLocation })
+
+export default connect(mapStateToProps)(memo(ForgotPasswordScreen));

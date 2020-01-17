@@ -11,13 +11,15 @@
  *          Please see the react-native-paper Surface Docs for a full list of props
  */
 
-import React, { memo } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { memo, useState, useEffect } from 'react';
+import { StyleSheet, Animated } from 'react-native';
+import { getStatusBarHeight } from "react-native-status-bar-height";
 import { Surface } from 'react-native-paper';
 import { vh, vw } from 'react-native-viewport-units';
-import { getStatusBarHeight } from "react-native-status-bar-height";
 
-const TheWhiteSquare = ({ style, width = 80, height = 50, top = 10, children, ...props }) => {
+const TheWhiteSquare = ({ style, width = 80, height = 50, top = 10, animationData, children, ...props }) => {
+    const [animValues] = useState(new Animated.ValueXY({ x: height * vh, y: ((top * vh) + getStatusBarHeight()) }));
+
     const styles = StyleSheet.create({
         surface: {
             width: width * vw,
@@ -29,12 +31,22 @@ const TheWhiteSquare = ({ style, width = 80, height = 50, top = 10, children, ..
         }
     });
 
+    useEffect(() => {
+        if (animationData) {
+            Animated.timing(animValues, {
+                toValue: { x: animationData.height * vh, y: ((animationData.top * vh) + getStatusBarHeight()) },
+                duration: animationData.duration,
+            }).start();
+        };
+    }, [animationData]);
+
     return (
         <Surface
-            style={[
-                styles.surface,
-                style
-            ]}
+            style={{
+                ...styles.surface,
+                ...style,
+                ...(animationData ? { height: animValues.x, top: animValues.y } : {}),
+            }}
             {...props}
         >
             {children}

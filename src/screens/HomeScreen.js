@@ -1,17 +1,17 @@
 import React from "react";
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import MapBackground from "../components/MapBackground";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import TheWhiteSquare from "../components/TheWhiteSquare";
+import MapBackground from "../components/MapBackground";
 
 const HomeScreen = ({ navigation, region, fromLocation, toLocation }) => (
    <>
       <MapBackground region={region} fromLocation={fromLocation} toLocation={toLocation} />
       <View style={styles.container}>
-         <TheWhiteSquare top={20}>
+         <TheWhiteSquare top={20} height={55}>
             <Logo />
             <Header>The Ritz Carlton Residences</Header>
 
@@ -30,21 +30,10 @@ const HomeScreen = ({ navigation, region, fromLocation, toLocation }) => (
 const styles = StyleSheet.create({
    container: {
       alignItems: "center",
-   },
-   wrapper: {
-      flex: 1,
-      width: "100%",
-      maxWidth: 340,
-      maxHeight: 500,
-      marginTop: 80,
-      padding: 20,
-      alignSelf: "center",
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: '#fff',
-   },
+   }
 });
 
+<<<<<<< HEAD
 const mapStatetoProps = (state) => {
    console.log("This is the state", state)
    return {
@@ -55,3 +44,8 @@ const mapStatetoProps = (state) => {
 }
 
 export default connect(mapStatetoProps)(HomeScreen);
+=======
+const mapStateToProps = ({ geoLocation }) => ({ region: geoLocation })
+
+export default connect(mapStateToProps)(HomeScreen);
+>>>>>>> 6f6f370feb4ae3bb63dca3ddea7df0063fdce588

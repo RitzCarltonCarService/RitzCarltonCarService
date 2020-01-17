@@ -7,12 +7,11 @@ export const logoutUser = () => {
 
 export const signUpUser = async ({ name, email, password }) => {
    try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      let response = await firebase.auth().createUserWithEmailAndPassword(email, password);
       firebase.auth().currentUser.updateProfile({
          displayName: name
       });
-
-      return {};
+      return response;
    } catch (error) {
       switch (error.code) {
          case "auth/email-already-in-use":
@@ -41,8 +40,7 @@ export const signUpUser = async ({ name, email, password }) => {
 
 export const loginUser = async ({ email, password }) => {
    try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      return {};
+      return await firebase.auth().signInWithEmailAndPassword(email, password);
    } catch (error) {
       switch (error.code) {
          case "auth/invalid-email":
@@ -68,8 +66,7 @@ export const loginUser = async ({ email, password }) => {
 
 export const sendEmailWithPassword = async email => {
    try {
-      await firebase.auth().sendPasswordResetEmail(email);
-      return {};
+      return await firebase.auth().sendPasswordResetEmail(email);
    } catch (error) {
       switch (error.code) {
          case "auth/invalid-email":

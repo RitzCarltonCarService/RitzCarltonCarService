@@ -1,55 +1,56 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { navigate, toHome } from '../redux/actions';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import MainScreen from '../layouts/Home-SubComponents/MainScreen';
+import { connect } from 'react-redux';
+import { vh, vw } from 'react-native-viewport-units';
+import Toast from '../components/Toast';
 import NewPickup from '../layouts/Home-SubComponents/NewPickup';
+import MainScreen from '../layouts/Home-SubComponents/MainScreen';
+import MapBackground from '../components/MapBackground';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
-import MapBackground from '../components/MapBackground'
-import getCurrentLocation from '../redux/actions/index.js';
-import { NativeViewGestureHandler } from 'react-native-gesture-handler';
-const { vh, vw } = require('react-native-viewport-units');
 
-const Home = props => {
+const Home = ({ region, userData }) => {
    const [page, setPage] = useState("home");
+   const [toast, setToast] = useState({ value: "", type: "" });
+
+   useEffect(() => {
+      if (userData.displayName) {
+         setToast({
+            type: "success",
+            value: `Welcome, ${userData.displayName}`
+         });
+      };
+   }, [userData.displayName]);
 
    return (
-      <View style={styles.container}>
-         <MapBackground region={props.region} fromLocation={props.fromLocation} toLocation={props.toLocation}/>
-         {(() => {
-            switch (page) {
-               case "new pickup":
-                  return (
+      <>
+         <MapBackground region={region} fromLocation={props.fromLocation} toLocation={props.toLocation}/>
+         <View style={styles.container}>
+            {(() => {
+               switch (page) {
+                  case "new pickup":
+                     return (
                         <NewPickup setPage={setPage} />
-                  )
-               case "pickup info":
-                  return (
+                     )
+                  case "pickup info":
+                     return (
                         <PrePickupInfo setPage={setPage} />
-                  )
-               default:
-                  return (
+                     )
+                  default:
+                     return (
                         <MainScreen setPage={setPage} />
-                  )
-            }
-         })()}
-      </View>
-   )
-}
+                     )
+               }
+            })()}
+         </View>
 
-const mapStateToProps = state => {
-   return {
-      nav: state.nav,
-      region: state.geoLocation,
-      fromLocation: state.fromLocation,
-      toLocation: state.toLocation
-   }
-}
-
-const mapDispatchToProps = {
-   navigate: navigate
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+         <Toast
+            type={toast.type}
+            message={toast.value}
+            onDismiss={() => setToast({ value: "", type: "" })}
+         />
+      </>
+   );
+};
 
 const styles = StyleSheet.create({
    container: {
@@ -57,4 +58,11 @@ const styles = StyleSheet.create({
       width: 100 * vw,
       alignItems: "center"
    }
-})
+});
+
+const mapStateToProps = ({ geoLocation, userData }) => ({
+   region: geoLocation,
+   userData,
+});
+
+export default connect(mapStateToProps)(Home);

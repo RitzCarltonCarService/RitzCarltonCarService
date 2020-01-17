@@ -5,6 +5,7 @@ import getGeoLocationReducer from './getGeoLocationReducer';
 import currentPickupReducer from './currentPickupReducer';
 import fromLocationReducer from './fromLocationReducer';
 import toLocationReducer from './toLocationReducer';
+import userDataReducer from './userDataReducer';
 
 const rootReducer = combineReducers({
    nav: navigateReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
    geoLocation: getGeoLocationReducer,
    currentPickup: currentPickupReducer,
    fromLocation: fromLocationReducer,
-   toLocation: toLocationReducer
+   toLocation: toLocationReducer,
+   userData: userDataReducer
 });
 
 export default rootReducer;
