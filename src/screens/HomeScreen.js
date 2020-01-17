@@ -7,9 +7,9 @@ import Button from "../components/Button";
 import TheWhiteSquare from "../components/TheWhiteSquare";
 import MapBackground from "../components/MapBackground";
 
-const HomeScreen = ({ region, navigation }) => (
+const HomeScreen = ({ navigation, region, fromLocation, toLocation }) => (
    <>
-      <MapBackground region={region} />
+      <MapBackground region={region} fromLocation={fromLocation} toLocation={toLocation} />
       <View style={styles.container}>
          <TheWhiteSquare top={20} height={55}>
             <Logo />
@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
    }
 });
 
-const mapStateToProps = ({ geoLocation }) => ({ region: geoLocation })
 
-export default connect(mapStateToProps)(HomeScreen);
+const mapStatetoProps = ({ geoLocation, fromLocation, toLocation }) => ({
+   region: geoLocation,
+   fromLocation,
+   toLocation,
+});
+
+export default connect(mapStatetoProps)(HomeScreen);
