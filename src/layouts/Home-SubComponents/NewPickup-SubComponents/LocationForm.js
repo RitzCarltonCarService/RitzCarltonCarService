@@ -8,13 +8,10 @@ import TextInput from '../../../components/TextInput.js'
 import FromLocationItem from './FromLocationItem';
 import ToLocationItem from './ToLocationItem';
 
-const LocationForm = props => {
+const LocationForm = ({ updateToLocation, updateFromLocation }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
 
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
-
-    // Import Google Places Autocomplete - replace current Google Auto Complete
-    //  test
 
     // When user selects a from and a two location, pass both to Redux Store
     //  in MapBackground, create conditional rendering based on coordinates in Redux store (ensure
@@ -57,6 +54,10 @@ const LocationForm = props => {
         setFrom(fromLocation);
     };
 
+    const updateToState = (toLocation) => {
+        setTo(toLocation);
+    };
+
     // pass fromLocation to redux store and use to display an updated Map background based on from coordinates
     // useEffect(() => {
     //     console.log("This is the current fromLocation: ", fromLocation)
@@ -82,9 +83,9 @@ const LocationForm = props => {
                                     }}
                                     editable={true}
                                     defaultValue={fromLocation}
-                                    value={fromLocation}
+                                    value={inputValue}
                                     onFocus={() => {setFocusedThing(1)}}
-                                    onChangeText={() => { handleTextChange; setFrom(null)}}
+                                    onChangeText={handleTextChange}
                                     placeholder="Current Location..."
                                 />
                                 <Button title="Clear" onPress={() => {clearSearch}}></Button>
@@ -101,8 +102,10 @@ const LocationForm = props => {
                                     width: 300,
                                     paddingLeft: 40
                                     }}
+                                    editable={true}
+                                    defaultValue={toLocation}
                                     onFocus={() => {setFocusedThing(2)}}
-                                    value={toLocation}
+                                    value={inputValue} // value={toLocation} < --- this needs to work somehow!
                                     onChangeText={handleTextChange}
                                     placeholder="Where are you going?"
                                 />
@@ -120,11 +123,18 @@ const LocationForm = props => {
                                 {...el}
                                 key={el.id}
                                 updateFromState={updateFromState}
+                                updateFromLocation={updateFromLocation}
                             >
                             </FromLocationItem>
                         )) :
                         toResults.map((el, i) => (
-                            <Text key={i}>{el.description}</Text>
+                            <ToLocationItem
+                                {...el}
+                                key={el.id}
+                                updateToState={updateToState}
+                                updateToLocation={updateToLocation}
+                            >
+                            </ToLocationItem>
                         ))
                     }
                 </ScrollView>   
