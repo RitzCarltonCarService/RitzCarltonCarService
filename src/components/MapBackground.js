@@ -9,13 +9,39 @@
  * @props - TYPE: Varied, DESC: Any other react-native-maps MapView props,
  *          please see the react-native-maps mapView docs for a full list of the other availible props
  */
+
+// When user selects a from and a two location, pass both to Redux Store
+//  in MapBackground, create conditional rendering based on coordinates in Redux store (ensure
+//  there are coordinates, and not blank strings)
+
+// In Map Background, import MapViewDirections and conditionally render when
+//  there is both a From and a To Location in redux store
 import React, { memo } from 'react';
+import { StyleSheet } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 import { aubergineMapStyle, silverMapStyle } from '../core/mapStyles';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { StyleSheet } from 'react-native';
 
-const MapBackground = ({ style, region, scrollEnabled, ...props }) => {
+const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation, ...props }) => {
    let hour = new Date().getHours();
+
+   if (region) {
+      console.log("These is the new to Location: ", toLocation)
+   }
+
+   if (fromLocation) {
+      console.log("These is the new from Location: ", fromLocation)
+   }
+
+   if (toLocation) {
+      console.log("These is the new to Location: ", toLocation)
+   }
+
+   const origin = {latitude: 37.3318456, longitude: -122.0296002};
+   const destination = {latitude: 37.771707, longitude: -122.4053769};
+   const GOOGLE_MAPS_APIKEY = '…';
 
    return (
       <MapView

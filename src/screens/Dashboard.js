@@ -23,8 +23,7 @@ const Home = ({ region, userData }) => {
 
    return (
       <>
-         <MapBackground region={region} />
-
+         <MapBackground region={region} fromLocation={props.fromLocation} toLocation={props.toLocation}/>
          <View style={styles.container}>
             {(() => {
                switch (page) {
