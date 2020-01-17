@@ -18,17 +18,15 @@
 //  there is both a From and a To Location in redux store
 import React, { memo } from 'react';
 import { StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { aubergineMapStyle, silverMapStyle } from '../core/mapStyles';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { StyleSheet } from 'react-native';
 
 const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation, ...props }) => {
    let hour = new Date().getHours();
 
    if (region) {
-      console.log("These is the new to Location: ", toLocation)
+      console.log("These is the new to Location: ", region)
    }
 
    if (fromLocation) {

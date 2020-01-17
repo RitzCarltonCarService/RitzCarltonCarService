@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
    }
 });
 
-<<<<<<< HEAD
+
 const mapStatetoProps = (state) => {
    console.log("This is the state", state)
    return {
@@ -44,8 +44,3 @@ const mapStatetoProps = (state) => {
 }
 
 export default connect(mapStatetoProps)(HomeScreen);
-=======
-const mapStateToProps = ({ geoLocation }) => ({ region: geoLocation })
-
-export default connect(mapStateToProps)(HomeScreen);
->>>>>>> 6f6f370feb4ae3bb63dca3ddea7df0063fdce588
