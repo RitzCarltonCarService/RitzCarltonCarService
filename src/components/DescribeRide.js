@@ -18,19 +18,19 @@ return (
                     size={70}
                     icon="car"
                     onPress={() => console.log('Car Button')}
-                    mode= 'contained'
+                    mode='contained'
                 />
             </View>
             <View style={styles.titleContainer}>
                 <Text style={styles.title1}>
-                  {props.title}
+                    {props.title}
                 </Text>
                 <View style={styles.border1}></View>
                 <Text style={styles.title}>
-                  {props.header1}
+                    {props.header1}
                 </Text>
                 <Text style={styles.title}>
-                  {props.header2}
+                    {props.header2}
                 </Text>
                 <Text style={styles.title}>
                 {props.header3}
@@ -61,8 +61,8 @@ return (
         <View style={styles.buttonContainer}>
             <Button 
                 onPress={() => {
-                  props.setForm(props.previousForm)
-                  }} 
+                    props.setForm(props.previousForm)
+                    }} 
                 mode={"contained"}
             >
                 Back
@@ -73,51 +73,51 @@ return (
 }
 
 const mapDispatchToProps = {
-  navigate: navigate
+    navigate: navigate
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-      width: "100%",
-      height: "25%",
-      alignItems: 'center',
-  },
-  title1: {
-      fontFamily: Platform.OS === "ios" ? "Arial" : "Roboto",
-      fontSize: 25,
-      letterSpacing: 2,
-      fontWeight: 'bold',
-      top:"-25%",
-  },
-  title: {
-      fontFamily: Platform.OS === "ios" ? "Arial" : "Roboto",
-      fontSize: 25,
-      letterSpacing: 2,
-      top:'0%',
-  },
-  border1: {
-      borderBottomWidth: 1,
-      width: '100%',
-      top: '-15%',
-  },
-  border2: {
-      borderBottomWidth: 1,
-      width: '100%',
-      top: '15%',
-  },
-  buttonContainer: {
-      top: "35%",
-  },
-  requestButton: {
-      top:'30%'
-  },
-  numberSelect: {
-      flexDirection: 'row',
-      top:'5%',
-  },
-  logoBox: {
-      top:'30%'
-  }
+    titleContainer: {
+        width: "100%",
+        height: "25%",
+        alignItems: 'center',
+},
+    title1: {
+        fontFamily: Platform.OS === "ios" ? "Arial" : "Roboto",
+        fontSize: 25,
+        letterSpacing: 2,
+        fontWeight: 'bold',
+        top:"-25%",
+},
+    title: {
+        fontFamily: Platform.OS === "ios" ? "Arial" : "Roboto",
+        fontSize: 25,
+        letterSpacing: 2,
+        top:'0%',
+},
+    border1: {
+        borderBottomWidth: 1,
+        width: '100%',
+        top: '-15%',
+},
+    border2: {
+        borderBottomWidth: 1,
+        width: '100%',
+        top: '15%',
+},
+    buttonContainer: {
+        top: "35%",
+},
+    requestButton: {
+        top:'30%'
+},
+    numberSelect: {
+        flexDirection: 'row',
+        top:'5%',
+},
+    logoBox: {
+        top:'30%'
+},
 })
 
 export default connect(null, mapDispatchToProps)(DescribeRide);
