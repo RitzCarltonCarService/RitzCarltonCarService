@@ -61,6 +61,9 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                latitudeDelta: region.latitudeDelta,
                longitudeDelta: region.longitudeDelta,
             }}
+            zoomEnabled={true}
+            zoomTapEnabled={true}
+            loadingEnabled={true}
             ref={refContainer}
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
             customMapStyle={hour > 18 || hour < 6 ? aubergineMapStyle : silverMapStyle}
@@ -71,11 +74,13 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
             scrollEnabled={scrollEnabled}
             {...props}
             >
+            <MapView.Marker key={1} coordinate={origin} />
+            <MapView.Marker key={2} coordinate={destination} />
             <MapViewDirections
                origin={origin}
                destination={destination}
                apikey={GOOGLE_MAPS_APIKEY}
-               strokeWidth={3}
+               strokeWidth={5}
                strokeColor="purple"
                onStart={(params) => {
                   console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
@@ -84,14 +89,9 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                   console.log(`Distance: ${result.distance} km`)
                   console.log(`Duration: ${result.duration} min`)
 
-                  refContainer.current.focus();
                   refContainer.current.fitToCoordinates(result.coordinates, {
-                     edgePadding: {
-                        right: (width / 20),
-                        bottom: (height / 20),
-                        left: (width / 20),
-                        top: (height / 20),
-                     }
+                     edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
+                     animateToRegion: true
                   });
                }}
                onError={(errorMessage) => {
@@ -103,6 +103,8 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
    } else {
       return (
          <MapView
+            zoomEnabled={true}
+            zoomTapEnabled={true}
             region={region}
             showsUserLocation={true} // enables geoLocation on the phone and asks new user to 'Deny' or 'Allow'
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
