@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import { navigate, updateToLocation, updateFromLocation } from '../../../redux/actions';
 import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 import { Button as RegButton } from "react-native-paper";
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
-// import { Button as PaperButton } from "react-native-paper";
 import {Surface} from "react-native-paper";
+import DateTimePicker from './DateTimePicker.js';
 import TextInput from '../../../components/TextInput.js'
 import FromLocationItem from './FromLocationItem';
 import ToLocationItem from './ToLocationItem';
@@ -46,6 +46,10 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
     const [fromResults, setFromResults] = useState([]);
     const [toResults, setToResults] = useState([]);
 
+    // Hooks to display date/time component and set date/time
+    const [showTimePicker, setTimePicker] = useState(false);
+    const [newDate, setDate] = useState('');
+    
     const updateFromState = (fromLocation) => {
         setFrom(fromLocation);
     };
@@ -53,6 +57,10 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
     const updateToState = (toLocation) => {
         setTo(toLocation);
     };
+
+    const updateDate = (selectedDate) => {
+        setDate(selectedDate);
+    }
 
     return (
         <View styles={styles.container}>
@@ -124,34 +132,44 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
                     ))
                 }
             </ScrollView>
-            <View style={styles.buttonContainer}>
-                {fromLocation && toLocation ? 
+            {fromLocation && (!toLocation) && (!setTimePicker) &&
+                <View style={styles.buttonContainer}>
+                    <>
+                        <RegButton 
+                            style={[
+                                styles.backOnlyButton,
+                                { backgroundColor: theme.colors.surface }
+                            ]}
+                            title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
+                        </RegButton>
+                    </>
+                </View> 
+            }
+            {fromLocation && toLocation && (!setTimePicker) &&
+                <View style={styles.buttonContainer}>
                     <>
                     <RegButton 
                         style={[
                             styles.nextButton,
                             { backgroundColor: theme.colors.surface }
                         ]}
-                        title="Next" mode="outlined" onPress={() => console.log('Pressed')}>
+                        title="Next" mode="outlined" onPress={() => setTimePicker(true)}>
                     </RegButton>
                     <RegButton 
                         style={[
                             styles.backButton,
                             { backgroundColor: theme.colors.surface }
                         ]}
-                        title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
+                        title="Back" mode="outlined" onPress={() => console.log("Back")}>
                     </RegButton>
                     </>
-                    : 
-                    <RegButton 
-                        style={[
-                            styles.backOnlyButton,
-                            { backgroundColor: theme.colors.surface }
-                        ]}
-                        title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
-                    </RegButton>
-                }
-            </View>   
+                </View> 
+            }
+            {fromLocation && toLocation && showTimePicker &&
+                <View style={styles.buttonContainer}>
+                   <DateTimePicker updateDate={updateDate} />
+                </View> 
+            }  
         </View>
     )
 }        

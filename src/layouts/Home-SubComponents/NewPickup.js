@@ -10,7 +10,6 @@ import SummaryScreen from './NewPickup-SubComponents/SummaryScreen.js';
 
 const NewPickup = props => {
     const [form, setForm] = useState(0)
-
     const [from, setFrom] = useState(null);
     const [to, setTo] = useState(null);
     const [time, setTime] = useState(null);

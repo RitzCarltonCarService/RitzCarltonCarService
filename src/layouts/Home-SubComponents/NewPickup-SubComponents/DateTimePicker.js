@@ -1,56 +1,45 @@
 import React, {Component} from 'react';
 import {View, Button, Platform} from 'react-native';
+import React, { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default class App extends Component {
-  state = {
-    date: new Date('2020-06-12T14:42:42'),
-    mode: 'date',
-    show: false,
+const DateTimePicker = props => {
+  const [selectedDate, setDate] = useState('');
+  
+  // Mode boolean triggers between show time and show date selection in Date Picket
+  const [mode, setMode] = useState('');
+
+  // Boolean to indicate what platform the app is running on
+  // const [platform, setPlatform] = useState(true);
+
+  const selectADate = (event, date) => {
+    date = date || new Date();
+
+    if (Platform.OS === 'ios') {
+      setPlatform(false);
+      props.updateDate(date);
+    }
   }
 
-  setDate = (event, date) => {
-    date = date || this.state.date;
-
-    this.setState({
-      show: Platform.OS === 'ios' ? true : false,
-      date,
-    });
+  const show = (selectedMode) => {
+    setMode(selectedMode);
   }
 
-  show = mode => {
-    this.setState({
-      show: true,
-      mode,
-    });
-  }
-
-  datepicker = () => {
-    this.show('date');
-  }
-
-  timepicker = () => {
-    this.show('time');
-  }
-
-  render() {
-    const { show, date, mode } = this.state;
-
-    return (
+  return (
       <View>
         <View>
-          <Button onPress={this.datepicker} title="Show date picker!" />
+          <Button onPress={show('date')} title="Show date picker!" />
         </View>
         <View>
-          <Button onPress={this.timepicker} title="Show time picker!" />
+          <Button onPress={show('time')} title="Show time picker!" />
         </View>
-        { show && <DateTimePicker value={date}
-                    mode={mode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={this.setDate} />
+        { show && <DateTimePicker 
+            value={new Date()}
+            mode={mode}
+            is24Hour={true}
+            display="default"
+            onChange={selectADate()} />
         }
       </View>
-    );
-  }
+  )
 }
