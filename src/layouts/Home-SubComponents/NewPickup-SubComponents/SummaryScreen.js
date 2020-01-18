@@ -11,6 +11,25 @@ const SummaryScreen = props => (
         <Text>
             Form 4
             </Text>
+<<<<<<< HEAD
+            <Text>
+                MORE STUFF
+            </Text>
+            <Text>
+                MORE STUFF
+            </Text>
+            <Text>
+                {props.requestObject.bags} bags {props.requestObject.passengers} passengers
+            </Text>
+            <Button
+                title="Confirm"
+                onPress={() => { 
+                    props.updateScheduledPickups(dummyData);
+                    props.setPage("home");
+                }}
+            />
+            {/* <Button
+=======
         <Button
             mode='contained'
             onPress={() => {
@@ -21,6 +40,7 @@ const SummaryScreen = props => (
             Confirm
         </Button>
         {/* <Button
+>>>>>>> 00ebd3c3f56a41f99ee43f8bc54c437d5a0b8453
                 title="Back"
                 onPress={() => { props.setForm(3) }}
             /> */}
