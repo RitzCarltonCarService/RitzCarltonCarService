@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { navigate, updateToLocation, updateFromLocation } from '../../../redux/actions';
 import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
+import { Button as RegButton } from "react-native-paper";
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
-import { Surface } from 'react-native-paper';
+// import { Button as PaperButton } from "react-native-paper";
+import {Surface} from "react-native-paper";
 import TextInput from '../../../components/TextInput.js'
 import FromLocationItem from './FromLocationItem';
 import ToLocationItem from './ToLocationItem';
+import { theme } from "../../../core/theme.js";
 
 const LocationForm = ({ updateToLocation, updateFromLocation }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
@@ -30,14 +33,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
     //  on click of Confirm button in To Location component, set ToComponent's state to input
     //  pass this to the Redux store to update To Location (to be used in Google API call in useEffect)
     
-    // Conditional rendering of DateTimePicker based on if toLocation and fromLocation both exist
-    // Make current state of DateTimePicker to today (newDate())
-    //  On confirmation of DateTimePicker component, add this to redux store
-
-    // When Redux store contains From Location, To Location, and DateTimePicker values
-    //  Call Google Directions API to re-render map background to show addresses stored in Redux store
-    //  https://github.com/bramus/react-native-maps-directions
-    //  https://stackoverflow.com/questions/40541095/render-multiple-marker-in-react-native-maps
+    // Rendering of DateTimePicker on Click of Next to select date and time
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFrom] = useState('');
@@ -58,86 +54,104 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
         setTo(toLocation);
     };
 
-    // pass fromLocation to redux store and use to display an updated Map background based on from coordinates
-    // useEffect(() => {
-    //     console.log("This is the current fromLocation: ", fromLocation)
-    //   }, [fromLocation]); // Only re-run the effect if count changes
-
-    // pass fromLocation to redux store and use to display an updated Map background based on to coordinates
-    // useEffect(() => {
-    //     console.log("This is the current ToLocation: ", toLocation)
-    // }, [toLocation]); // Only re-run the effect if count changes
-
     return (
-        <View style={styles.container}>
-        <Surface style={styles.surface}>
-            <React.Fragment>
-                <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
-                    {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
-                        <View style={styles.fromWrapper}>
-                            <React.Fragment>
-                                {setFromResults(locationResults)}
-                                <TextInput style={{
-                                    width: 300,
-                                    paddingLeft: 40 
-                                    }}
-                                    editable={true}
-                                    defaultValue={fromLocation}
-                                    value={inputValue}
-                                    onFocus={() => {setFocusedThing(1)}}
-                                    onChangeText={handleTextChange}
-                                    placeholder="Current Location..."
-                                />
-                                <Button title="Clear" onPress={() => {clearSearch}}></Button>
-                            </React.Fragment>
-                        </View>
-                    )}
-                </GoogleAutoComplete>
-                <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
-                    {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
-                        <View style={styles.toWrapper}>
-                            <React.Fragment>
-                                {setToResults(locationResults)}
-                                <TextInput style={{
-                                    width: 300,
-                                    paddingLeft: 40
-                                    }}
-                                    editable={true}
-                                    defaultValue={toLocation}
-                                    onFocus={() => {setFocusedThing(2)}}
-                                    value={inputValue} // value={toLocation} < --- this needs to work somehow!
-                                    onChangeText={handleTextChange}
-                                    placeholder="Where are you going?"
-                                />
-                                <Button title="Clear" onPress={clearSearch}></Button>
-                            </React.Fragment>
-                        </View>
-                    )}
-                </GoogleAutoComplete>
-            </React.Fragment>
-        </Surface>
-                <ScrollView style={{ maxHeight: 200, paddingLeft: '10%' }}>
-                    {focusedThing === 1 ?
-                        fromResults.map((el, i) => (
-                            <FromLocationItem
-                                {...el}
-                                key={el.id}
-                                updateFromState={updateFromState}
-                                updateFromLocation={updateFromLocation}
-                            >
-                            </FromLocationItem>
-                        )) :
-                        toResults.map((el, i) => (
-                            <ToLocationItem
-                                {...el}
-                                key={el.id}
-                                updateToState={updateToState}
-                                updateToLocation={updateToLocation}
-                            >
-                            </ToLocationItem>
-                        ))
-                    }
-                </ScrollView>   
+        <View styles={styles.container}>
+            <Surface style={styles.surface}>
+                <React.Fragment>
+                    <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
+                        {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
+                            <View style={styles.fromWrapper}>
+                                <React.Fragment>
+                                    {setFromResults(locationResults)}
+                                    <TextInput style={{
+                                        width: 300,
+                                        paddingLeft: 40 
+                                        }}
+                                        editable={true}
+                                        defaultValue={fromLocation}
+                                        value={inputValue}
+                                        onFocus={() => {setFocusedThing(1)}}
+                                        onChangeText={handleTextChange}
+                                        placeholder="Current Location..."
+                                    />
+                                    <RegButton title="Clear" onPress={() => {clearSearch}}></RegButton>
+                                </React.Fragment>
+                            </View>
+                        )}
+                    </GoogleAutoComplete>
+                    <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
+                        {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
+                            <View style={styles.toWrapper}>
+                                <React.Fragment>
+                                    {setToResults(locationResults)}
+                                    <TextInput style={{
+                                        width: 300,
+                                        paddingLeft: 40
+                                        }}
+                                        editable={true}
+                                        defaultValue={toLocation}
+                                        onFocus={() => {setFocusedThing(2)}}
+                                        value={inputValue} // value={toLocation} < --- this needs to work somehow!
+                                        onChangeText={handleTextChange}
+                                        placeholder="Where are you going?"
+                                    />
+                                    <RegButton title="Clear" onPress={clearSearch}></RegButton>
+                                </React.Fragment>
+                            </View>
+                        )}
+                    </GoogleAutoComplete>
+                </React.Fragment>
+            </Surface>
+            <ScrollView style={{ maxHeight: 200, paddingLeft: '10%' }}>
+                {focusedThing === 1 ?
+                    fromResults.map((el, i) => (
+                        <FromLocationItem
+                            {...el}
+                            key={el.id}
+                            updateFromState={updateFromState}
+                            updateFromLocation={updateFromLocation}
+                        >
+                        </FromLocationItem>
+                    )) :
+                    toResults.map((el, i) => (
+                        <ToLocationItem
+                            {...el}
+                            key={el.id}
+                            updateToState={updateToState}
+                            updateToLocation={updateToLocation}
+                        >
+                        </ToLocationItem>
+                    ))
+                }
+            </ScrollView>
+            <View style={styles.buttonContainer}>
+                {fromLocation && toLocation ? 
+                    <>
+                    <RegButton 
+                        style={[
+                            styles.nextButton,
+                            { backgroundColor: theme.colors.surface }
+                        ]}
+                        title="Next" mode="outlined" onPress={() => console.log('Pressed')}>
+                    </RegButton>
+                    <RegButton 
+                        style={[
+                            styles.backButton,
+                            { backgroundColor: theme.colors.surface }
+                        ]}
+                        title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
+                    </RegButton>
+                    </>
+                    : 
+                    <RegButton 
+                        style={[
+                            styles.backOnlyButton,
+                            { backgroundColor: theme.colors.surface }
+                        ]}
+                        title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
+                    </RegButton>
+                }
+            </View>   
         </View>
     )
 }        
@@ -149,12 +163,26 @@ const styles = StyleSheet.create({
     },
     surface: {
         flex: 1,
-        width: 450,
-        maxHeight: 200,
+        width: '100%',
+        maxHeight: '33%',
         paddingVertical: 0,
         alignContent: 'center',
-        alignItems: 'flex-start',
         justifyContent: 'flex-start'
+    },
+    scroll: {
+        flex: 1,
+        width: 450,
+        maxHeight: '33%',
+    },
+    buttonContainer: {
+        top: '40%',
+        maxHeight: '33%',
+        width: "100%",
+        flexDirection: 'column',
+        textAlign: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center'
     },
     fromWrapper: {
         flex: 1,
@@ -165,15 +193,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    fromInput: {
-        width: '70%',
-        marginLeft: '30%',
-        marginVertical: 0
-    },
-    fromButton: {
-        width: '25%',
-        marginVertical: 0
-    },
     toWrapper: {
         flex: 1,
         width: 325,
@@ -181,30 +200,41 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    toInput: {
-        width: '70%',
-        marginLeft: '30%',
-        marginVertical: 0
-    },
-    toButton: {
-        width: '20%',
-        marginVertical: 0
-    },
-    destinations: {
-        flex: 1,
-        width: 400,
-        height: 40,
+    nextButton: {
+        maxHeight: "40%",
+        marginVertical: "5%",
+        width: "100%",
+        alignContent: 'center',
         justifyContent: 'center',
-        alignItems: 'center',
-        flexGrow: 1.5
+        backgroundColor: theme.colors.primary,
+        borderRadius: 10
     },
-    back: {
-        flex: 1,
-        width: 400,
-        height: 40,
+    backButton: {
+        maxHeight: "40%",
+        width: "100%",
+        marginVertical: "5%",
+        alignContent: 'center',
         justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center'
+        backgroundColor: theme.colors.primary,
+        borderRadius: 10
+    },
+    backOnlyButton: {
+        top: '50%',
+        maxHeight: "100%",
+        width: "100%",
+        marginVertical: "5%",
+        alignContent: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.colors.primary,
+        borderRadius: 10
+    },
+    text: {
+        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
+        letterSpacing: 2,
+        fontWeight: "bold",
+        fontSize: 15,
+        lineHeight: 40,
+        color: theme.colors.secondary,
     }
 });
 

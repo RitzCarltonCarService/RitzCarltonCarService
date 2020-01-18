@@ -17,10 +17,10 @@
 // In Map Background, import MapViewDirections and conditionally render when
 //  there is both a From and a To Location in redux store
 import React, { memo, useRef } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions';
 import { aubergineMapStyle, silverMapStyle } from '../core/mapStyles';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, AnimatedRegion, Animated } from 'react-native-maps';
 import { vh, vw } from 'react-native-viewport-units';
 
 const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation, ...props }) => {
@@ -61,9 +61,10 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                latitudeDelta: region.latitudeDelta,
                longitudeDelta: region.longitudeDelta,
             }}
-            zoomEnabled={true}
-            zoomTapEnabled={true}
-            loadingEnabled={true}
+            zoomEnabled
+            zoomTapEnabled
+            zoomControlEnabled
+            scrollEnabled
             ref={refContainer}
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
             customMapStyle={hour > 18 || hour < 6 ? aubergineMapStyle : silverMapStyle}
@@ -89,22 +90,25 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                   console.log(`Distance: ${result.distance} km`)
                   console.log(`Duration: ${result.duration} min`)
 
+                  // refContainer.current.fitToElements(true);
                   refContainer.current.fitToCoordinates(result.coordinates, {
-                     edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
-                     animateToRegion: true
+                     edgePadding: {
+                        right: 100,
+                        bottom: 200,
+                        left: 100,
+                        top: 225
+                     }
                   });
                }}
                onError={(errorMessage) => {
                   console.log('GOT AN ERROR');
                }}
             />
-         </MapView>
+      </MapView>
       );
    } else {
       return (
          <MapView
-            zoomEnabled={true}
-            zoomTapEnabled={true}
             region={region}
             showsUserLocation={true} // enables geoLocation on the phone and asks new user to 'Deny' or 'Allow'
             provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -120,10 +124,12 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
    }
 };
 
+
 const styles = StyleSheet.create({
    map: {
       ...StyleSheet.absoluteFillObject,
-   },
+      alignItems: "center"
+   }
 });
 
 export default memo(MapBackground);

@@ -15,7 +15,7 @@ const NewPickup = props => {
         case 0:
             return (
                 <View>
-                    <LocationForm setForm={setForm} />
+                    <LocationForm setForm={setForm}></LocationForm>
                 </View>
             )
         case 1:
