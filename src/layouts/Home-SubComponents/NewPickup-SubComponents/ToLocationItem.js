@@ -12,12 +12,9 @@ class ToLocationItem extends PureComponent {
                         style={styles.root} 
                         onPress={() => {
                             handlePress = async () => {
-                                console.log("This is the location's address", this.props.description)
                                 const res = await fetchDetails(this.props.place_id);
-                                console.log("These are the location's details: ", res);
                                 // Accessing lat/lng coordinates from API response
                                 const coords = res.geometry.location;
-                                console.log("These are the location's coordinates: ", coords)
                                 // Passing fromLocation's coordinates to Redux state
                                 this.props.updateToLocation(coords); 
                             };

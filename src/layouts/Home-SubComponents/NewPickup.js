@@ -53,6 +53,7 @@ const NewPickup = props => {
                             to: to,
                             time: time,
                             duration: duration,
+                            distance: distance,
                             bags: bags,
                             passengers: passengers,
                             rideShare: rideShare
@@ -78,8 +79,11 @@ const NewPickup = props => {
 }
 
 const mapStateToProps = state => {
+    console.log('This is state: ', state)
     return {
-        form: state.nav.form
+        form: state.nav.form,
+        duration: state.duration,
+        distance: state.distance
     }
 }
 

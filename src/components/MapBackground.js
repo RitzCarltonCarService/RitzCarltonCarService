@@ -10,12 +10,8 @@
  *          please see the react-native-maps mapView docs for a full list of the other availible props
  */
 
-// When user selects a from and a two location, pass both to Redux Store
-//  in MapBackground, create conditional rendering based on coordinates in Redux store (ensure
-//  there are coordinates, and not blank strings)
-
-// In Map Background, import MapViewDirections and conditionally render when
-//  there is both a From and a To Location in redux store
+import { connect } from 'react-redux';
+import { updateRideDuration, updateRideDistance } from '../redux/actions';
 import React, { memo, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions';
@@ -23,7 +19,7 @@ import { aubergineMapStyle, silverMapStyle } from '../core/mapStyles';
 import MapView, { PROVIDER_GOOGLE, AnimatedRegion, Animated } from 'react-native-maps';
 import { vh, vw } from 'react-native-viewport-units';
 
-const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation, ...props }) => {
+const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation, updateRideDistance, updateRideDuration, ...props }) => {
    const ASPECT_RATIO = vw / vh;
    let hour = new Date().getHours();
    let origin = {};
@@ -31,24 +27,16 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
    const GOOGLE_MAPS_APIKEY = '';
    const refContainer = useRef(null);
 
-   if (region) {
-      console.log("This is user's current location: ", region)
-   }
-
    if (fromLocation) {
-      console.log("These is the new from Location: ", fromLocation)
       if (region.latitude !== fromLocation.lat && region.longitude !== fromLocation.lng) {
          origin['latitude'] = fromLocation.lat;
          origin['longitude'] = fromLocation.lng;
       }
-      console.log("This is our origin: ", origin)
    }
 
    if (toLocation) {
-      console.log("These is the new to Location: ", toLocation)
       destination['latitude'] = toLocation.lat;
       destination['longitude'] = toLocation.lng;
-      console.log("These is the destination: ", destination)
    }
 
    // If there now exists a latitude or longitude coordinate inside of destination object, render Map with route
@@ -89,7 +77,10 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                onReady={result => {
                   console.log(`Distance: ${result.distance} km`)
                   console.log(`Duration: ${result.duration} min`)
-
+                  // Adding to Redux store the new distance and duration of user's selected route
+                  updateRideDistance(result.distance + 'km')
+                  updateRideDuration(result.duration + 'min')
+                  
                   // refContainer.current.fitToElements(true);
                   refContainer.current.fitToCoordinates(result.coordinates, {
                      edgePadding: {
@@ -124,7 +115,6 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
    }
 };
 
-
 const styles = StyleSheet.create({
    map: {
       ...StyleSheet.absoluteFillObject,
@@ -132,4 +122,9 @@ const styles = StyleSheet.create({
    }
 });
 
-export default memo(MapBackground);
+const mapDispatchToProps = {
+   updateRideDuration: updateRideDuration,
+   updateRideDistance: updateRideDistance
+}
+
+export default connect(null, mapDispatchToProps)(memo(MapBackground));

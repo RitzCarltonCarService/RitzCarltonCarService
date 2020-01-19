@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { navigate, updateToLocation, updateFromLocation } from '../../../redux/actions';
 import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 import { Button as RegButton } from "react-native-paper";
@@ -11,7 +11,7 @@ import FromLocationItem from './FromLocationItem';
 import ToLocationItem from './ToLocationItem';
 import { theme } from "../../../core/theme.js";
 
-const LocationForm = ({ updateToLocation, updateFromLocation }) => {
+const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
 
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
