@@ -6,7 +6,7 @@ class FromLocationItem extends PureComponent {
 
     render() {
         return (
-            <GoogleAutoComplete apiKey="AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s" debounce={300} components="country:usa">
+            <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
                 {({ fetchDetails, clearSearch }) => (
                     <TouchableOpacity 
                         style={styles.root} 

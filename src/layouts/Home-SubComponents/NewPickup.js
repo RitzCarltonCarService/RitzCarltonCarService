@@ -13,6 +13,7 @@ const NewPickup = props => {
     const [from, setFrom] = useState(null);
     const [to, setTo] = useState(null);
     const [time, setTime] = useState(null);
+    const [duration, setDuration] = useState(null); 
     const [passengers, setPassengers] = useState(null);
     const [bags, setBags] = useState(null);
     const [rideShare, setRideShare] = useState(true);
@@ -51,6 +52,7 @@ const NewPickup = props => {
                             from: from,
                             to: to,
                             time: time,
+                            duration: duration,
                             bags: bags,
                             passengers: passengers,
                             rideShare: rideShare

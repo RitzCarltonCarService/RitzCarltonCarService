@@ -1,45 +1,55 @@
-import React, {Component} from 'react';
-import {View, Button, Platform} from 'react-native';
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
+import { TouchableOpacity, Platform, Text } from 'react-native';
+import { Appearance, getColorScheme } from 'react-native-appearance';
+import styled from 'styled-components';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const DateTimePicker = props => {
-  const [selectedDate, setDate] = useState('');
-  
-  // Mode boolean triggers between show time and show date selection in Date Picket
-  const [mode, setMode] = useState('');
+const colorScheme = Appearance.getColorScheme();
 
-  // Boolean to indicate what platform the app is running on
-  // const [platform, setPlatform] = useState(true);
+const Container = styled.TouchableOpacity`
+  background-color: ${Platform.OS === 'ios' ? '#00000066' : 'transparent'};
+  width: 100%;
+  height: 100%;
+`;
 
-  const selectADate = (event, date) => {
-    date = date || new Date();
+const Header = styled.View`
+  width: 100%;
+  background-color: white;
+  border-color: grey;
+`;
 
-    if (Platform.OS === 'ios') {
-      setPlatform(false);
-      props.updateDate(date);
-    }
-  }
+const DateAndTimePicker = props => {
 
-  const show = (selectedMode) => {
-    setMode(selectedMode);
-  }
+  return ( 
+    <Container onPress={props.setTimePicker(false)}>
+      {Platform.OS === 'ios' && (
+        <Header>
+          <TouchableOpacity onPress={props.setTimePicker(false)}>
+            <Text>Done</Text>
+          </TouchableOpacity>
+        </Header>
+      )}
 
-  return (
-      <View>
-        <View>
-          <Button onPress={show('date')} title="Show date picker!" />
-        </View>
-        <View>
-          <Button onPress={show('time')} title="Show time picker!" />
-        </View>
-        { show && <DateTimePicker 
-            value={new Date()}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={selectADate()} />
-        }
-      </View>
+      <DateTimePicker
+        value={props.currentDate}
+        mode="date"
+        display="default"
+        customStyles={{
+          datePicker: {
+            backgroundColor: colorScheme === "dark" ? "#222" : "white"
+          }
+        }}
+        onChange={(e, d) => {
+          if (Platform.OS === 'ios') {
+            props.updateDate(d);
+          } else {
+            props.updateDate(d);
+          }
+        }}
+        style={{ backgroundColor: 'white' }}
+      />
+    </Container>
   )
 }
+
+export default memo(DateAndTimePicker); 

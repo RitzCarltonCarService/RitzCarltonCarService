@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 import { Button as RegButton } from "react-native-paper";
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import {Surface} from "react-native-paper";
-import DateTimePicker from './DateTimePicker.js';
+import DateAndTimePicker from './DateTimePicker.js';
 import TextInput from '../../../components/TextInput.js'
 import FromLocationItem from './FromLocationItem';
 import ToLocationItem from './ToLocationItem';
@@ -16,24 +16,15 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
 
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
 
-    // When user selects a from and a two location, pass both to Redux Store
-    //  in MapBackground, create conditional rendering based on coordinates in Redux store (ensure
-    //  there are coordinates, and not blank strings)
-    
-    // In Map Background, import MapViewDirections and conditionally render when
-    //  there is both a From and a To Location in redux store
-
     // Make current state of From Location to current location
     //  set text value of From Component to hooks' "From" state (initially, "Current Location")
     //  on click of Confirm button in From Location component, set FromComponent's state to input
     //  pass this to the Redux store to update From Location (to be used in Google API call in useEffect)
 
-    // Make current state of To Location to empty string
-    //  set text value of To Component to hooks' "To" state (initially, " ")
-    //  on click of Confirm button in To Location component, set ToComponent's state to input
-    //  pass this to the Redux store to update To Location (to be used in Google API call in useEffect)
+    // Bind "clear" functionality to TextInput for both To and From Location inputs (not working in sub-components)
     
     // Rendering of DateTimePicker on Click of Next to select date and time
+    //  Adjust styling and rendering of this component !!!
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFrom] = useState('');
@@ -48,18 +39,27 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
 
     // Hooks to display date/time component and set date/time
     const [showTimePicker, setTimePicker] = useState(false);
-    const [newDate, setDate] = useState('');
     
-    const updateFromState = (fromLocation) => {
-        setFrom(fromLocation);
+    // Setting date for date/time picker
+    const [currentDate, setDate] = useState(new Date());
+    
+    const updateFromState = (newFromLocation) => {
+        setFrom(newFromLocation);
+        props.setFrom(fromLocation);
     };
 
-    const updateToState = (toLocation) => {
-        setTo(toLocation);
+    const updateToState = (newToLocation) => {
+        setTo(newToLocation);
+        props.setTo(toLocation);
     };
 
-    const updateDate = (selectedDate) => {
+    const updateDate = (selectedDate) => { 
         setDate(selectedDate);
+        props.setTime(currentDate);
+    }
+
+    const viewTimePicker = (bool) => {
+        setTimePicker(bool);
     }
 
     return (
@@ -127,48 +127,38 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
                             key={el.id}
                             updateToState={updateToState}
                             updateToLocation={updateToLocation}
+                            viewTimePicker={viewTimePicker}
                         >
                         </ToLocationItem>
                     ))
                 }
             </ScrollView>
-            {fromLocation && (!toLocation) && (!setTimePicker) &&
+            {fromLocation === '' && toLocation === '' && (!showTimePicker) &&
                 <View style={styles.buttonContainer}>
-                    <>
-                        <RegButton 
-                            style={[
-                                styles.backOnlyButton,
-                                { backgroundColor: theme.colors.surface }
-                            ]}
-                            title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
-                        </RegButton>
-                    </>
-                </View> 
-            }
-            {fromLocation && toLocation && (!setTimePicker) &&
-                <View style={styles.buttonContainer}>
-                    <>
                     <RegButton 
                         style={[
-                            styles.nextButton,
+                            styles.backOnlyButton,
                             { backgroundColor: theme.colors.surface }
                         ]}
-                        title="Next" mode="outlined" onPress={() => setTimePicker(true)}>
+                        title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
                     </RegButton>
-                    <RegButton 
-                        style={[
-                            styles.backButton,
-                            { backgroundColor: theme.colors.surface }
-                        ]}
-                        title="Back" mode="outlined" onPress={() => console.log("Back")}>
-                    </RegButton>
-                    </>
                 </View> 
             }
-            {fromLocation && toLocation && showTimePicker &&
+            {fromLocation === '' || toLocation === '' && (!showTimePicker) &&
                 <View style={styles.buttonContainer}>
-                   <DateTimePicker updateDate={updateDate} />
+                    <RegButton 
+                        style={[
+                            styles.backOnlyButton,
+                            { backgroundColor: theme.colors.surface }
+                        ]}
+                        title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
+                    </RegButton>
                 </View> 
+            }
+            {fromLocation !== '' && toLocation !== '' &&              
+                <View style={styles.buttonContainer}>  
+                    <DateAndTimePicker currentDate={currentDate} setTimePicker={setTimePicker} updateDate={updateDate} />
+                </View>
             }  
         </View>
     )
@@ -193,7 +183,6 @@ const styles = StyleSheet.create({
         maxHeight: '33%',
     },
     buttonContainer: {
-        top: '40%',
         maxHeight: '33%',
         width: "100%",
         flexDirection: 'column',
