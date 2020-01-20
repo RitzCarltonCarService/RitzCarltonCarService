@@ -34,7 +34,8 @@ class FromLocationItem extends PureComponent {
 
 const styles = StyleSheet.create({
     root: {
-        height: 40,
+        height: '50%',
+        paddingHorizontal: '25%',
         borderBottomWidth: StyleSheet.hairlineWidth,
         justifyContent: 'center',
         backgroundColor: 'white'

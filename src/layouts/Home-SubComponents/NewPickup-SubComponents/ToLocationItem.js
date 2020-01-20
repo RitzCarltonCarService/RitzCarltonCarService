@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 
 class ToLocationItem extends PureComponent {
@@ -15,6 +15,7 @@ class ToLocationItem extends PureComponent {
                                 const res = await fetchDetails(this.props.place_id);
                                 // Accessing lat/lng coordinates from API response
                                 const coords = res.geometry.location;
+                                console.log("These are the To coordinates: ", coords)
                                 // Passing fromLocation's coordinates to Redux state
                                 this.props.updateToLocation(coords); 
                             };
@@ -35,7 +36,8 @@ class ToLocationItem extends PureComponent {
 
 const styles = StyleSheet.create({
     root: {
-        height: 40,
+        height: '50%',
+        paddingHorizontal: '25%',
         borderBottomWidth: StyleSheet.hairlineWidth,
         justifyContent: 'center',
         backgroundColor: 'white'

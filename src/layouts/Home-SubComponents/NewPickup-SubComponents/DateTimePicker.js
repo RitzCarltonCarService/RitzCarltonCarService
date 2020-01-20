@@ -8,12 +8,18 @@ const colorScheme = Appearance.getColorScheme();
 
 const Container = styled.TouchableOpacity`
   background-color: ${Platform.OS === 'ios' ? '#00000066' : 'transparent'};
-  width: 100%;
+  text-align: justify;
+  width: 200%;
   height: 100%;
+  margin-bottom: 25%;
 `;
 
 const Header = styled.View`
   width: 100%;
+  text-align: center;
+  text-align: center;
+  padding-left: 50%;
+  margin-right: auto;
   background-color: white;
   border-color: grey;
 `;
@@ -25,7 +31,7 @@ const DateAndTimePicker = props => {
       {Platform.OS === 'ios' && (
         <Header>
           <TouchableOpacity onPress={props.setTimePicker(false)}>
-            <Text>Done</Text>
+            <Text>Select a Date Below:</Text>
           </TouchableOpacity>
         </Header>
       )}

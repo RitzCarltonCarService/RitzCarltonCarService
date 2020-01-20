@@ -59,13 +59,14 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                 }
               })
               .then((response) => {
-                // console.log("This is the geocoding response: ", response.data.results[1].formatted_address)
+                // console.log("This is the geocoding response: ", response.data.results[1].geometry.location)
                 setFrom(response.data.results[1].formatted_address);
                 // Setting current from value as default until user changes text input field
                 changeFrom(false);
                 // Setting componentDidMount to true
                 setMounted(true);
-                console.log("This is the new from Location: ", fromLocation)
+                // Setting Redux state to user's current location
+                updateFromLocation(response.data.results[1].geometry.location)
               })
               .catch((error) => {
                 console.log(error);
@@ -137,6 +138,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                                             width: 300,
                                             paddingLeft: 40 
                                             }}
+                                            label="From"
                                             editable={true}
                                             value={'Current Location'}
                                             onFocus={() => changeFrom(true)}
@@ -150,6 +152,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                                             width: 300,
                                             paddingLeft: 40 
                                             }}
+                                            label="From"
                                             editable={true}
                                             defaultValue={inputValue}
                                             value={fromLocation}
@@ -165,6 +168,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                                             width: 300,
                                             paddingLeft: 40 
                                             }}
+                                            label="From"
                                             editable={true}
                                             defaultValue={inputValue}
                                             value={inputValue}
@@ -188,8 +192,8 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                                             width: 300,
                                             paddingLeft: 40 
                                             }}
+                                            label="To"
                                             placeholder="Where are you going?"
-                                            autoFocus={true}
                                             editable={true}
                                             defaultValue={inputValue}
                                             value={toLocation}
@@ -204,13 +208,13 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                                             width: 300,
                                             paddingLeft: 40 
                                             }}
+                                            label="To"
                                             editable={true}
                                             autoFocus={true}
                                             defaultValue={inputValue}
                                             value={inputValue}
                                             onFocus={() => {setFocusedThing(2)}}
                                             onChangeText={handleTextChange}                                 
-                                            onEndEditing={() => {changeToInput(false)}}
                                         />
                                     </React.Fragment>
                                 }
@@ -219,62 +223,64 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                     </GoogleAutoComplete>
                 </React.Fragment>
             </Surface>
-            <ScrollView style={{ maxHeight: 200, paddingLeft: '10%' }} keyboardShouldPersistTaps={'always'}>
-                {focusedThing === 1 ?
-                    fromResults.map((el, i) => (
-                        <FromLocationItem
-                            {...el}
-                            key={el.id}
-                            googAPI={GOOGLE_MAPS_APIKEY}
-                            clearFromSelections={fromFunc}
-                            updateFromState={updateFromState}
-                            updateFromLocation={updateFromLocation}
-                            setFromValue={setFromValue}
-                        >
-                        </FromLocationItem>
-                    )) :
-                    toResults.map((el, i) => (
-                        <ToLocationItem
-                            {...el}
-                            key={el.id}
-                            googAPI={GOOGLE_MAPS_APIKEY}
-                            clearToSelections={toFunc}
-                            updateToState={updateToState}
-                            updateToLocation={updateToLocation}
-                            viewTimePicker={viewTimePicker}
-                            setToValue={setToValue}
-                        >
-                        </ToLocationItem>
-                    ))
+            <View style={styles.scroll}>
+                <ScrollView style={styles.scrollView} keyboardShouldPersistTaps={'always'} keyboardDismissMode='on-drag'>
+                    {focusedThing === 1 ?
+                        fromResults.map((el, i) => (
+                            <FromLocationItem
+                                {...el}
+                                key={el.id}
+                                googAPI={GOOGLE_MAPS_APIKEY}
+                                clearFromSelections={fromFunc}
+                                updateFromState={updateFromState}
+                                updateFromLocation={updateFromLocation}
+                                setFromValue={setFromValue}
+                            >
+                            </FromLocationItem>
+                        )) :
+                        toResults.map((el, i) => (
+                            <ToLocationItem
+                                {...el}
+                                key={el.id}
+                                googAPI={GOOGLE_MAPS_APIKEY}
+                                clearToSelections={toFunc}
+                                updateToState={updateToState}
+                                updateToLocation={updateToLocation}
+                                viewTimePicker={viewTimePicker}
+                                setToValue={setToValue}
+                            >
+                            </ToLocationItem>
+                        ))
+                    }
+                </ScrollView>
+                {fromLocation === '' && toLocation === '' && (!showTimePicker) &&
+                    <View style={styles.buttonContainer}>
+                        <RegButton 
+                            style={[
+                                styles.backOnlyButton,
+                                { backgroundColor: theme.colors.surface }
+                            ]}
+                            title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
+                        </RegButton>
+                    </View> 
                 }
-            </ScrollView>
-            {fromLocation === '' && toLocation === '' && (!showTimePicker) &&
-                <View style={styles.buttonContainer}>
-                    <RegButton 
-                        style={[
-                            styles.backOnlyButton,
-                            { backgroundColor: theme.colors.surface }
-                        ]}
-                        title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
-                    </RegButton>
-                </View> 
-            }
-            {fromLocation === '' || toLocation === '' && (!showTimePicker) &&
-                <View style={styles.buttonContainer}>
-                    <RegButton 
-                        style={[
-                            styles.backOnlyButton,
-                            { backgroundColor: theme.colors.surface }
-                        ]}
-                        title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
-                    </RegButton>
-                </View> 
-            }
-            {fromLocation !== '' && toLocation !== '' &&              
-                <View style={styles.buttonContainer}>  
-                    <DateAndTimePicker currentDate={currentDate} setTimePicker={setTimePicker} updateDate={updateDate} />
-                </View>
-            }  
+                {fromLocation === '' || toLocation === '' && (!showTimePicker) &&
+                    <View style={styles.buttonContainer}>
+                        <RegButton 
+                            style={[
+                                styles.backOnlyButton,
+                                { backgroundColor: theme.colors.surface }
+                            ]}
+                            title="Back" mode="outlined" onPress={() => console.log('Pressed')}>
+                        </RegButton>
+                    </View> 
+                }
+                {fromLocation !== '' && toLocation !== '' &&              
+                    <View style={styles.buttonContainer}>  
+                        <DateAndTimePicker currentDate={currentDate} setTimePicker={setTimePicker} updateDate={updateDate} />
+                    </View>
+                }  
+            </View>
         </View>
     )
 }        
@@ -282,20 +288,30 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: '100%'
+
     },
     surface: {
         flex: 1,
-        width: '100%',
-        maxHeight: '33%',
-        paddingVertical: 0,
-        alignContent: 'center',
-        justifyContent: 'flex-start'
+        width: '200%',
+        marginTop: '7%',
+        maxHeight: '30%',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center'
     },
     scroll: {
         flex: 1,
-        width: 450,
-        maxHeight: '33%',
+        width: '100%',
+        maxHeight: '100%',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center'
+    },
+    scrollView: {
+        flex: 1,
+        width: '100%',
+        marginHorizontal: '10%',
+        maxHeight: '100%',
     },
     buttonContainer: {
         maxHeight: '33%',
@@ -309,9 +325,7 @@ const styles = StyleSheet.create({
     fromWrapper: {
         flex: 1,
         width: 325,
-        height: 60,
-        marginVertical: 0,
-        paddingVertical: 0,
+        height: '5%',
         flexDirection: 'row',
         alignItems: 'center'
     },
