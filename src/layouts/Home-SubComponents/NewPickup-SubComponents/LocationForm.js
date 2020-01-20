@@ -34,26 +34,43 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
     const [fromLocation, setFrom] = useState('');
     const [toLocation, setTo] = useState('');
 
-    // If the user has enabled their geoLocation, set this as the default value in the From Text Input
-    if (props.geoLocation) {    
-        let lat = props.geoLocation.latitude;
-        let long = props.geoLocation.longitude;
-        let coords = lat + "," + long; 
+    // Hook for mounting initial From location of user
+    const [componentDidMount, setMounted] = useState(false);
 
-        axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-            params: {
-                latlng: coords,
-                key: GOOGLE_MAPS_APIKEY
-            }
-          })
-          .then((response) => {
-            // console.log("This is the geocoding response: ", response.data.results[1].formatted_address)
-            setFrom(response.data.results[1].formatted_address)
-            console.log("This is the new from Location: ", fromLocation)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+    // Hook to use different From location for rerendering purposes
+    const [newFromLocation, changeFrom] = useState(null);
+
+    // Hook to allow for saving of inputValue in From/To TextInput fields
+    const [newFromInputValue, changeFromInput] = useState(false);
+    const [newToInputValue, changeToInput] = useState(false);
+
+    // If the user has enabled their geoLocation, set this as the default value in the From Text Input
+    if (props.geoLocation) {
+        // If component has not mounted, request geolocation
+        if (!componentDidMount) {
+            let lat = props.geoLocation.latitude;
+            let long = props.geoLocation.longitude;
+            let coords = lat + "," + long; 
+    
+            axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+                params: {
+                    latlng: coords,
+                    key: GOOGLE_MAPS_APIKEY
+                }
+              })
+              .then((response) => {
+                // console.log("This is the geocoding response: ", response.data.results[1].formatted_address)
+                setFrom(response.data.results[1].formatted_address);
+                // Setting current from value as default until user changes text input field
+                changeFrom(false);
+                // Setting componentDidMount to true
+                setMounted(true);
+                console.log("This is the new from Location: ", fromLocation)
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+        }    
     }
 
     // Store a function to be executed somewhere else
@@ -88,10 +105,23 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
         props.setTime(currentDate);
     }
 
+    // Resets focus of From text input to display selected address via from-location drop down menu
+    const setFromValue = () => {
+        changeFromInput(false)
+    }
+
+    // Resets focus of To text input to display selected address via to-location drop down menu
+    const setToValue = () => {
+        changeToInput(false)
+    }
+
     const viewTimePicker = (bool) => {
         setTimePicker(bool);
     }
 
+    // Figure out a way to autopopulate TextInput with user's current geolocation
+    //  onChange of this TextInput, call a state Function and re-render with TextInput with Google AutoComplete
+    
     return (
         <View styles={styles.container}>
             <Surface style={styles.surface}>
@@ -99,50 +129,97 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                     <GoogleAutoComplete apiKey={GOOGLE_MAPS_APIKEY} debounce={300} components="country:usa">
                         {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
                             <View style={styles.fromWrapper}>
-                                <React.Fragment>
-                                    {setFromFunc(clearSearch)}
-                                    {setFromResults(locationResults)}
-                                    <TextInput style={{
-                                        width: 300,
-                                        paddingLeft: 40 
-                                        }}
-                                        editable={true}
-                                        defaultValue={fromLocation}
-                                        value={inputValue}
-                                        onFocus={() => {setFocusedThing(1)}}
-                                        onChangeText={handleTextChange}
-                                        placeholder={fromLocation}
-                                    />
-                                    <RegButton title="Clear" onPress={() => {clearSearch}}></RegButton>
-                                </React.Fragment>
+                                {setFromFunc(clearSearch)}
+                                {setFromResults(locationResults)}
+                                {newFromLocation === false &&
+                                    <React.Fragment>
+                                        <TextInput style={{
+                                            width: 300,
+                                            paddingLeft: 40 
+                                            }}
+                                            editable={true}
+                                            value={'Current Location'}
+                                            onFocus={() => changeFrom(true)}
+                                            clearTextOnFocus={true}
+                                        />
+                                    </React.Fragment>
+                                }
+                                {newFromLocation === true && newFromInputValue === false &&
+                                    <React.Fragment>
+                                        <TextInput style={{
+                                            width: 300,
+                                            paddingLeft: 40 
+                                            }}
+                                            editable={true}
+                                            defaultValue={inputValue}
+                                            value={fromLocation}
+                                            onFocus={() => {setFocusedThing(1)}}
+                                            onChangeText={() => changeFromInput(true)} // < -- pass this down!!!!
+                                            autoFocus={true}
+                                        />
+                                    </React.Fragment>
+                                }
+                                {newFromLocation === true && newFromInputValue === true &&
+                                    <React.Fragment>
+                                        <TextInput style={{
+                                            width: 300,
+                                            paddingLeft: 40 
+                                            }}
+                                            editable={true}
+                                            defaultValue={inputValue}
+                                            value={inputValue}
+                                            onFocus={() => {setFocusedThing(1)}}
+                                            onChangeText={handleTextChange}
+                                            autoFocus={true}
+                                        />
+                                    </React.Fragment>
+                                }
                             </View>
                         )}
                     </GoogleAutoComplete>
                     <GoogleAutoComplete apiKey={GOOGLE_MAPS_APIKEY} debounce={300} components="country:usa">
                         {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
                             <View style={styles.toWrapper}>
-                                <React.Fragment>
-                                    {setToFunc(clearSearch)}
-                                    {setToResults(locationResults)}
-                                    <TextInput style={{
-                                        width: 300,
-                                        paddingLeft: 40
-                                        }}
-                                        editable={true}
-                                        defaultValue={toLocation}
-                                        onFocus={() => {setFocusedThing(2)}}
-                                        value={inputValue} // value={toLocation} < --- this needs to work somehow!
-                                        onChangeText={handleTextChange}
-                                        placeholder="Where are you going?"
-                                    />
-                                    <RegButton title="Clear" onPress={clearSearch}></RegButton>
-                                </React.Fragment>
+                                {setToFunc(clearSearch)}
+                                {setToResults(locationResults)}
+                                {newToInputValue === false &&
+                                    <React.Fragment>
+                                        <TextInput style={{
+                                            width: 300,
+                                            paddingLeft: 40 
+                                            }}
+                                            placeholder="Where are you going?"
+                                            autoFocus={true}
+                                            editable={true}
+                                            defaultValue={inputValue}
+                                            value={toLocation}
+                                            onFocus={() => {setFocusedThing(2)}}
+                                            onChangeText={() => changeToInput(true)}
+                                        />
+                                    </React.Fragment>
+                                }
+                                {newToInputValue === true &&
+                                    <React.Fragment>
+                                        <TextInput style={{
+                                            width: 300,
+                                            paddingLeft: 40 
+                                            }}
+                                            editable={true}
+                                            autoFocus={true}
+                                            defaultValue={inputValue}
+                                            value={inputValue}
+                                            onFocus={() => {setFocusedThing(2)}}
+                                            onChangeText={handleTextChange}                                 
+                                            onEndEditing={() => {changeToInput(false)}}
+                                        />
+                                    </React.Fragment>
+                                }
                             </View>
                         )}
                     </GoogleAutoComplete>
                 </React.Fragment>
             </Surface>
-            <ScrollView style={{ maxHeight: 200, paddingLeft: '10%' }}>
+            <ScrollView style={{ maxHeight: 200, paddingLeft: '10%' }} keyboardShouldPersistTaps={'always'}>
                 {focusedThing === 1 ?
                     fromResults.map((el, i) => (
                         <FromLocationItem
@@ -152,6 +229,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                             clearFromSelections={fromFunc}
                             updateFromState={updateFromState}
                             updateFromLocation={updateFromLocation}
+                            setFromValue={setFromValue}
                         >
                         </FromLocationItem>
                     )) :
@@ -164,6 +242,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                             updateToState={updateToState}
                             updateToLocation={updateToLocation}
                             viewTimePicker={viewTimePicker}
+                            setToValue={setToValue}
                         >
                         </ToLocationItem>
                     ))

@@ -13,7 +13,7 @@
 import { connect } from 'react-redux';
 import { updateRideDuration, updateRideDistance } from '../redux/actions';
 import React, { memo, useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Keyboard } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions';
 import { aubergineMapStyle, silverMapStyle } from '../core/mapStyles';
 import MapView, { PROVIDER_GOOGLE, AnimatedRegion, Animated } from 'react-native-maps';
@@ -41,6 +41,9 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
 
    // If there now exists a latitude or longitude coordinate inside of destination object, render Map with route
    if (Object.keys(destination).length) {
+      // dismissing keyboard after user has inputted new To and From location
+      Keyboard.dismiss();
+
       return (
          <MapView
             initialRegion={{

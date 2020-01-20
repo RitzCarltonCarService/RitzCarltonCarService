@@ -23,6 +23,7 @@ class ToLocationItem extends PureComponent {
                             this.props.clearToSelections();
                             // on selection of item, set view of Time/Date Picker to true
                             this.props.viewTimePicker(true);
+                            this.props.setToValue();
                         }}> 
                         <Text>{this.props.description}</Text>
                     </TouchableOpacity>
