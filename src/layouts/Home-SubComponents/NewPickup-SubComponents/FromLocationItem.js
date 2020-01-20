@@ -6,8 +6,8 @@ class FromLocationItem extends PureComponent {
 
     render() {
         return (
-            <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
-                {({ fetchDetails, clearSearch }) => (
+            <GoogleAutoComplete apiKey={this.props.googAPI} debounce={300} components="country:usa">
+                {({ fetchDetails }) => (
                     <TouchableOpacity 
                         style={styles.root} 
                         onPress={() => {
@@ -19,9 +19,9 @@ class FromLocationItem extends PureComponent {
                                 // Passing fromLocation's coordinates to Redux state
                                 this.props.updateFromLocation(coords); 
                             };
-                            this.props.updateFromState(this.props.description);
                             handlePress();
-                            clearSearch();
+                            this.props.updateFromState(this.props.description);
+                            this.props.clearFromSelections();
                         }}> 
                         <Text>{this.props.description}</Text>
                     </TouchableOpacity>

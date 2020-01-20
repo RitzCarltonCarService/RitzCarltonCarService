@@ -75,8 +75,6 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                   console.log(`Started routing between "${params.origin}" and "${params.destination}"`);
                }}
                onReady={result => {
-                  console.log(`Distance: ${result.distance} km`)
-                  console.log(`Duration: ${result.duration} min`)
                   // Adding to Redux store the new distance and duration of user's selected route
                   updateRideDistance(result.distance + 'km')
                   updateRideDuration(result.duration + 'min')

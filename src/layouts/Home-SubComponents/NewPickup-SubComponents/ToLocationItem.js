@@ -6,7 +6,7 @@ class ToLocationItem extends PureComponent {
 
     render() {
         return (
-            <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
+            <GoogleAutoComplete apiKey={this.props.googAPI} debounce={300} components="country:usa">
                 {({ fetchDetails, clearSearch }) => (
                     <TouchableOpacity 
                         style={styles.root} 
@@ -18,11 +18,11 @@ class ToLocationItem extends PureComponent {
                                 // Passing fromLocation's coordinates to Redux state
                                 this.props.updateToLocation(coords); 
                             };
+                            handlePress();
                             this.props.updateToState(this.props.description);
+                            this.props.clearToSelections();
                             // on selection of item, set view of Time/Date Picker to true
                             this.props.viewTimePicker(true);
-                            handlePress();
-                            clearSearch();
                         }}> 
                         <Text>{this.props.description}</Text>
                     </TouchableOpacity>

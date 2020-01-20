@@ -6,10 +6,12 @@ import { Button as RegButton } from "react-native-paper";
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import {Surface} from "react-native-paper";
 import DateAndTimePicker from './DateTimePicker.js';
+import useFunctionAsState from '../../../components/useFunctionAsState.js'
 import TextInput from '../../../components/TextInput.js'
 import FromLocationItem from './FromLocationItem';
 import ToLocationItem from './ToLocationItem';
 import { theme } from "../../../core/theme.js";
+import axios from 'axios';
 
 const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
@@ -26,9 +28,37 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
     // Rendering of DateTimePicker on Click of Next to select date and time
     //  Adjust styling and rendering of this component !!!
 
+    const GOOGLE_MAPS_APIKEY = '';
+
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFrom] = useState('');
     const [toLocation, setTo] = useState('');
+
+    // If the user has enabled their geoLocation, set this as the default value in the From Text Input
+    if (props.geoLocation) {    
+        let lat = props.geoLocation.latitude;
+        let long = props.geoLocation.longitude;
+        let coords = lat + "," + long; 
+
+        axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+            params: {
+                latlng: coords,
+                key: GOOGLE_MAPS_APIKEY
+            }
+          })
+          .then((response) => {
+            // console.log("This is the geocoding response: ", response.data.results[1].formatted_address)
+            setFrom(response.data.results[1].formatted_address)
+            console.log("This is the new from Location: ", fromLocation)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }
+
+    // Store a function to be executed somewhere else
+    const [fromFunc, setFromFunc] = useFunctionAsState(null);
+    const [toFunc, setToFunc] = useFunctionAsState(null);
 
     // Initial states of Text Input for To/From 
     const [focusedThing, setFocusedThing] = useState(false);
@@ -66,10 +96,11 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
         <View styles={styles.container}>
             <Surface style={styles.surface}>
                 <React.Fragment>
-                    <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
+                    <GoogleAutoComplete apiKey={GOOGLE_MAPS_APIKEY} debounce={300} components="country:usa">
                         {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
                             <View style={styles.fromWrapper}>
                                 <React.Fragment>
+                                    {setFromFunc(clearSearch)}
                                     {setFromResults(locationResults)}
                                     <TextInput style={{
                                         width: 300,
@@ -80,17 +111,18 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                                         value={inputValue}
                                         onFocus={() => {setFocusedThing(1)}}
                                         onChangeText={handleTextChange}
-                                        placeholder="Current Location..."
+                                        placeholder={fromLocation}
                                     />
                                     <RegButton title="Clear" onPress={() => {clearSearch}}></RegButton>
                                 </React.Fragment>
                             </View>
                         )}
                     </GoogleAutoComplete>
-                    <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
+                    <GoogleAutoComplete apiKey={GOOGLE_MAPS_APIKEY} debounce={300} components="country:usa">
                         {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
                             <View style={styles.toWrapper}>
                                 <React.Fragment>
+                                    {setToFunc(clearSearch)}
                                     {setToResults(locationResults)}
                                     <TextInput style={{
                                         width: 300,
@@ -116,6 +148,8 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                         <FromLocationItem
                             {...el}
                             key={el.id}
+                            googAPI={GOOGLE_MAPS_APIKEY}
+                            clearFromSelections={fromFunc}
                             updateFromState={updateFromState}
                             updateFromLocation={updateFromLocation}
                         >
@@ -125,6 +159,8 @@ const LocationForm = ({ updateToLocation, updateFromLocation, ...props }) => {
                         <ToLocationItem
                             {...el}
                             key={el.id}
+                            googAPI={GOOGLE_MAPS_APIKEY}
+                            clearToSelections={toFunc}
                             updateToState={updateToState}
                             updateToLocation={updateToLocation}
                             viewTimePicker={viewTimePicker}
@@ -245,10 +281,17 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = state => {
+    console.log('This is state: ', state)
+    return {
+        geoLocation: state.geoLocation,
+    }
+}
+
 const mapDispatchToProps = {
     navigate: navigate,
     updateToLocation: updateToLocation,
     updateFromLocation: updateFromLocation
 }
 
-export default connect(null, mapDispatchToProps)(LocationForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LocationForm);
