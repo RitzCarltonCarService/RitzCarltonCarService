@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { navigate, updateToLocation, updateFromLocation } from '../../../../redux/actions';
-import { Text, View, StyleSheet, ScrollView, Keyboard, Alert } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Keyboard, TouchableWithoutFeedback, Alert } from 'react-native';
 import {Surface} from "react-native-paper";
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import { theme } from "../../../../core/theme.js";
@@ -148,7 +148,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                 googAPI={props.apiKey}
                                 clearFromSelections={fromFunc}
                                 updateFromState={props.updateFromState}
-                                updateFromLocation={props.updateFromLocation}
+                                updateFromLocation={updateFromLocation}
                                 setFromValue={setFromValue}
                             >
                             </FromLocationItem>
@@ -160,7 +160,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                 googAPI={props.apiKey}
                                 clearToSelections={toFunc}
                                 updateToState={props.updateToState}
-                                updateToLocation={props.updateToLocation}
+                                updateToLocation={updateToLocation}
                                 setToValue={setToValue}
                             >
                             </ToLocationItem>
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
         top: '5%'
     },
     scroll: {
-        height: '60%'
+        height: '50%'
     }
 });
 
@@ -191,4 +191,4 @@ const mapDispatchToProps = {
     updateFromLocation: updateFromLocation
 }
 
-export default connect(null, mapDispatchToProps)(LocationMapView);
+export default connect(null, mapDispatchToProps)(memo(LocationMapView));

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import {Surface} from "react-native-paper";
 import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
@@ -27,9 +27,8 @@ const DateTimeMapView = props => {
             </Surface>
             <View style={styles.buttonContainer}>  
                 <DateAndTimePicker 
-                    currentDate={currentDate} 
-                    setTimePicker={setTimePicker} 
-                    dateAlert={dateAlert}     
+                    currentDate={props.currentDate} 
+                    dateAlert={props.dateAlert}     
                 />
             </View>
             <View style={styles.singleRideButtonContainer}>
@@ -53,8 +52,7 @@ const DateTimeMapView = props => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-
+        flex: 1
     },
     surface: {
         flex: 1,
@@ -75,4 +73,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default DateTimeMapView;
+export default memo(DateTimeMapView);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateFromLocation } from '../../../../redux/actions';
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
@@ -79,6 +79,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
         props.setTo(toLocation);
     };
 
+    // Alert pop up for dates in the past
     const dateAlert = (selectedDate) => {
         let today = new Date();
         if (selectedDate < today) {
@@ -109,18 +110,20 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
         if (fromLocation !== '' && toLocation !== '') {
             return (
                 <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
-                    <View styles={styleslocationMapStyles.container}>
-                        <DateTimeMapView>
-
-                        </DateTimeMapView>
-                        <View style={locationMapStyles.buttonBox}>
-                            <Button 
+                    <View styles={styles.container}>
+                            <DateTimeMapView styles={styles.contentBox}
+                                currentDate={currentDate}
+                                dateAlert={dateAlert}
+                            >
+                            </DateTimeMapView>
+                        <View styles={styles.buttonBox}>
+                            <Button styles={styles.nextButton}
                                 mode='contained' 
                                 onPress={() => props.setForm(1)}
                             >
                                 Next
                             </Button>
-                            <Button 
+                            <Button styles={styles.backButton}
                                 mode='contained' 
                                 onPress={() => props.setPage("home")}
                             >
@@ -133,8 +136,8 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
         } else {
             return (
                 <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
-                    <View> 
-                        <LocationMapView 
+                    <View styles={styles.container}> 
+                        <LocationMapView styles={styles.contentBox} 
                                 apiKey={GOOGLE_MAPS_APIKEY}
                                 toLocation={toLocation}   
                                 fromLocation={fromLocation}
@@ -146,14 +149,14 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 updateToState={updateToState}
                             >
                         </LocationMapView>
-                        <View>
-                            <Button
+                        <View styles={styles.buttonBox}>
+                            <Button styles={styles.nextButton}
                                 mode='contained' 
                                 onPress={() => props.setForm(1)}
                             >
                                 Next
                             </Button>
-                            <Button
+                            <Button styles={styles.backButton}
                                 mode='contained' 
                                 onPress={() => props.setPage("home")}
                             >
@@ -183,7 +186,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                     </LocationMapView>
                     {fromLocation === '' && toLocation === '' &&
                         <View styles={styles.buttonBox} >
-                            <Button styles={styles.backButton} 
+                            <Button styles={styles.nextButton} 
                                 mode='contained' 
                                 onPress={() => props.setPage("home")}
                             >
@@ -192,7 +195,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                         </View> 
                     }
                     {fromLocation === '' || toLocation === '' &&
-                        <View>
+                        <View styles={styles.buttonBox}>
                             <Button styles={styles.backButton} 
                                 mode='contained' 
                                 onPress={() => props.setPage("home")}
@@ -202,7 +205,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                         </View> 
                     }
                     {fromLocation !== '' && toLocation !== '' &&
-                        <View>
+                        <View styles={styles.buttonBox}>
                             <Button styles={styles.nextButton}  
                                 mode='contained' 
                                 onPress={() => props.setForm(1)}
@@ -337,4 +340,4 @@ const mapDispatchToProps = {
     updateFromLocation: updateFromLocation
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LocationForm);
+export default connect(mapStateToProps, mapDispatchToProps)(memo(LocationForm));
