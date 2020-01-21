@@ -24,7 +24,7 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
    let hour = new Date().getHours();
    let origin = {};
    let destination = {};
-   const GOOGLE_MAPS_APIKEY = '';
+   const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
    const refContainer = useRef(null);
 
    if (fromLocation) {
@@ -86,9 +86,9 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                   refContainer.current.fitToCoordinates(result.coordinates, {
                      edgePadding: {
                         right: 100,
-                        bottom: 200,
+                        bottom: 300,
                         left: 100,
-                        top: 225
+                        top: 300
                      }
                   });
                }}
