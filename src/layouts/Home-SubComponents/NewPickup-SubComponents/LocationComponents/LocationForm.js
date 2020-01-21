@@ -6,7 +6,7 @@ import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'rea
 import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
 import DateTimeMapView from './DateTimeMapView.js';
-import LocationMapView from './LocationForm.js'
+import LocationMapView from './LocationMapView.js'
 
 const LocationForm = ({ updateFromLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
@@ -35,8 +35,8 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     // Hook for mounting initial From location of user
     const [componentDidMount, setMounted] = useState(false);
 
-    // Hook to use different From location for rerendering purposes
     const [newFromLocation, changeFrom] = useState(null);
+    // Hook to use different From location for rerendering purposes
 
     getReverseGeocode = async () => {
         if (props.geoLocation) {
@@ -47,7 +47,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                 let coords = lat + "," + long; 
         
                 let res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords}&key=${GOOGLE_MAPS_APIKEY}`);
-                console.log("This is the response: ", res);
+                // console.log("This is the response: ", res);
                 let address = res.data.results[1].formatted_address
                 // Setting initial from location to user's current geoLocation address
                 setFrom(address);
@@ -56,18 +56,14 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                 // Setting componentDidMount to true
                 setMounted(true);
                 // Setting Redux state to user's current location
-                updateFromLocation(response.data.results[1].geometry.location)
+                updateFromLocation(res.data.results[1].geometry.location)
             }    
         }    
     }
 
     // Get user's reverse geoCoded address
     getReverseGeocode();
-    
-    // Hook to allow for saving of inputValue in From/To TextInput fields
-    // const [newFromInputValue, changeFromInput] = useState(false);
-    // const [newToInputValue, changeToInput] = useState(false);
-    
+
     // Setting date for date/time picker
     const [currentDate, setDate] = useState(new Date());
 
@@ -99,16 +95,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
             props.setTime(currentDate);
         }
     }
-
-    // Resets focus of From text input to display selected address via from-location drop down menu
-    // const setFromValue = () => {
-    //     changeFromInput(false)
-    // }
-
-    // Resets focus of To text input to display selected address via to-location drop down menu
-    // const setToValue = () => {
-    //     changeToInput(false)
-    // }
 
     // If this is a scheduled request, render the Text Input fields to select a From and To Destination
     //  then, allow to user to view their destination request on the map
@@ -153,22 +139,11 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 toLocation={toLocation}   
                                 fromLocation={fromLocation}
                                 setFrom={setFrom}       
-
-
-                                changeFrom={changeFrom}
+                                setTo={setTo}
                                 newFromLocation={newFromLocation}
-
-                                newFromInputValue={newFromInputValue}
-                                fromLocation={fromLocation}
-                                changeFromInput={changeFromInput} 
-                                changeToInput={changeToInput}
-                                newToInputValue={newToInputValue}
+                                changeFrom={changeFrom}
                                 updateFromState={updateFromState}
-                                updateFromLocation={updateFromLocation}
-                                setFromValue={setFromValue}
                                 updateToState={updateToState}
-                                updateToLocation={updateToLocation}
-                                setToValue={setToValue}
                             >
                         </LocationMapView>
                         <View style={styles.singleRideButtonContainer}>
@@ -190,158 +165,68 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
             )
 
         }
+    } else {
+        return (
+            <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+                <View styles={styles.container}>
+                    <LocationMapView
+                        style={styles.locationSelection}
+                        apiKey={GOOGLE_MAPS_APIKEY}
+                        toLocation={toLocation}   
+                        fromLocation={fromLocation}
+                        setFrom={setFrom}       
+                        setTo={setTo}
+                        newFromLocation={newFromLocation}
+                        changeFrom={changeFrom}
+                        updateFromState={updateFromState}
+                        updateToState={updateToState}
+                    >
+                    </LocationMapView>
+                    {fromLocation === '' && toLocation === '' &&
+                        <View style={styles.singleRideButtonContainer}>
+                            <Button style={styles.backButton} 
+                                mode='contained' 
+                                onPress={() => props.setPage("home")}
+                            >
+                                Back
+                            </Button>
+                        </View> 
+                    }
+                    {fromLocation === '' || toLocation === '' &&
+                        <View style={styles.singleRideButtonContainer}>
+                            <Button style={styles.backButton} 
+                                mode='contained' 
+                                onPress={() => props.setPage("home")}
+                            >
+                                Back
+                            </Button>
+                        </View> 
+                    }
+                    {fromLocation !== '' && toLocation !== '' &&
+                        <View style={styles.singleRideButtonContainer}>
+                            <Button style={styles.backButton} 
+                                mode='contained' 
+                                onPress={() => props.setForm(1)}
+                            >
+                                Next
+                            </Button>
+                            <Button style={styles.backButton} 
+                                mode='contained' 
+                                onPress={() => props.setPage("home")}
+                            >
+                                Back
+                            </Button>
+                        </View>
+                    }  
+                </View>
+            </TouchableWithoutFeedback>
+        )
     }
-    
-
-    return (
-        <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
-            <View styles={styles.container}>
-                <LocationMapView 
-                    apiKey={GOOGLE_MAPS_APIKEY}
-                    toLocation={toLocation}   
-                    fromLocation={fromLocation} 
-                    newFromLocation={newFromLocation}
-                    changeFrom={changeFrom}
-                    newFromInputValue={newFromInputValue}
-                    fromLocation={fromLocation}
-                    changeFromInput={changeFromInput} 
-                    changeToInput={changeToInput}
-                    newToInputValue={newToInputValue}
-                    updateFromState={updateFromState}
-                    updateFromLocation={updateFromLocation}
-                    setFromValue={setFromValue}
-                    updateToState={updateToState}
-                    updateToLocation={updateToLocation}
-                    setToValue={setToValue}
-                >
-                </LocationMapView>
-                {fromLocation === '' && toLocation === '' &&
-                    <View style={styles.buttonContainer}>
-                        <Button style={styles.backOnlyButton} 
-                            mode='contained' 
-                            onPress={() => props.setPage("home")}
-                        >
-                            Back
-                        </Button>
-                    </View> 
-                }
-                {fromLocation === '' || toLocation === '' &&
-                    <View style={styles.buttonContainer}>
-                        <Button style={styles.backOnlyButton} 
-                            mode='contained' 
-                            onPress={() => props.setPage("home")}
-                        >
-                            Back
-                        </Button>
-                    </View> 
-                }
-                {fromLocation !== '' && toLocation !== '' &&
-                    <View style={styles.singleRideButtonContainer}>
-                        <Button style={styles.backButton} 
-                            mode='contained' 
-                            onPress={() => props.setForm(1)}
-                        >
-                            Next
-                        </Button>
-                        <Button style={styles.backButton} 
-                            mode='contained' 
-                            onPress={() => props.setPage("home")}
-                        >
-                            Back
-                        </Button>
-                    </View>
-                }  
-            </View>
-        </TouchableWithoutFeedback>
-    )
-    
 } 
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-
-    },
-    surface: {
-        flex: 1,
-        width: '200%',
-        marginTop: '7%',
-        maxHeight: '30%',
-        justifyContent: 'center',
-        alignSelf: 'center',
-        alignItems: 'center'
-    },
-    fromWrapper: {
-        flex: 1,
-        width: 325,
-        height: '5%',
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    toWrapper: {
-        flex: 1,
-        width: 325,
-        height: '5%',
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    scroll: {
-        flex: 1,
-        width: '100%',
-        maxHeight: '100%',
-        justifyContent: 'center',
-        alignSelf: 'center',
-        alignItems: 'center'
-    },
-    scrollView: {
-        height: '50%',
-        width: '100%',
-        marginHorizontal: '10%',
-        maxHeight: '100%',
-    },
-    buttonContainer: {
-        flex: 1,
-        maxHeight: '100%',
-        width: "100%",
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        alignContent: 'flex-start',
-        justifyContent: 'center',
-        marginBottom: '10%'
-    },
-    singleRideButtonContainer: {
-        flex: 1,
-        maxHeight: '100%',
-        width: "100%",
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        alignContent: 'flex-start',
-        justifyContent: 'center',
-        marginBottom: '10%'
-    },
-    backButton: {
-        maxHeight: "100%",
-        width: "100%",
-        alignContent: 'center',
-        justifyContent: 'center',
-        backgroundColor: theme.colors.primary,
-        borderRadius: 10
-    },
-    nextButton: {
-        maxHeight: "100%",
-        width: "100%",
-        alignContent: 'center',
-        justifyContent: 'center',
-        backgroundColor: theme.colors.primary,
-        borderRadius: 10
-    },
-    text: {
-        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
-        letterSpacing: 2,
-        fontWeight: "bold",
-        fontSize: 15,
-        lineHeight: 40,
-        color: theme.colors.secondary,
+        flex: 1
     }
 });
 
@@ -352,4 +237,8 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {})(LocationForm);
+const mapDispatchToProps = {
+    updateFromLocation: updateFromLocation
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LocationForm);

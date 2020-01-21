@@ -7,7 +7,7 @@ class ToLocationItem extends PureComponent {
     render() {
         return (
             <GoogleAutoComplete apiKey={this.props.googAPI} debounce={300} components="country:usa">
-                {({ fetchDetails, clearSearch }) => (
+                {({ fetchDetails }) => (
                     <TouchableOpacity 
                         style={styles.root} 
                         onPress={() => {

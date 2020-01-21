@@ -10,7 +10,7 @@ import TextInput from '../../../../components/TextInput.js'
 import FromLocationItem from './FromLocationItem';
 import ToLocationItem from './ToLocationItem';
 
-const LocationMapView = props => {
+const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => {
     // Hook to allow for saving of inputValue in From/To TextInput fields
     const [newFromInputValue, changeFromInput] = useState(false);
     const [newToInputValue, changeToInput] = useState(false);
@@ -41,7 +41,7 @@ const LocationMapView = props => {
             <Surface style={styles.surface}>
                 <React.Fragment>
                     <GoogleAutoComplete apiKey={props.apiKey} debounce={300} components="country:usa">
-                        {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
+                        {({ inputValue, handleTextChange, locationResults, clearSearch }) => (
                             <View style={styles.fromWrapper}>
                                 {setFromFunc(clearSearch)}
                                 {setFromResults(locationResults)}
@@ -70,7 +70,7 @@ const LocationMapView = props => {
                                             defaultValue={inputValue}
                                             value={props.fromLocation}
                                             onFocus={() => {setFocusedThing(1)}}
-                                            onChangeText={() => changeFromInput(true)} // < -- pass this down!!!!
+                                            onChangeText={() => changeFromInput(true)} 
                                             autoFocus={true}
                                         />
                                     </React.Fragment>
@@ -95,7 +95,7 @@ const LocationMapView = props => {
                         )}
                     </GoogleAutoComplete>
                     <GoogleAutoComplete apiKey={props.apiKey} debounce={300} components="country:usa">
-                        {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
+                        {({ inputValue, handleTextChange, locationResults, clearSearch }) => (
                             <View style={styles.toWrapper}>
                                 {setToFunc(clearSearch)}
                                 {setToResults(locationResults)}
@@ -149,7 +149,7 @@ const LocationMapView = props => {
                                 clearFromSelections={fromFunc}
                                 updateFromState={props.updateFromState}
                                 updateFromLocation={props.updateFromLocation}
-                                setFromValue={props.setFromValue}
+                                setFromValue={setFromValue}
                             >
                             </FromLocationItem>
                         )) :
@@ -161,7 +161,7 @@ const LocationMapView = props => {
                                 clearToSelections={toFunc}
                                 updateToState={props.updateToState}
                                 updateToLocation={props.updateToLocation}
-                                setToValue={props.setToValue}
+                                setToValue={setToValue}
                             >
                             </ToLocationItem>
                         ))
@@ -173,15 +173,11 @@ const LocationMapView = props => {
 }        
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-
-    },
     surface: {
         flex: 1,
         width: '200%',
+        height: 400,
         marginTop: '7%',
-        maxHeight: '30%',
         justifyContent: 'center',
         alignSelf: 'center',
         alignItems: 'center'
@@ -189,14 +185,14 @@ const styles = StyleSheet.create({
     fromWrapper: {
         flex: 1,
         width: 325,
-        height: '5%',
+        height: '100%',
         flexDirection: 'row',
         alignItems: 'center'
     },
     toWrapper: {
         flex: 1,
         width: 325,
-        height: '5%',
+        height: '100%',
         flexDirection: 'row',
         alignItems: 'center'
     },
@@ -214,42 +210,6 @@ const styles = StyleSheet.create({
         marginHorizontal: '10%',
         maxHeight: '100%',
     },
-    buttonContainer: {
-        flex: 1,
-        maxHeight: '100%',
-        width: "100%",
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        alignContent: 'flex-start',
-        justifyContent: 'center',
-        marginBottom: '10%'
-    },
-    singleRideButtonContainer: {
-        flex: 1,
-        maxHeight: '100%',
-        width: "100%",
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        alignContent: 'flex-start',
-        justifyContent: 'center',
-        marginBottom: '10%'
-    },
-    backButton: {
-        maxHeight: "100%",
-        width: "100%",
-        alignContent: 'center',
-        justifyContent: 'center',
-        backgroundColor: theme.colors.primary,
-        borderRadius: 10
-    },
-    nextButton: {
-        maxHeight: "100%",
-        width: "100%",
-        alignContent: 'center',
-        justifyContent: 'center',
-        backgroundColor: theme.colors.primary,
-        borderRadius: 10
-    },
     text: {
         fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
         letterSpacing: 2,
@@ -266,4 +226,4 @@ const mapDispatchToProps = {
     updateFromLocation: updateFromLocation
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LocationMapView);
+export default connect(null, mapDispatchToProps)(LocationMapView);
