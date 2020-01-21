@@ -109,18 +109,18 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
         if (fromLocation !== '' && toLocation !== '') {
             return (
                 <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
-                    <View styles={styles.container}>
+                    <View styles={styleslocationMapStyles.container}>
                         <DateTimeMapView>
 
                         </DateTimeMapView>
-                        <View style={styles.singleRideButtonContainer}>
-                            <Button style={styles.backButton} 
+                        <View style={locationMapStyles.buttonBox}>
+                            <Button 
                                 mode='contained' 
                                 onPress={() => props.setForm(1)}
                             >
                                 Next
                             </Button>
-                            <Button style={styles.backButton} 
+                            <Button 
                                 mode='contained' 
                                 onPress={() => props.setPage("home")}
                             >
@@ -133,7 +133,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
         } else {
             return (
                 <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
-                    <View styles={styles.container}>
+                    <View> 
                         <LocationMapView 
                                 apiKey={GOOGLE_MAPS_APIKEY}
                                 toLocation={toLocation}   
@@ -146,14 +146,14 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 updateToState={updateToState}
                             >
                         </LocationMapView>
-                        <View style={styles.singleRideButtonContainer}>
-                            <Button style={styles.backButton} 
+                        <View>
+                            <Button
                                 mode='contained' 
                                 onPress={() => props.setForm(1)}
                             >
                                 Next
                             </Button>
-                            <Button style={styles.backButton} 
+                            <Button
                                 mode='contained' 
                                 onPress={() => props.setPage("home")}
                             >
@@ -169,8 +169,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
         return (
             <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
                 <View styles={styles.container}>
-                    <LocationMapView
-                        style={styles.locationSelection}
+                    <LocationMapView styles={styles.contentBox}
                         apiKey={GOOGLE_MAPS_APIKEY}
                         toLocation={toLocation}   
                         fromLocation={fromLocation}
@@ -183,8 +182,8 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                     >
                     </LocationMapView>
                     {fromLocation === '' && toLocation === '' &&
-                        <View style={styles.singleRideButtonContainer}>
-                            <Button style={styles.backButton} 
+                        <View styles={styles.buttonBox} >
+                            <Button styles={styles.backButton} 
                                 mode='contained' 
                                 onPress={() => props.setPage("home")}
                             >
@@ -193,8 +192,8 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                         </View> 
                     }
                     {fromLocation === '' || toLocation === '' &&
-                        <View style={styles.singleRideButtonContainer}>
-                            <Button style={styles.backButton} 
+                        <View>
+                            <Button styles={styles.backButton} 
                                 mode='contained' 
                                 onPress={() => props.setPage("home")}
                             >
@@ -203,14 +202,14 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                         </View> 
                     }
                     {fromLocation !== '' && toLocation !== '' &&
-                        <View style={styles.singleRideButtonContainer}>
-                            <Button style={styles.backButton} 
+                        <View>
+                            <Button styles={styles.nextButton}  
                                 mode='contained' 
                                 onPress={() => props.setForm(1)}
                             >
                                 Next
                             </Button>
-                            <Button style={styles.backButton} 
+                            <Button styles={styles.backButton}  
                                 mode='contained' 
                                 onPress={() => props.setPage("home")}
                             >
@@ -224,9 +223,106 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     }
 } 
 
+/*
+
+return (
+      <View style={{
+        flex: 1,
+        width: 500,
+        height: 500,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+      }}>
+        <View style={{
+          flex: 1,
+          width: 500,
+          height: 150,
+        }} />
+        <View style={{
+          flex: 1,
+          width: 500,
+          height: 100,
+          marginHorizontal: 20,
+          flexGrow: 1,
+        }} />
+        <View style={{
+          flex: 1,
+          width: 500,
+          height: 125,
+          justifyContent: 'center',
+        }}>
+          <View style={{
+            flex: 1,
+            width: 200,
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            alignContent: 'space-around',
+          }} />
+          <View style={{
+            flex: 1,
+            width: 200,
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            alignContent: 'center',
+          }} />
+        </View>
+      </View>
+    );
+
+
+
+*/
+
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        width: '200%',
+        height: '100%',
+        alignContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        textAlign: 'center',
+        justifyContent: 'center',
+    },
+    contentBox: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        flexGrow: 1,
+        alignContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        textAlign: 'center',
+        justifyContent: 'center',
+    },
+    buttonBox: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+    },
+    nextButton: {
+        flex: 1,
+        width: 200,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        alignContent: 'space-around'
+    },
+    backButton: {
+        flex: 1,
+        width: 200,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        alignContent: 'center',
     }
 });
 

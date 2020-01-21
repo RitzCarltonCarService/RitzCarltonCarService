@@ -17,7 +17,7 @@ class FromLocationItem extends PureComponent {
                                 // Accessing lat/lng coordinates from API response
                                 const coords = res.geometry.location;
                                 // Passing fromLocation's coordinates to Redux state
-                                this.props.updateFromLocation(coords); 
+                                props.updateFromLocation(coords); 
                             };
                             handlePress();
                             this.props.setFromValue();

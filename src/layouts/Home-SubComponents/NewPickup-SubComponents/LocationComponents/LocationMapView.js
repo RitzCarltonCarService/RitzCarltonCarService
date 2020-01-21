@@ -174,49 +174,14 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
 
 const styles = StyleSheet.create({
     surface: {
-        flex: 1,
         width: '200%',
-        height: 400,
-        marginTop: '7%',
-        justifyContent: 'center',
+        alignContent: 'center',
         alignSelf: 'center',
-        alignItems: 'center'
-    },
-    fromWrapper: {
-        flex: 1,
-        width: 325,
-        height: '100%',
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    toWrapper: {
-        flex: 1,
-        width: 325,
-        height: '100%',
-        flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        top: '5%'
     },
     scroll: {
-        flex: 1,
-        width: '100%',
-        maxHeight: '100%',
-        justifyContent: 'center',
-        alignSelf: 'center',
-        alignItems: 'center'
-    },
-    scrollView: {
-        height: '50%',
-        width: '100%',
-        marginHorizontal: '10%',
-        maxHeight: '100%',
-    },
-    text: {
-        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
-        letterSpacing: 2,
-        fontWeight: "bold",
-        fontSize: 15,
-        lineHeight: 40,
-        color: theme.colors.secondary,
+        height: '60%'
     }
 });
 
