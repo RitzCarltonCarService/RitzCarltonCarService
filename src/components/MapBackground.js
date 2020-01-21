@@ -24,7 +24,7 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
    let hour = new Date().getHours();
    let origin = {};
    let destination = {};
-   const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
+   const GOOGLE_MAPS_APIKEY = '';
    const refContainer = useRef(null);
 
    if (fromLocation) {

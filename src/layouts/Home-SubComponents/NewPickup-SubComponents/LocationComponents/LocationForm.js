@@ -26,7 +26,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     //  If the button "Schedule a Ride Now", do not display the Time/Date picker (set another hook to only render
     //      selection input fields)
     
-    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
+    const GOOGLE_MAPS_APIKEY = '';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFrom] = useState('');
