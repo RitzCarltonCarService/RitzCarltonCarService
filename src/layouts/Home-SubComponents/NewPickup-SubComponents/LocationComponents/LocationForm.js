@@ -91,8 +91,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
         props.setTo(toLocation);
     };
 
-    
-
     // Alert pop up for dates in the past
     const dateAlert = (selectedDate) => {
         let today = new Date();
