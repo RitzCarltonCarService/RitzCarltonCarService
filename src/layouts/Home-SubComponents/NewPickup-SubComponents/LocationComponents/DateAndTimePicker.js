@@ -12,7 +12,6 @@ const Container = styled.TouchableOpacity`
   text-align: center;
   width: 200%;
   height: 100%;
-  margin-bottom: 100%;
 `;
 
 const Header = styled.View`
@@ -26,58 +25,52 @@ const Header = styled.View`
 const DateAndTimePicker = props => {
 
   return ( 
-    <Container>
+    <>
+      <Container>
 
-      {Platform.OS === 'ios' && (
-        <DateTimePicker
-          value={props.currentDate}
-          mode="datetime"
-          display="default"
-          customStyles={{
-            datePicker: {
-              backgroundColor: colorScheme === "dark" ? "#222" : "white"
-            }
-          }}
-          onChange={(e, d) => {
-            if (Platform.OS === 'ios') {
-              props.setDate(d);
-            } else {
-              props.setDate(d);
-            }
-          }}
-          style={{ backgroundColor: 'white' }}
-        />
-      )}
+        {Platform.OS === 'ios' && (
+          <DateTimePicker
+            value={props.currentDate}
+            mode="datetime"
+            display="default"
+            customStyles={{
+              datePicker: {
+                backgroundColor: colorScheme === "dark" ? "#222" : "white"
+              }
+            }}
+            onChange={(e, d) => {
+              if (Platform.OS === 'ios') {
+                props.setDate(d);
+              } else {
+                props.setDate(d);
+              }
+            }}
+            style={{ backgroundColor: 'white' }}
+          />
+        )}
 
-      {Platform.OS !== 'ios' && (
-        <DateTimePicker
-          value={props.currentDate}
-          mode="datetime"
-          display="default"
-          customStyles={{
-            datePicker: {
-              backgroundColor: colorScheme === "dark" ? "#222" : "white"
-            }
-          }}
-          onChange={(e, d) => {
-            if (Platform.OS === 'ios') {
-              props.setDate(d);
-            } else {
-              props.setDate(d);
-            }
-          }}
-          style={{ backgroundColor: 'white' }}
-        />
-      )}
-
-      {Platform.OS === 'ios' && (
-        <Header>
-          <Button></Button>
-          <Button></Button>
-        </Header>
-      )}
-
-    </Container>
+        {Platform.OS !== 'ios' && (
+          <DateTimePicker
+            value={props.currentDate}
+            mode="datetime"
+            display="default"
+            customStyles={{
+              datePicker: {
+                backgroundColor: colorScheme === "dark" ? "#222" : "white"
+              }
+            }}
+            onChange={(e, d) => {
+              if (Platform.OS === 'ios') {
+                props.setDate(d);
+              } else {
+                props.setDate(d);
+              }
+            }}
+            style={{ backgroundColor: 'white' }}
+          />
+        )}
+      </Container>
+    </>
   )
 }
 

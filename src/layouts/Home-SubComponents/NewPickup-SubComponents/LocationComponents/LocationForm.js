@@ -6,7 +6,7 @@ import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, TouchableO
 import { Surface } from "react-native-paper";
 import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
-import DateTimeMapView from './DateTimeMapView.js';
+import DateAndTimePicker from './DateAndTimePicker.js';
 import LocationMapView from './LocationMapView.js'
 
 const LocationForm = ({ updateFromLocation, ...props }) => {
@@ -133,10 +133,15 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 </TouchableOpacity>
                             </Surface>
                         </View>
-                            <View style={styles2.timeAndDateBox} />
-                            <View style={styles2.backButtonBox}>
-                            <View style={styles2.backButton} />
-                        </View>
+                        <Surface style={styles2.timeAndDateBox}>
+                            <DateAndTimePicker style={styles2.backButtonBox}
+                                currentDate={currentDate} 
+                                dateAlert={dateAlert}     
+                                setDate={setDate}
+                            >
+                            </DateAndTimePicker>
+                            <Text style={styles2.backButton}>Hello!</Text>
+                        </Surface>
                     </View>
                 </TouchableWithoutFeedback>
             )
@@ -421,6 +426,7 @@ const styles2 = StyleSheet.create({
     },
     timeAndDateBox: {
         flex: 1,
+        top: '55%',
         width: 500,
         height: 165,
         justifyContent: 'center',
