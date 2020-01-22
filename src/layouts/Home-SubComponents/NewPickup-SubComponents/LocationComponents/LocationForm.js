@@ -248,7 +248,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                     <Button styles={styles.nextButton}
                         mode='contained' 
                         onPress={() => {
-                            
                             if (!toLocation) {
                                 Alert.alert(
                                 'We\'re Sorry!',
