@@ -27,7 +27,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     //  If the button "Schedule a Ride Now", do not display the Time/Date picker (set another hook to only render
     //      selection input fields)
     
-    const GOOGLE_MAPS_APIKEY = '';
+    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFrom] = useState('');
@@ -41,7 +41,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
 
     getReverseGeocode = async () => {
         if (props.geoLocation) {
-            // If component has not mounted, request geolocation
+            // If component has not mounted, request reverse geolocation
             if (!componentDidMount) {
                 let lat = props.geoLocation.latitude;
                 let long = props.geoLocation.longitude;
@@ -140,7 +140,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 setDate={setDate}
                             >
                             </DateAndTimePicker>
-                            <Text style={styles2.backButton}>Hello!</Text>
                         </Surface>
                     </View>
                 </TouchableWithoutFeedback>
@@ -428,7 +427,7 @@ const styles2 = StyleSheet.create({
         flex: 1,
         top: '55%',
         width: 500,
-        height: 165,
+        maxHeight: 200,
         justifyContent: 'center',
         alignItems: 'center',
     },
