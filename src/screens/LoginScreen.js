@@ -192,11 +192,4 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ geoLocation }) => ({ region: geoLocation })
 
-const mstp = (store) => {
-   return {
-      region: store.geoLocation,
-      userData: store.userData
-   }
-};
-
 export default connect(mapStateToProps)(memo(LoginScreen));

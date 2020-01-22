@@ -16,7 +16,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
     // When user selects a from and a two location, pass both to Redux Store
     //  in MapBackground, create conditional rendering based on coordinates in Redux store (ensure
     //  there are coordinates, and not blank strings)
-    
+
     // In Map Background, import MapViewDirections and conditionally render when
     //  there is both a From and a To Location in redux store
 
@@ -29,7 +29,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
     //  set text value of To Component to hooks' "To" state (initially, " ")
     //  on click of Confirm button in To Location component, set ToComponent's state to input
     //  pass this to the Redux store to update To Location (to be used in Google API call in useEffect)
-    
+
     // Conditional rendering of DateTimePicker based on if toLocation and fromLocation both exist
     // Make current state of DateTimePicker to today (newDate())
     //  On confirmation of DateTimePicker component, add this to redux store
@@ -45,7 +45,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
 
     // Initial states of Text Input for To/From 
     const [focusedThing, setFocusedThing] = useState(false);
-    
+
     // Initial state of From/To destination results
     const [fromResults, setFromResults] = useState([]);
     const [toResults, setToResults] = useState([]);
@@ -70,77 +70,77 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
 
     return (
         <View style={styles.container}>
-        <Surface style={styles.surface}>
-            <React.Fragment>
-                <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
-                    {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
-                        <View style={styles.fromWrapper}>
-                            <React.Fragment>
-                                {setFromResults(locationResults)}
-                                <TextInput style={{
-                                    width: 300,
-                                    paddingLeft: 40 
+            <Surface style={styles.surface}>
+                <React.Fragment>
+                    <GoogleAutoComplete apiKey="AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s" debounce={300} components="country:usa">
+                        {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
+                            <View style={styles.fromWrapper}>
+                                <React.Fragment>
+                                    {setFromResults(locationResults)}
+                                    <TextInput style={{
+                                        width: 300,
+                                        paddingLeft: 40
                                     }}
-                                    editable={true}
-                                    defaultValue={fromLocation}
-                                    value={inputValue}
-                                    onFocus={() => {setFocusedThing(1)}}
-                                    onChangeText={handleTextChange}
-                                    placeholder="Current Location..."
-                                />
-                                <Button title="Clear" onPress={() => {clearSearch}}></Button>
-                            </React.Fragment>
-                        </View>
-                    )}
-                </GoogleAutoComplete>
-                <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
-                    {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
-                        <View style={styles.toWrapper}>
-                            <React.Fragment>
-                                {setToResults(locationResults)}
-                                <TextInput style={{
-                                    width: 300,
-                                    paddingLeft: 40
+                                        editable={true}
+                                        defaultValue={fromLocation}
+                                        value={inputValue}
+                                        onFocus={() => { setFocusedThing(1) }}
+                                        onChangeText={handleTextChange}
+                                        placeholder="Current Location..."
+                                    />
+                                    <Button title="Clear" onPress={() => { clearSearch }}></Button>
+                                </React.Fragment>
+                            </View>
+                        )}
+                    </GoogleAutoComplete>
+                    <GoogleAutoComplete apiKey="AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s" debounce={300} components="country:usa">
+                        {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
+                            <View style={styles.toWrapper}>
+                                <React.Fragment>
+                                    {setToResults(locationResults)}
+                                    <TextInput style={{
+                                        width: 300,
+                                        paddingLeft: 40
                                     }}
-                                    editable={true}
-                                    defaultValue={toLocation}
-                                    onFocus={() => {setFocusedThing(2)}}
-                                    value={inputValue} // value={toLocation} < --- this needs to work somehow!
-                                    onChangeText={handleTextChange}
-                                    placeholder="Where are you going?"
-                                />
-                                <Button title="Clear" onPress={clearSearch}></Button>
-                            </React.Fragment>
-                        </View>
-                    )}
-                </GoogleAutoComplete>
-            </React.Fragment>
-        </Surface>
-                <ScrollView style={{ maxHeight: 200, paddingLeft: '10%' }}>
-                    {focusedThing === 1 ?
-                        fromResults.map((el, i) => (
-                            <FromLocationItem
-                                {...el}
-                                key={el.id}
-                                updateFromState={updateFromState}
-                                updateFromLocation={updateFromLocation}
-                            >
-                            </FromLocationItem>
-                        )) :
-                        toResults.map((el, i) => (
-                            <ToLocationItem
-                                {...el}
-                                key={el.id}
-                                updateToState={updateToState}
-                                updateToLocation={updateToLocation}
-                            >
-                            </ToLocationItem>
-                        ))
-                    }
-                </ScrollView>   
+                                        editable={true}
+                                        defaultValue={toLocation}
+                                        onFocus={() => { setFocusedThing(2) }}
+                                        value={inputValue} // value={toLocation} < --- this needs to work somehow!
+                                        onChangeText={handleTextChange}
+                                        placeholder="Where are you going?"
+                                    />
+                                    <Button title="Clear" onPress={clearSearch}></Button>
+                                </React.Fragment>
+                            </View>
+                        )}
+                    </GoogleAutoComplete>
+                </React.Fragment>
+            </Surface>
+            <ScrollView style={{ maxHeight: 200, paddingLeft: '10%' }}>
+                {focusedThing === 1 ?
+                    fromResults.map((el, i) => (
+                        <FromLocationItem
+                            {...el}
+                            key={el.id}
+                            updateFromState={updateFromState}
+                            updateFromLocation={updateFromLocation}
+                        >
+                        </FromLocationItem>
+                    )) :
+                    toResults.map((el, i) => (
+                        <ToLocationItem
+                            {...el}
+                            key={el.id}
+                            updateToState={updateToState}
+                            updateToLocation={updateToLocation}
+                        >
+                        </ToLocationItem>
+                    ))
+                }
+            </ScrollView>
         </View>
     )
-}        
+}
 
 const styles = StyleSheet.create({
     container: {
