@@ -11,35 +11,52 @@ import SummaryScreen from './NewPickup-SubComponents/SummaryScreen.js';
 const NewPickup = props => {
     const [form, setForm] = useState(0)
 
+    const [from, setFrom] = useState(null);
+    const [to, setTo] = useState(null);
+    const [time, setTime] = useState(null);
+    const [passengers, setPassengers] = useState(null);
+    const [bags, setBags] = useState(null);
+    const [rideShare, setRideShare] = useState(true);
+
     switch (form) {
         case 0:
             return (
                 <View>
-                    <LocationForm setForm={setForm} />
+                    <LocationForm setForm={setForm} setFrom={setFrom} setTo={setTo} setTime={setTime}/>
                 </View>
             )
         case 1:
             return (
                 <View>
-                    <NumBags setForm={setForm} />
+                    <NumBags setForm={setForm} setBags={setBags}/>
                 </View>
             )
         case 2:
             return (
                 <View>
-                    <NumPassengers setForm={setForm} />
+                    <NumPassengers setForm={setForm} setPassengers={setPassengers}/>
                 </View>
             )
         case 3:
             return (
                 <View>
-                    <RideShareQuestion setForm={setForm} />
+                    <RideShareQuestion setForm={setForm} setRideShare={setRideShare}/>
                 </View>
             )
         case 4:
             return (
                 <View>
-                    <SummaryScreen setPage={props.setPage} />
+                    <SummaryScreen
+                        setPage={props.setPage}
+                        requestObject={{
+                            from: from,
+                            to: to,
+                            time: time,
+                            bags: bags,
+                            passengers: passengers,
+                            rideShare: rideShare
+                        }}
+                    />
                     <Text>
                         {props.setPage}
                     </Text>

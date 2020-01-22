@@ -127,9 +127,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         top: "18%",
     },  
-
 })
-
 
 const mapStateToProps = state => {
     return {

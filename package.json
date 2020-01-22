@@ -9,8 +9,14 @@
     "eject": "expo eject"
   },
   "dependencies": {
+<<<<<<< HEAD
+    "@babel/core": "^7.0.0",
+    "@react-native-community/masked-view": "^0.1.5",
+    "axios": "^0.19.1",
+=======
     "@babel/core": "^7.8.0",
     "@react-native-community/masked-view": "^0.1.6",
+>>>>>>> 00ebd3c3f56a41f99ee43f8bc54c437d5a0b8453
     "expo": "~36.0.0",
     "expo-calendar": "~8.0.0",
     "expo-cli": "^3.11.5",
@@ -23,6 +29,10 @@
     "react-native-clean-project": "^3.3.0",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-google-autocomplete": "^0.1.8",
+<<<<<<< HEAD
+    "react-native-keyboard-aware-scroll-view": "^0.9.1",
+=======
+>>>>>>> 00ebd3c3f56a41f99ee43f8bc54c437d5a0b8453
     "react-native-maps": "^0.26.1",
     "react-native-maps-directions": "^1.7.3",
     "react-native-modal-dropdown": "^0.7.0",
