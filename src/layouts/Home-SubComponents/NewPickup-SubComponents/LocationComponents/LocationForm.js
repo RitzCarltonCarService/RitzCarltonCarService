@@ -1,8 +1,9 @@
 import axios from 'axios';
+import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { updateFromLocation } from '../../../../redux/actions';
 import React, { useState, memo } from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity, Text, Platform } from 'react-native';
 import { Surface } from "react-native-paper";
 import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
@@ -27,7 +28,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     //  If the button "Schedule a Ride Now", do not display the Time/Date picker (set another hook to only render
     //      selection input fields)
     
-    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
+    const GOOGLE_MAPS_APIKEY = '';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFrom] = useState('');
@@ -65,8 +66,12 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     // Get user's reverse geoCoded address
     getReverseGeocode();
 
-    // Setting date for date/time picker
-    const [currentDate, setDate] = useState(new Date());
+    // Setting date for date/time picker (Android)
+    const [currentIoSDate, setIoSDate] = useState(null);
+
+    // Setting date for date/time picker (Android)
+    const [currentAndroidDate, setAndroidDate] = useState(null);
+    const [rideAndroidTime, setAndroidTime] = useState(null);
 
     // Store new From location in hook and in redux
     const updateFromState = (newFromLocation) => {
@@ -80,6 +85,14 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
         props.setTo(toLocation);
     };
 
+    // Store new Time in hook and in redux
+    const updateTimeAndDate = (newToLocation) => {
+        setTo(newToLocation);
+        props.setTo(toLocation);
+    };
+
+    
+
     // Alert pop up for dates in the past
     const dateAlert = (selectedDate) => {
         let today = new Date();
@@ -92,9 +105,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                 ],
                 {cancelable: false},
               );
-        } else {
-            setDate(selectedDate);
-            props.setTime(currentDate);
         }
     }
 
@@ -133,13 +143,37 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 </TouchableOpacity>
                             </Surface>
                         </View>
-                        <Surface style={styles2.timeAndDateBox}>
-                            <DateAndTimePicker style={styles2.backButtonBox}
-                                currentDate={currentDate} 
+                        {Platform.OS === 'ios' && currentIoSDate === null &&
+                            <DateAndTimePicker
+                                currentIoSDate={currentIoSDate}
+                                setIoSDate={setIoSDate}
+                                currentAndroidDate={currentAndroidDate}
+                                setAndroidDate={setAndroidDate}
+                                setAndroidTime={setAndroidTime}
                                 dateAlert={dateAlert}     
-                                setDate={setDate}
                             >
                             </DateAndTimePicker>
+                        }
+                        {Platform.OS === 'android' && currentAndroidDate === null &&
+                            <DateAndTimePicker
+                                currentIoSDate={currentIoSDate}
+                                setIoSDate={setIoSDate}
+                                currentAndroidDate={currentAndroidDate}
+                                setAndroidDate={setAndroidDate}
+                                setAndroidTime={setAndroidTime}
+                                dateAlert={dateAlert}     
+                            >
+                            </DateAndTimePicker>
+                        }
+                        <Surface style={styles2.timeAndDateBox}>
+                            {Platform.OS === 'ios' && 
+                                <Text>{currentIoSDate}</Text>
+                            }
+                            {Platform.OS === 'android' &&
+                                <Text>{currentAndroidDate}</Text>
+                            }
+                            <Button style={styles2.backButton}>Hello!</Button>
+                            <Button style={styles2.backButton}>Hello2!</Button>
                         </Surface>
                     </View>
                 </TouchableWithoutFeedback>
@@ -297,76 +331,7 @@ const styles = StyleSheet.create({
     }
 });
 
-/*
-
-return (
-      <View style={{
-        flex: 1,
-        width: 500,
-        height: 500,
-        alignItems: 'center',
-        alignContent: 'center',
-        padding: 20,
-      }}>
-        <View style={{
-          flex: 1,
-          width: 500,
-          height: 100,
-          alignItems: 'center',
-          marginHorizontal: 20,
-          flexGrow: 1,
-        }}>
-          <View style={{
-            flex: 1,
-            width: 500,
-            height: 30,
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-          }}>
-            <View style={{
-              flex: 1,
-              width: 200,
-              height: 30,
-            }} />
-            <View style={{
-              flex: 1,
-              width: 200,
-              height: 30,
-              justifyContent: 'center',
-            }} />
-          </View>
-        </View>
-        <View style={{
-          flex: 1,
-          width: 500,
-          height: 165,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }} />
-        <View style={{
-          flex: 1,
-          width: 500,
-          height: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-          alignSelf: 'center',
-          alignContent: 'center',
-        }}>
-          <View style={{
-            flex: 1,
-            width: 100,
-            height: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-          }} />
-        </View>
-      </View>
-    );
-
-*/
-
+// Conditional rendering of stylesheet for the display of time and date selection modals
 const styles2 = StyleSheet.create({
     container: {
         flex: 1,
@@ -425,11 +390,12 @@ const styles2 = StyleSheet.create({
     },
     timeAndDateBox: {
         flex: 1,
-        top: '55%',
+        top: '50%',
         width: 500,
         maxHeight: 200,
         justifyContent: 'center',
         alignItems: 'center',
+        flexDirection: 'column'
     },
     backButtonBox: {
         flex: 1,
@@ -451,7 +417,7 @@ const styles2 = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    console.log('This is state: ', state)
+    // console.log('This is state: ', state)
     return {
         geoLocation: state.geoLocation,
     }

@@ -1,75 +1,86 @@
-import React, { memo } from 'react';
-import { Platform, View, Text, TouchableOpacity } from 'react-native';
-import { Appearance, getColorScheme } from 'react-native-appearance';
-import Button from '../../../../components/Button';
-import styled from 'styled-components';
-import DateTimePicker from '@react-native-community/datetimepicker';
-
-const colorScheme = Appearance.getColorScheme();
-
-const Container = styled.TouchableOpacity`
-  background-color: ${Platform.OS === 'ios' ? '#00000066' : 'transparent'};
-  text-align: center;
-  width: 200%;
-  height: 100%;
-`;
-
-const Header = styled.View`
-  width: 100%;
-  padding-left: 45%;
-  text-align: center;
-  background-color: white;
-  border-color: grey;
-`;
+import React, { useState, memo } from 'react';
+import { Platform } from 'react-native';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Appearance, useColorScheme } from 'react-native-appearance';
 
 const DateAndTimePicker = props => {
+  // Checking the dark mode of the phone, and if enabled, override it for iOS
+  const colorScheme = Appearance.getColorScheme();
+
+  // Display modes for Android (date/time)
+  const [mode, setMode] = useState('date');
+
+  // Date Picket visibility
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(true);
+
+   // Change modal's view in screen
+   const [modalView, setmodalView] = useState(true);
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleIoSConfirm = date => {
+    if (date < props.currentIoSDate) {
+      props.dateAlert()
+    } else {
+      props.setIoSDate(date);
+      hideDatePicker();
+    }
+  };
+
+  const handleAndroidDate = date => {
+    if (date < props.currentAndroidDate) {
+      props.dateAlert()
+    } else {
+      props.setAndroidDate(date);
+      setMode('time')
+      hideDatePicker();
+    }
+  };
+
+  const handleAndroidTime = time => {
+    props.setAndroidTime(time);
+    hideDatePicker();
+  };
 
   return ( 
     <>
-      <Container>
+      {Platform.OS === 'ios' && (
+        <DateTimePickerModal
+          headerTextIOS="Pick a date & time"
+          cancelTextIOS="Cancel"
+          isVisible={isDatePickerVisible}
+          value={props.currentIoSDate}
+          mode="datetime"
+          display="default"
+          onConfirm={handleIoSConfirm}
+          onCancel={hideDatePicker}
+        />
+      )}
 
-        {Platform.OS === 'ios' && (
-          <DateTimePicker
-            value={props.currentDate}
-            mode="datetime"
-            display="default"
-            customStyles={{
-              datePicker: {
-                backgroundColor: colorScheme === "dark" ? "#222" : "white"
-              }
-            }}
-            onChange={(e, d) => {
-              if (Platform.OS === 'ios') {
-                props.setDate(d);
-              } else {
-                props.setDate(d);
-              }
-            }}
-            style={{ backgroundColor: 'white' }}
-          />
-        )}
+      {props.currentAndroidDate === null && (
+        <DateTimePickerModal
+          isVisible={true}
+          value={new Date()}
+          mode={mode}
+          display="spinner"
+          onConfirm={handleAndroidDate}
+          onCancel={hideDatePicker}
+        />
+      )}
 
-        {Platform.OS !== 'ios' && (
-          <DateTimePicker
-            value={props.currentDate}
-            mode="datetime"
-            display="default"
-            customStyles={{
-              datePicker: {
-                backgroundColor: colorScheme === "dark" ? "#222" : "white"
-              }
-            }}
-            onChange={(e, d) => {
-              if (Platform.OS === 'ios') {
-                props.setDate(d);
-              } else {
-                props.setDate(d);
-              }
-            }}
-            style={{ backgroundColor: 'white' }}
-          />
-        )}
-      </Container>
+      {props.rideAndroidTime === null && (
+        <DateTimePickerModal
+          isVisible={true}
+          value={new Date()}
+          mode={mode}
+          datePickerMode
+          display="clock"
+          onConfirm={handleAndroidTime}
+          onCancel={hideDatePicker}
+        />
+      )}
     </>
   )
 }
