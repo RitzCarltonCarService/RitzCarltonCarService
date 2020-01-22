@@ -22,6 +22,7 @@ const RideShareQuestion = (props) => {
                 setForm={props.setForm}
                 nextForm={nextForm}
                 previousForm={previousForm}
+                setField={props.setRideShare}
             />
         </View>
     )

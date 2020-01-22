@@ -6,8 +6,8 @@ class FromLocationItem extends PureComponent {
 
     render() {
         return (
-            <GoogleAutoComplete apiKey="AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s" debounce={300} components="country:usa">
-                {({ fetchDetails, clearSearch }) => (
+            <GoogleAutoComplete apiKey={this.props.googAPI} debounce={300} components="country:usa">
+                {({ fetchDetails }) => (
                     <TouchableOpacity 
                         style={styles.root} 
                         onPress={() => {
@@ -19,9 +19,10 @@ class FromLocationItem extends PureComponent {
                                 // Passing fromLocation's coordinates to Redux state
                                 this.props.updateFromLocation(coords); 
                             };
-                            this.props.updateFromState(this.props.description);
                             handlePress();
-                            clearSearch();
+                            this.props.setFromValue();
+                            this.props.updateFromState(this.props.description);
+                            this.props.clearFromSelections();
                         }}> 
                         <Text>{this.props.description}</Text>
                     </TouchableOpacity>
@@ -33,7 +34,8 @@ class FromLocationItem extends PureComponent {
 
 const styles = StyleSheet.create({
     root: {
-        height: 40,
+        height: '50%',
+        paddingHorizontal: '25%',
         borderBottomWidth: StyleSheet.hairlineWidth,
         justifyContent: 'center',
         backgroundColor: 'white'

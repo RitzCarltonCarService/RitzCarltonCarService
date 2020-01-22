@@ -22,6 +22,7 @@ const NumBags = props => {
                 setForm={props.setForm}
                 nextForm={nextForm}
                 previousForm={previousForm}
+                setField={props.setBags}
             />
         </View>
     )

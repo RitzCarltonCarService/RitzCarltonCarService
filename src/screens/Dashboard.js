@@ -12,6 +12,8 @@ import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
 
 const Home = ({ region, userData }) => {
    const [page, setPage] = useState("home");
+   // Boolean to indicate whether this is a scheduled ride or an immediate request
+   const [scheduled, setScheduled] = useState(true);
    const [toast, setToast] = useState({ value: "", type: "" });
    const [visible, setVisibility] = useState(false);
 
@@ -34,7 +36,7 @@ const Home = ({ region, userData }) => {
                switch (page) {
                   case "new pickup":
                      return (
-                        <NewPickup setPage={setPage} />
+                        <NewPickup setPage={setPage} scheduled={scheduled} />
                      )
                   case "pickup info":
                      return (
@@ -42,7 +44,7 @@ const Home = ({ region, userData }) => {
                      )
                   default:
                      return (
-                        <MainScreen setPage={setPage} />
+                        <MainScreen setPage={setPage} setScheduled={setScheduled} />
                      )
                }
             })()}

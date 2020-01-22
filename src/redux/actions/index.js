@@ -1,16 +1,22 @@
 // ----------------------
 // Constants
 // ----------------------
+
 export const NAVIGATE = "NAVIGATE";
 export const TO_HOME = "TO_HOME";
 export const UPDATE_SCHEDULED_PICKUPS = "UPDATE_SCHEDULED_PICKUPS";
 export const GET_CURRENT_LOCATION = 'GET_CURRENT_LOCATION';
 export const UPDATE_CURRENT_PICKUP = "UPDATE_CURRENT_PICKUP";
+export const ADD_FROM_LOCATION = "ADD_FROM_LOCATION";
+export const ADD_TO_LOCATION = "ADD_TO_LOCATION";
+export const ADD_DURATION_TIME = 'ADD_DURATION_TIME';
+export const ADD_DISTANCE_AMOUNT = 'ADD_DISTANCE_AMOUNT';
 export const SET_USER_DATA = 'SET_USER_DATA';
 
 // ----------------------
 // Actions
 // ----------------------
+
 export function navigate(page, formNum) {
     return { type: NAVIGATE, page: page, form: formNum };
 };
@@ -31,15 +37,20 @@ export function updateCurrentPickup(newPickup) {
     return { type: UPDATE_CURRENT_PICKUP, newPickup: newPickup }
 }
 
-export const ADD_FROM_LOCATION = "ADD_FROM_LOCATION";
-
 export function updateFromLocation(fromLocation) {
     return { type: ADD_FROM_LOCATION, newFromLocation: fromLocation }
 }
-export const ADD_TO_LOCATION = "ADD_TO_LOCATION";
 
 export function updateToLocation(toLocation) {
     return { type: ADD_TO_LOCATION, newToLocation: toLocation }
+}
+
+export function updateRideDuration(time) {
+    return { type: ADD_DURATION_TIME, newDuration: time}
+}
+
+export function updateRideDistance(distance) {
+    return { type: ADD_DISTANCE_AMOUNT, newDistance: distance}
 }
 
 export function setUserData(payload) {

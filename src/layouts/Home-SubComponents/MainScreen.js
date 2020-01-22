@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../redux/actions';
 import { View, Text, StyleSheet, Platform } from 'react-native';
@@ -7,6 +7,7 @@ import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
 import dummyData from '../../dummyData/dummy_pickup_data';
+import axios from 'axios';
 
 const MainScreen = props => {
 
@@ -33,10 +34,40 @@ const MainScreen = props => {
                 </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
-                <Button onPress={() => { props.setPage("new pickup") }} mode={"contained"}>
+                <Button onPress={() => { props.setPage("new pickup"); props.setScheduled(false) }} mode={"contained"}>
                     Request a Ride Now
                 </Button>
-                <Button onPress={() => { props.updateScheduledPickups(dummyData) }} mode={"contained"}>
+                <Button onPress={() => {
+                        // axios.post("http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/signup", {
+                        //     id: "12",
+                        //     name: "Fred",
+                        //     email: "fred@fred.fred",
+                        //     type: "resident",
+                        //     phoneNumber: "a number",
+                        //     hotelId: 1
+                        // })
+                        //     // method: "POST",
+                        //     // body: JSON.stringify({
+                        //     //     id: "5",
+                        //     //     name: "Fred",
+                        //     //     email: "fred@fred.fred",
+                        //     //     type: "resident",
+                        //     //     phoneNumber: "a number",
+                        //     //     hotelId: 1
+                        //     // })
+                        // //})
+                        // .then((data) => {
+                        //     console.log(data.data);
+                        //     props.updateScheduledPickups(dummyData);
+                        // })
+                        // .catch((err) => {
+                        //     console.log(err);
+                        // })
+
+                        // Setting page to 'new pickup' request and 'scheduled' to true (for scheduled ride)
+                        props.setPage("new pickup")
+                        props.setScheduled(true)
+                    }} mode={"contained"}>
                     Schedule a Ride
                 </Button>
             </View>
