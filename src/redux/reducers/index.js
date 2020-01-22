@@ -5,6 +5,8 @@ import getGeoLocationReducer from './getGeoLocationReducer';
 import currentPickupReducer from './currentPickupReducer';
 import fromLocationReducer from './fromLocationReducer';
 import toLocationReducer from './toLocationReducer';
+import durationReducer from './durationReducer.js';
+import distanceReducer from './distanceReducer.js'
 import userDataReducer from './userDataReducer';
 
 const rootReducer = combineReducers({
@@ -14,6 +16,8 @@ const rootReducer = combineReducers({
    currentPickup: currentPickupReducer,
    fromLocation: fromLocationReducer,
    toLocation: toLocationReducer,
+   duration: durationReducer,
+   distance: distanceReducer,
    userData: userDataReducer
 });
 

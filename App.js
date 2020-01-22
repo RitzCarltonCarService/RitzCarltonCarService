@@ -12,6 +12,7 @@ let store = createStore(
    applyMiddleware(thunk)
 );
 
+
 export default function Main() {
    return (
       <PaperProvider theme={theme}>
