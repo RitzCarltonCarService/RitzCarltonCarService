@@ -10,7 +10,6 @@ import Logo from '../../../components/Logo';
 import Button from '../../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-
 const SummaryScreen = props => {
     return (
         <>

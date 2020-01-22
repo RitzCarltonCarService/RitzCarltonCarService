@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../redux/actions';
 import { View, Text, Button } from 'react-native';
-import LocationForm from './NewPickup-SubComponents/LocationForm.js';
+import LocationForm from './NewPickup-SubComponents/LocationComponents/LocationForm.js';
 import NumBags from './NewPickup-SubComponents/NumBags.js';
 import NumPassengers from './NewPickup-SubComponents/NumPassengers.js';
 import RideShareQuestion from './NewPickup-SubComponents/RideShareQuestion.js';
@@ -10,7 +10,6 @@ import SummaryScreen from './NewPickup-SubComponents/SummaryScreen.js';
 
 const NewPickup = props => {
     const [form, setForm] = useState(0)
-
     const [from, setFrom] = useState(null);
     const [to, setTo] = useState(null);
     const [time, setTime] = useState(null);
@@ -22,7 +21,14 @@ const NewPickup = props => {
         case 0:
             return (
                 <View>
-                    <LocationForm setForm={setForm} setFrom={setFrom} setTo={setTo} setTime={setTime}/>
+                    <LocationForm 
+                        scheduled={props.scheduled}
+                        setPage={props.setPage}
+                        setForm={setForm} 
+                        setFrom={setFrom} 
+                        setTo={setTo} 
+                        setTime={setTime}    
+                    />
                 </View>
             )
         case 1:
@@ -52,6 +58,8 @@ const NewPickup = props => {
                             from: from,
                             to: to,
                             time: time,
+                            duration: props.duration,
+                            distance: props.distance,
                             bags: bags,
                             passengers: passengers,
                             rideShare: rideShare
@@ -78,7 +86,9 @@ const NewPickup = props => {
 
 const mapStateToProps = state => {
     return {
-        form: state.nav.form
+        form: state.nav.form,
+        duration: state.duration,
+        distance: state.distance
     }
 }
 

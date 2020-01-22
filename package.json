@@ -1,6 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
+    "react-devtool": "react-devtools",
     "start": "expo start",
     "clear": "rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-*",
     "android": "expo start --android",
@@ -9,32 +10,28 @@
     "eject": "expo eject"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@babel/core": "^7.0.0",
-    "@react-native-community/masked-view": "^0.1.5",
-    "axios": "^0.19.1",
-=======
     "@babel/core": "^7.8.0",
+    "@react-native-community/datetimepicker": "^2.1.0",
     "@react-native-community/masked-view": "^0.1.6",
->>>>>>> 00ebd3c3f56a41f99ee43f8bc54c437d5a0b8453
+    "axios": "^0.19.1",
     "expo": "~36.0.0",
     "expo-calendar": "~8.0.0",
     "expo-cli": "^3.11.5",
     "expo-location": "~8.0.0",
     "firebase": "^7.6.1",
+    "moment": "^2.24.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-google-maps-loader": "^4.2.6",
+    "react-moment": "^0.9.7",
     "react-native": "^0.61.5",
+    "react-native-appearance": "^0.3.2",
     "react-native-clean-project": "^3.3.0",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-google-autocomplete": "^0.1.8",
-<<<<<<< HEAD
-    "react-native-keyboard-aware-scroll-view": "^0.9.1",
-=======
->>>>>>> 00ebd3c3f56a41f99ee43f8bc54c437d5a0b8453
     "react-native-maps": "^0.26.1",
     "react-native-maps-directions": "^1.7.3",
+    "react-native-modal-datetime-picker": "^8.1.1",
     "react-native-modal-dropdown": "^0.7.0",
     "react-native-paper": "^3.4.0",
     "react-native-reanimated": "~1.4.0",
@@ -51,7 +48,8 @@
     "redux": "^4.0.4",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "sharp-cli": "^1.13.1"
+    "sharp-cli": "^1.13.1",
+    "styled-components": "^5.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "~8.0.0",
