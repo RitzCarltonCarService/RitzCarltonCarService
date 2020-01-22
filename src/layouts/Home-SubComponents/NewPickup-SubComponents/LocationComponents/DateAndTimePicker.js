@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Platform, Text } from 'react-native';
+import { Platform, View, Text, TouchableOpacity } from 'react-native';
 import { Appearance, getColorScheme } from 'react-native-appearance';
 import Button from '../../../../components/Button';
 import styled from 'styled-components';
@@ -26,7 +26,7 @@ const Header = styled.View`
 const DateAndTimePicker = props => {
 
   return ( 
-    <Container onPress={props.setTimePicker(false)}>
+    <Container>
 
       {Platform.OS === 'ios' && (
         <DateTimePicker
@@ -40,9 +40,9 @@ const DateAndTimePicker = props => {
           }}
           onChange={(e, d) => {
             if (Platform.OS === 'ios') {
-              props.updateDate(d);
+              props.setDate(d);
             } else {
-              props.updateDate(d);
+              props.setDate(d);
             }
           }}
           style={{ backgroundColor: 'white' }}
@@ -61,9 +61,9 @@ const DateAndTimePicker = props => {
           }}
           onChange={(e, d) => {
             if (Platform.OS === 'ios') {
-              props.dateAlert(d);
+              props.setDate(d);
             } else {
-              props.dateAlert(d);
+              props.setDate(d);
             }
           }}
           style={{ backgroundColor: 'white' }}

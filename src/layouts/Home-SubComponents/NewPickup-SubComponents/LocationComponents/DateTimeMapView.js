@@ -1,51 +1,33 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import {Surface} from "react-native-paper";
 import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
-import DateAndTimePicker from './DateTimePicker.js';
+import DateAndTimePicker from './DateAndTimePicker.js';
 
 const DateTimeMapView = props => {
     return (
         <View>
             <Surface style={styles.surface}>
-                <Button> 
-                    Back 
-                </Button>
-                <TouchableOpacity
+                <TouchableOpacity 
                     style={styles.button}
                     // onPress={this.onPress}
                 >
-                    <Text> Touch Here </Text>
+                    <Text>Hello!</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                <TouchableOpacity 
                     style={styles.button}
                     // onPress={this.onPress}
                 >
-                    <Text> Touch Here </Text>
-                </TouchableOpacity>
-            </Surface>
-            <View style={styles.buttonContainer}>  
-                <DateAndTimePicker 
+                    <Text>Hello!!!</Text>
+                </TouchableOpacity>  
+                <DateAndTimePicker
                     currentDate={props.currentDate} 
                     dateAlert={props.dateAlert}     
-                />
-            </View>
-            <View style={styles.singleRideButtonContainer}>
-                <Button style={styles.backButton} 
-                    mode='contained' 
-                    onPress={() => props.setForm(1)}
+                    setDate={props.setDate}
                 >
-                    Next
-                </Button>
-                <Button style={styles.backButton} 
-                    mode='contained' 
-                    onPress={() => props.setPage("home")}
-                >
-                    Back
-                </Button>
-            </View>
-            }  
+                </DateAndTimePicker>
+            </Surface>
         </View>
     )
 }
@@ -54,14 +36,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
+    button: {
+        alignItems: 'center',
+        color: 'red',
+        height: '100%'
+    },
     surface: {
         flex: 1,
         width: '200%',
-        marginTop: '7%',
-        maxHeight: '30%',
-        justifyContent: 'center',
-        alignSelf: 'center',
-        alignItems: 'center'
     },
     text: {
         fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",

@@ -16,7 +16,7 @@ import React, { memo, useRef } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions';
 import { aubergineMapStyle, silverMapStyle } from '../core/mapStyles';
-import MapView, { PROVIDER_GOOGLE, AnimatedRegion, Animated } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { vh, vw } from 'react-native-viewport-units';
 
 const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation, updateRideDistance, updateRideDuration, ...props }) => {

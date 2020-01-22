@@ -37,138 +37,140 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
     }
 
     return (
-        <View>
-            <Surface style={styles.surface}>
-                <React.Fragment>
-                    <GoogleAutoComplete apiKey={props.apiKey} debounce={300} components="country:usa">
-                        {({ inputValue, handleTextChange, locationResults, clearSearch }) => (
-                            <View style={styles.fromWrapper}>
-                                {setFromFunc(clearSearch)}
-                                {setFromResults(locationResults)}
-                                {props.newFromLocation === false &&
-                                    <React.Fragment>
-                                        <TextInput style={{
-                                            width: 300,
-                                            paddingLeft: 40 
-                                            }}
-                                            label="From:"
-                                            editable={true}
-                                            value={'Current Location'}
-                                            onFocus={() => props.changeFrom(true)}
-                                            clearTextOnFocus={true}
-                                        />
-                                    </React.Fragment>
-                                }
-                                {props.newFromLocation === true && newFromInputValue === false &&
-                                    <React.Fragment>
-                                        <TextInput style={{
-                                            width: 300,
-                                            paddingLeft: 40 
-                                            }}
-                                            label="From:"
-                                            editable={true}
-                                            defaultValue={inputValue}
-                                            value={props.fromLocation}
-                                            onFocus={() => {setFocusedThing(1)}}
-                                            onChangeText={() => changeFromInput(true)} 
-                                            autoFocus={true}
-                                        />
-                                    </React.Fragment>
-                                }
-                                {props.newFromLocation === true && newFromInputValue === true &&
-                                    <React.Fragment>
-                                        <TextInput style={{
-                                            width: 300,
-                                            paddingLeft: 40 
-                                            }}
-                                            label="From:"
-                                            editable={true}
-                                            defaultValue={inputValue}
-                                            value={inputValue}
-                                            onFocus={() => {setFocusedThing(1)}}
-                                            onChangeText={handleTextChange}
-                                            autoFocus={true}
-                                        />
-                                    </React.Fragment>
-                                }
-                            </View>
-                        )}
-                    </GoogleAutoComplete>
-                    <GoogleAutoComplete apiKey={props.apiKey} debounce={300} components="country:usa">
-                        {({ inputValue, handleTextChange, locationResults, clearSearch }) => (
-                            <View style={styles.toWrapper}>
-                                {setToFunc(clearSearch)}
-                                {setToResults(locationResults)}
-                                {newToInputValue === false &&
-                                    <React.Fragment>
-                                        <TextInput style={{
-                                            width: 300,
-                                            paddingLeft: 40 
-                                            }}
-                                            label="To:"
-                                            placeholder="Where are you going?"
-                                            editable={true}
-                                            defaultValue={inputValue}
-                                            value={props.toLocation}
-                                            onFocus={() => {setFocusedThing(2)}}
-                                            onChangeText={() => changeToInput(true)}
-                                        />
-                                    </React.Fragment>
-                                }
-                                {newToInputValue === true &&
-                                    <React.Fragment>
-                                        <TextInput style={{
-                                            width: 300,
-                                            paddingLeft: 40 
-                                            }}
-                                            label="To:"
-                                            editable={true}
-                                            autoFocus={true}
-                                            defaultValue={inputValue}
-                                            value={inputValue}
-                                            onFocus={() => {setFocusedThing(2)}}
-                                            onChangeText={handleTextChange}                                 
-                                        />
-                                    </React.Fragment>
-                                }
-                            </View>
-                        )}
-                    </GoogleAutoComplete>
-                </React.Fragment>
-            </Surface>
-            <View style={styles.scroll}>
-                <ScrollView style={styles.scrollView} 
-                    keyboardShouldPersistTaps={'always'} 
-                    keyboardDismissMode='on-drag'>
-                    {focusedThing === 1 ?
-                        fromResults.map((el, i) => (
-                            <FromLocationItem
-                                {...el}
-                                key={el.id}
-                                googAPI={props.apiKey}
-                                clearFromSelections={fromFunc}
-                                updateFromState={props.updateFromState}
-                                updateFromLocation={updateFromLocation}
-                                setFromValue={setFromValue}
-                            >
-                            </FromLocationItem>
-                        )) :
-                        toResults.map((el, i) => (
-                            <ToLocationItem
-                                {...el}
-                                key={el.id}
-                                googAPI={props.apiKey}
-                                clearToSelections={toFunc}
-                                updateToState={props.updateToState}
-                                updateToLocation={updateToLocation}
-                                setToValue={setToValue}
-                            >
-                            </ToLocationItem>
-                        ))
-                    }
-                </ScrollView>
+        <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+            <View>
+                <Surface style={styles.surface}>
+                    <React.Fragment>
+                        <GoogleAutoComplete apiKey={props.apiKey} debounce={300} components="country:usa">
+                            {({ inputValue, handleTextChange, locationResults, clearSearch }) => (
+                                <View style={styles.fromWrapper}>
+                                    {setFromFunc(clearSearch)}
+                                    {setFromResults(locationResults)}
+                                    {props.newFromLocation === false &&
+                                        <React.Fragment>
+                                            <TextInput style={{
+                                                width: 300,
+                                                paddingLeft: 40 
+                                                }}
+                                                label="From:"
+                                                editable={true}
+                                                value={'Current Location'}
+                                                onFocus={() => props.changeFrom(true)}
+                                                clearTextOnFocus={true}
+                                            />
+                                        </React.Fragment>
+                                    }
+                                    {props.newFromLocation === true && newFromInputValue === false &&
+                                        <React.Fragment>
+                                            <TextInput style={{
+                                                width: 300,
+                                                paddingLeft: 40 
+                                                }}
+                                                label="From:"
+                                                editable={true}
+                                                defaultValue={inputValue}
+                                                value={props.fromLocation}
+                                                onFocus={() => {setFocusedThing(1)}}
+                                                onChangeText={() => changeFromInput(true)} 
+                                                autoFocus={true}
+                                            />
+                                        </React.Fragment>
+                                    }
+                                    {props.newFromLocation === true && newFromInputValue === true &&
+                                        <React.Fragment>
+                                            <TextInput style={{
+                                                width: 300,
+                                                paddingLeft: 40 
+                                                }}
+                                                label="From:"
+                                                editable={true}
+                                                defaultValue={inputValue}
+                                                value={inputValue}
+                                                onFocus={() => {setFocusedThing(1)}}
+                                                onChangeText={handleTextChange}
+                                                autoFocus={true}
+                                            />
+                                        </React.Fragment>
+                                    }
+                                </View>
+                            )}
+                        </GoogleAutoComplete>
+                        <GoogleAutoComplete apiKey={props.apiKey} debounce={300} components="country:usa">
+                            {({ inputValue, handleTextChange, locationResults, clearSearch }) => (
+                                <View style={styles.toWrapper}>
+                                    {setToFunc(clearSearch)}
+                                    {setToResults(locationResults)}
+                                    {newToInputValue === false &&
+                                        <React.Fragment>
+                                            <TextInput style={{
+                                                width: 300,
+                                                paddingLeft: 40 
+                                                }}
+                                                label="To:"
+                                                placeholder="Where are you going?"
+                                                editable={true}
+                                                defaultValue={inputValue}
+                                                value={props.toLocation}
+                                                onFocus={() => {setFocusedThing(2)}}
+                                                onChangeText={() => changeToInput(true)}
+                                            />
+                                        </React.Fragment>
+                                    }
+                                    {newToInputValue === true &&
+                                        <React.Fragment>
+                                            <TextInput style={{
+                                                width: 300,
+                                                paddingLeft: 40 
+                                                }}
+                                                label="To:"
+                                                editable={true}
+                                                autoFocus={true}
+                                                defaultValue={inputValue}
+                                                value={inputValue}
+                                                onFocus={() => {setFocusedThing(2)}}
+                                                onChangeText={handleTextChange}                                 
+                                            />
+                                        </React.Fragment>
+                                    }
+                                </View>
+                            )}
+                        </GoogleAutoComplete>
+                    </React.Fragment>
+                </Surface>
+                <View style={styles.scroll}>
+                    <ScrollView style={styles.scrollView} 
+                        keyboardShouldPersistTaps={'always'} 
+                        keyboardDismissMode='on-drag'>
+                        {focusedThing === 1 ?
+                            fromResults.map((el, i) => (
+                                <FromLocationItem
+                                    {...el}
+                                    key={el.id}
+                                    googAPI={props.apiKey}
+                                    clearFromSelections={fromFunc}
+                                    updateFromState={props.updateFromState}
+                                    updateFromLocation={updateFromLocation}
+                                    setFromValue={setFromValue}
+                                >
+                                </FromLocationItem>
+                            )) :
+                            toResults.map((el, i) => (
+                                <ToLocationItem
+                                    {...el}
+                                    key={el.id}
+                                    googAPI={props.apiKey}
+                                    clearToSelections={toFunc}
+                                    updateToState={props.updateToState}
+                                    updateToLocation={updateToLocation}
+                                    setToValue={setToValue}
+                                >
+                                </ToLocationItem>
+                            ))
+                        }
+                    </ScrollView>
+                </View>
             </View>
-        </View>
+        </TouchableWithoutFeedback>
     )
 }        
 

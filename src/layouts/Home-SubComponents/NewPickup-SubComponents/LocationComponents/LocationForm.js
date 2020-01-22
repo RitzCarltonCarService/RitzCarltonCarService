@@ -2,7 +2,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateFromLocation } from '../../../../redux/actions';
 import React, { useState, memo } from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity, Text } from 'react-native';
+import { Surface } from "react-native-paper";
 import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
 import DateTimeMapView from './DateTimeMapView.js';
@@ -110,25 +111,31 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
         if (fromLocation !== '' && toLocation !== '') {
             return (
                 <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
-                    <View styles={styles.container}>
-                            <DateTimeMapView styles={styles.contentBox}
-                                currentDate={currentDate}
-                                dateAlert={dateAlert}
-                            >
-                            </DateTimeMapView>
-                        <View styles={styles.buttonBox}>
-                            <Button styles={styles.nextButton}
-                                mode='contained' 
-                                onPress={() => props.setForm(1)}
-                            >
-                                Next
-                            </Button>
-                            <Button styles={styles.backButton}
-                                mode='contained' 
-                                onPress={() => props.setPage("home")}
-                            >
-                                Back
-                            </Button>
+                    <View style={styles2.container}>
+                        <View style={styles2.mapAndAddressBox}>
+                            <Surface style={styles2.addressBox}>
+                                <TouchableOpacity style={styles2.fromAddress} 
+                                    onPress={() => {
+                                        setFrom('');        
+                                    }}>
+                                    <Text numberOfLines = {1}>
+                                        {fromLocation}
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles2.toAddress} 
+                                    onPress={() => {
+                                        setTo('');        
+                                    }}>
+                                    
+                                    <Text numberOfLines={1}>
+                                        {toLocation}
+                                    </Text>
+                                </TouchableOpacity>
+                            </Surface>
+                        </View>
+                            <View style={styles2.timeAndDateBox} />
+                            <View style={styles2.backButtonBox}>
+                            <View style={styles2.backButton} />
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -152,13 +159,31 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                         <View styles={styles.buttonBox}>
                             <Button styles={styles.nextButton}
                                 mode='contained' 
-                                onPress={() => props.setForm(1)}
+                                onPress={() => {
+                                    
+                                    if (!toLocation) {
+                                        Alert.alert(
+                                        'We\'re Sorry!',
+                                        'Please input a destination before continuing.',
+                                        [
+                                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                                        ],
+                                        {cancelable: false},
+                                    );
+                                    } else {
+                                        props.setForm(1)}
+                                    }
+                                }
                             >
                                 Next
                             </Button>
                             <Button styles={styles.backButton}
                                 mode='contained' 
-                                onPress={() => props.setPage("home")}
+                                onPress={() => {
+                                    props.setPage("home");
+                                    setFrom('');
+                                    setTo('');        
+                                }}
                             >
                                 Back
                             </Button>
@@ -170,116 +195,55 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
         }
     } else {
         return (
-            <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
-                <View styles={styles.container}>
-                    <LocationMapView styles={styles.contentBox}
-                        apiKey={GOOGLE_MAPS_APIKEY}
-                        toLocation={toLocation}   
-                        fromLocation={fromLocation}
-                        setFrom={setFrom}       
-                        setTo={setTo}
-                        newFromLocation={newFromLocation}
-                        changeFrom={changeFrom}
-                        updateFromState={updateFromState}
-                        updateToState={updateToState}
+            <View styles={styles.container}>
+                <LocationMapView styles={styles.contentBox}
+                    apiKey={GOOGLE_MAPS_APIKEY}
+                    toLocation={toLocation}   
+                    fromLocation={fromLocation}
+                    setFrom={setFrom}       
+                    setTo={setTo}
+                    newFromLocation={newFromLocation}
+                    changeFrom={changeFrom}
+                    updateFromState={updateFromState}
+                    updateToState={updateToState}
+                >
+                </LocationMapView>
+                <View styles={styles.buttonBox}>
+                    <Button styles={styles.nextButton}
+                        mode='contained' 
+                        onPress={() => {
+                            
+                            if (!toLocation) {
+                                Alert.alert(
+                                'We\'re Sorry!',
+                                'Please input a destination before continuing.',
+                                [
+                                {text: 'OK', onPress: () => console.log('OK Pressed')},
+                                ],
+                                {cancelable: false},
+                            );
+                            } else {
+                                props.setForm(1)}
+                            }
+                        }
                     >
-                    </LocationMapView>
-                    {fromLocation === '' && toLocation === '' &&
-                        <View styles={styles.buttonBox} >
-                            <Button styles={styles.nextButton} 
-                                mode='contained' 
-                                onPress={() => props.setPage("home")}
-                            >
-                                Back
-                            </Button>
-                        </View> 
-                    }
-                    {fromLocation === '' || toLocation === '' &&
-                        <View styles={styles.buttonBox}>
-                            <Button styles={styles.backButton} 
-                                mode='contained' 
-                                onPress={() => props.setPage("home")}
-                            >
-                                Back
-                            </Button>
-                        </View> 
-                    }
-                    {fromLocation !== '' && toLocation !== '' &&
-                        <View styles={styles.buttonBox}>
-                            <Button styles={styles.nextButton}  
-                                mode='contained' 
-                                onPress={() => props.setForm(1)}
-                            >
-                                Next
-                            </Button>
-                            <Button styles={styles.backButton}  
-                                mode='contained' 
-                                onPress={() => props.setPage("home")}
-                            >
-                                Back
-                            </Button>
-                        </View>
-                    }  
+                        Next
+                    </Button>
+                    <Button styles={styles.backButton}
+                        mode='contained' 
+                        onPress={() => {
+                            props.setPage("home");
+                            setFrom('');
+                            setTo('');    
+                        }}
+                    >
+                        Back
+                    </Button>
                 </View>
-            </TouchableWithoutFeedback>
+            </View>
         )
     }
-} 
-
-/*
-
-return (
-      <View style={{
-        flex: 1,
-        width: 500,
-        height: 500,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-      }}>
-        <View style={{
-          flex: 1,
-          width: 500,
-          height: 150,
-        }} />
-        <View style={{
-          flex: 1,
-          width: 500,
-          height: 100,
-          marginHorizontal: 20,
-          flexGrow: 1,
-        }} />
-        <View style={{
-          flex: 1,
-          width: 500,
-          height: 125,
-          justifyContent: 'center',
-        }}>
-          <View style={{
-            flex: 1,
-            width: 200,
-            height: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-            alignContent: 'space-around',
-          }} />
-          <View style={{
-            flex: 1,
-            width: 200,
-            height: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-            alignContent: 'center',
-          }} />
-        </View>
-      </View>
-    );
-
-
-
-*/
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -326,6 +290,158 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         alignContent: 'center',
+    }
+});
+
+/*
+
+return (
+      <View style={{
+        flex: 1,
+        width: 500,
+        height: 500,
+        alignItems: 'center',
+        alignContent: 'center',
+        padding: 20,
+      }}>
+        <View style={{
+          flex: 1,
+          width: 500,
+          height: 100,
+          alignItems: 'center',
+          marginHorizontal: 20,
+          flexGrow: 1,
+        }}>
+          <View style={{
+            flex: 1,
+            width: 500,
+            height: 30,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+          }}>
+            <View style={{
+              flex: 1,
+              width: 200,
+              height: 30,
+            }} />
+            <View style={{
+              flex: 1,
+              width: 200,
+              height: 30,
+              justifyContent: 'center',
+            }} />
+          </View>
+        </View>
+        <View style={{
+          flex: 1,
+          width: 500,
+          height: 165,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }} />
+        <View style={{
+          flex: 1,
+          width: 500,
+          height: 50,
+          justifyContent: 'center',
+          alignItems: 'center',
+          alignSelf: 'center',
+          alignContent: 'center',
+        }}>
+          <View style={{
+            flex: 1,
+            width: 100,
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+          }} />
+        </View>
+      </View>
+    );
+
+*/
+
+const styles2 = StyleSheet.create({
+    container: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        alignContent: 'center',
+    },
+    mapAndAddressBox: {
+        flex: 1,
+        width: 500,
+        marginVertical: 20,
+        maxHeight: 75,
+        alignItems: 'center',
+        marginHorizontal: 20,
+        flexGrow: 1,
+    },
+    addressBox: {
+        flex: 1,
+        width: 500,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        flexDirection: 'row'
+    },
+    fromAddress: {
+        flex: 1,
+        width: 100,
+        height: 30,
+        marginLeft: 50,
+        marginRight: 10,
+        borderRadius: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    toAddress: {
+        flex: 1,
+        width: 100,
+        height: 30,
+        marginLeft: 10,
+        marginRight: 50,
+        borderRadius: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    timeAndDateBox: {
+        flex: 1,
+        width: 500,
+        height: 165,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    backButtonBox: {
+        flex: 1,
+        width: 500,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        alignContent: 'center',
+    },
+    backButton: {
+        flex: 1,
+        width: 100,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
     }
 });
 
