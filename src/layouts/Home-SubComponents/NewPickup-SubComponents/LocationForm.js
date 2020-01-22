@@ -72,7 +72,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
         <View style={styles.container}>
             <Surface style={styles.surface}>
                 <React.Fragment>
-                    <GoogleAutoComplete apiKey="AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s" debounce={300} components="country:usa">
+                    <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
                         {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
                             <View style={styles.fromWrapper}>
                                 <React.Fragment>
@@ -93,7 +93,7 @@ const LocationForm = ({ updateToLocation, updateFromLocation }) => {
                             </View>
                         )}
                     </GoogleAutoComplete>
-                    <GoogleAutoComplete apiKey="AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s" debounce={300} components="country:usa">
+                    <GoogleAutoComplete apiKey="" debounce={300} components="country:usa">
                         {({ inputValue, handleTextChange, locationResults, fetchDetails, clearSearch }) => (
                             <View style={styles.toWrapper}>
                                 <React.Fragment>
