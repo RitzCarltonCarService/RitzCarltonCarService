@@ -17,7 +17,7 @@ import { getStatusBarHeight } from "react-native-status-bar-height";
 import { Surface } from 'react-native-paper';
 import { vh, vw } from 'react-native-viewport-units';
 
-const TheWhiteSquare = ({ style, width = 80, height = 50, top = 10, animationData, children, ...props }) => {
+const TheWhiteSquare = ({ style, width = 80, height = 50, top = 10, animationData, duration, children, ...props }) => {
     const [animValues] = useState(new Animated.ValueXY({ x: height * vh, y: ((top * vh) + getStatusBarHeight()) }));
 
     const styles = StyleSheet.create({
@@ -35,7 +35,7 @@ const TheWhiteSquare = ({ style, width = 80, height = 50, top = 10, animationDat
         if (animationData) {
             Animated.timing(animValues, {
                 toValue: { x: animationData.height * vh, y: ((animationData.top * vh) + getStatusBarHeight()) },
-                duration: animationData.duration,
+                duration: duration,
             }).start();
         };
     }, [animationData]);
