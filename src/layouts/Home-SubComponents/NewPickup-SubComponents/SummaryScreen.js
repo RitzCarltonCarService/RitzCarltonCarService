@@ -11,6 +11,9 @@ import Button from '../../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SummaryScreen = props => {
+
+    console.log("These are the props for the new request: ", props.requestObject)
+    
     return (
         <>
             <TheWhiteSquare height={70} style={{ borderWidth: 3 }}>

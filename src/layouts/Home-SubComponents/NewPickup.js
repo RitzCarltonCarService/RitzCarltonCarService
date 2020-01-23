@@ -85,6 +85,7 @@ const NewPickup = props => {
 }
 
 const mapStateToProps = state => {
+    console.log("This is state in NewPickUp.js: ", state)
     return {
         form: state.nav.form,
         duration: state.duration,

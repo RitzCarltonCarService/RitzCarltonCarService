@@ -18,10 +18,10 @@ class FromLocationItem extends PureComponent {
                                 const coords = res.geometry.location;
                                 // Passing fromLocation's coordinates to Redux state
                                 this.props.updateFromLocation(coords); 
+                                this.props.updateFromState(res.formatted_address);
                             };
                             handlePress();
                             this.props.setFromValue();
-                            this.props.updateFromState(this.props.description);
                             this.props.clearFromSelections();
                         }}> 
                         <Text>{this.props.description}</Text>
