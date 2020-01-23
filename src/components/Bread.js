@@ -6,6 +6,8 @@ import Logo from '../components/Logo';
 import TheWhiteBox from '../components/TheWhiteSquare';
 import MenuButton from '../components/MenuButton';
 import Header from '../components/Header';
+import Button from './Button';
+import { logoutUser } from '../core/auth-api';
 
 const Bread = ({ visible, onDismiss }) => {
    const styles = StyleSheet.create({
@@ -25,6 +27,7 @@ const Bread = ({ visible, onDismiss }) => {
                   style={{ right: (vw * 8), backgroundColor: '#000000' }}
                >
                   {visible ? <MenuButton icon={'menu-open'} onPress={onDismiss} color={'white'} /> : null}
+
                   <MenuButton
                      icon={'account'}
                      color={'white'}
@@ -34,10 +37,14 @@ const Bread = ({ visible, onDismiss }) => {
                         position: 'relative',
                      }}
                   ></MenuButton>
+
                   <Header style={{ color: '#FFFFFF' }}>{`Request Pick-up`}</Header>
                   <Header style={{ color: '#FFFFFF' }}>{`Ride History`}</Header>
                   <Header style={{ color: '#FFFFFF' }}>{`Settings`}</Header>
                   <Header style={{ color: '#FFFFFF' }}>{`Help`}</Header>
+
+                  <Button mode={'text'} onPress={logoutUser}>Logout</Button>
+
                   <Image
                      source={require('../../assets/RitzLogoWhite.png')}
                      style={{ width: 128, height: 128, }}
