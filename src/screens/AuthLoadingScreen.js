@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, memo } from "react";
 import { updateGeoLocation, setUserData } from "../redux/actions";
 import { ActivityIndicator } from "react-native";
 import { FIREBASE_CONFIG } from "../core/config";
@@ -25,20 +25,7 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
       };
 
       return await Location.getCurrentPositionAsync({});
-   }
-
-   useEffect(() => {
-     getCurrentLocation()
-      .then((position) => {
-         let coords = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: 0.003,
-            longitudeDelta: 0.003,
-         }
-         dispatch(updateGeoLocation(coords))
-      })  
-   },[]);
+   };
 
    firebase.auth().onAuthStateChanged(user => {
       // User is logged in

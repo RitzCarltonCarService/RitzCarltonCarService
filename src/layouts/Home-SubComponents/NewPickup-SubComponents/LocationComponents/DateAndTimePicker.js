@@ -1,5 +1,5 @@
 import React, { useState, memo } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Appearance, useColorScheme } from 'react-native-appearance';
 
@@ -16,8 +16,19 @@ const DateAndTimePicker = props => {
    // Change modal's view in screen
    const [modalView, setmodalView] = useState(true);
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
+  const hideDatePicker = date => {
+    if (!date) {
+      Alert.alert(
+        'We\'re Sorry!',
+        'Please select a time in the future to schedule your request.',
+        [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        {cancelable: false},
+        );
+    } else {
+      setDatePickerVisibility(false);
+    }
   };
 
   const handleIoSConfirm = date => {

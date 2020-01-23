@@ -65,7 +65,7 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
             ]}
             scrollEnabled={scrollEnabled}
             {...props}
-            >
+         >
             <MapView.Marker key={1} coordinate={origin} />
             <MapView.Marker key={2} coordinate={destination} />
             <MapViewDirections
@@ -81,7 +81,7 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                   // Adding to Redux store the new distance and duration of user's selected route
                   updateRideDistance(result.distance + 'km')
                   updateRideDuration(result.duration + 'min')
-                  
+
                   // refContainer.current.fitToElements(true);
                   refContainer.current.fitToCoordinates(result.coordinates, {
                      edgePadding: {
@@ -96,7 +96,7 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                   console.log('GOT AN ERROR');
                }}
             />
-      </MapView>
+         </MapView>
       );
    } else {
       return (
