@@ -157,9 +157,9 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 <Button style={styles2.backButton} onPress={() => {setTo('')}}>Back</Button>
                                 <Button style={styles2.nextButton} 
                                         onPress={() => {
-                                            if (currentIoSDate) {
+                                            if (Platform.OS === 'ios') {
                                                 props.setTime(currentIoSDate)
-                                            } else if (currentAndroidDate) {
+                                            } else if (Platform.OS === 'android') {
                                                 props.setTime(currentAndroidDate)
                                             };
                                             props.setForm(1);

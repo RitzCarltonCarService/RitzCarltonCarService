@@ -36,6 +36,24 @@ const DateAndTimePicker = props => {
   const hideDatePicker = date => {
     if (date) {
       setDatePickerVisibility(false);
+    } else {
+      Alert.alert(
+        'No Date Selected!',
+        'You haven\'t selected a date. Pressing OK will select the current time and date.',
+        [
+            {text: 'OK', onPress: () => {
+              let today = new Date();
+              today.setSeconds(today.getSeconds() + 60);
+
+              if (Platform.OS === 'ios') {  
+                handleIoSConfirm(today)
+              } else if (Platform.OS === 'android') {
+                handleAndroidDate(today)
+              }
+            }} 
+        ],
+        {cancelable: false},
+      );
     }
   };
 
@@ -66,7 +84,6 @@ const DateAndTimePicker = props => {
           headerTextIOS="Pick a date & time"
           cancelTextIOS="Cancel"
           isVisible={isDatePickerVisible}
-          value={props.currentIoSDate}
           mode="datetime"
           display="default"
           onConfirm={handleIoSConfirm}
@@ -77,7 +94,6 @@ const DateAndTimePicker = props => {
       {props.currentAndroidDate === null && (
         <DateTimePickerModal
           isVisible={true}
-          value={new Date()}
           mode={mode}
           display="spinner"
           onConfirm={handleAndroidDate}
@@ -88,7 +104,6 @@ const DateAndTimePicker = props => {
       {props.rideAndroidTime === null && (
         <DateTimePickerModal
           isVisible={true}
-          value={new Date()}
           mode={mode}
           datePickerMode
           display="clock"
