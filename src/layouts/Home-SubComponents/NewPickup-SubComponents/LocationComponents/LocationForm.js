@@ -53,7 +53,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     }
     // Get user's reverse geoCoded address
     getReverseGeocode();
-
     // Store new From location in hook and in redux
     const updateFromState = (newFromLocation) => {
         setFromLocation(newFromLocation);
