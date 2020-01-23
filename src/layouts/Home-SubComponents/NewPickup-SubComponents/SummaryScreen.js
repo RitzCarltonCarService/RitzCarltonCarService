@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React from 'react';
+import Moment from 'moment';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../../redux/actions';
 import { View, Text, StyleSheet } from 'react-native';
@@ -11,9 +13,13 @@ import Button from '../../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SummaryScreen = props => {
+    let momentJSdate = props.requestObject.time;
+    let newRequest = props.requestObject;
+    newRequest['hotelID'] = null
 
     console.log("These are the props for the new request: ", props.requestObject)
-    
+
+
     return (
         <>
             <TheWhiteSquare height={70} style={{ borderWidth: 3 }}>
@@ -30,15 +36,15 @@ const SummaryScreen = props => {
                     <View style={styles.descriptor}>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Date: </Text>
-                            XX / XX / XXXX
+                            {Moment(momentJSdate).format("LLL")}
                     </Text>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Pick-Up Location: </Text>
-                            123 JONathan street how much will this hold
+                            {props.requestObject.from}
                     </Text>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Destination: </Text>
-                            143 Taylor Street Lorem Ipsum super long street name
+                            {props.requestObject.to}
                     </Text>
                     </View>
                     <View style={styles.carAndDriver}>
@@ -54,12 +60,22 @@ const SummaryScreen = props => {
                         <IconButton icon="account" size={50} color="black"></IconButton>
                         <View style={{ marginTop: "5%" }}>
                             <Text style={{ fontWeight: "bold" }}>Your Driver: </Text>
-                            <Text>JONathan Keane </Text>
+                            <Text>John Doe</Text>
                         </View>
                     </View>
                     <View style={styles.logoContainer}>
                         <Button
                             onPress={() => {
+                                // Posting new ride request to the database
+                                axios.post('ritzcarservice.us-east-2.elasticbeanstalk.com/api/createPickup', {
+                                    newRequest: props.requestObject
+                                })
+                                .then((response) => {
+                                    console.log(response);
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                });
                                 props.updateScheduledPickups(dummyData);
                                 props.setPage("home");
                             }}
