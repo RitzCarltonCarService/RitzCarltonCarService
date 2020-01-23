@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Moment from 'react-moment';
+import Moment from 'moment';
 import { connect } from 'react-redux';
 import { updateFromLocation } from '../../../../redux/actions';
 import React, { useState, memo } from 'react';
@@ -28,7 +28,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     //  If the button "Schedule a Ride Now", do not display the Time/Date picker (set another hook to only render
     //      selection input fields)
     
-    const GOOGLE_MAPS_APIKEY = '';
+    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFrom] = useState('');
@@ -37,9 +37,10 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     // Hook for mounting initial From location of user
     const [componentDidMount, setMounted] = useState(false);
 
-    const [newFromLocation, changeFrom] = useState(null);
     // Hook to use different From location for rerendering purposes
+    const [newFromLocation, changeFrom] = useState(null);
 
+    // Using user's geoLocation to get their actual address
     getReverseGeocode = async () => {
         if (props.geoLocation) {
             // If component has not mounted, request reverse geolocation
@@ -65,31 +66,27 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
 
     // Get user's reverse geoCoded address
     getReverseGeocode();
-
-    // Setting date for date/time picker (Android)
-    const [currentIoSDate, setIoSDate] = useState(null);
-
-    // Setting date for date/time picker (Android)
-    const [currentAndroidDate, setAndroidDate] = useState(null);
-    const [rideAndroidTime, setAndroidTime] = useState(null);
-
+    
     // Store new From location in hook and in redux
     const updateFromState = (newFromLocation) => {
         setFrom(newFromLocation);
         props.setFrom(fromLocation);
     };
-
+    
     // Store new To location in hook and in redux
     const updateToState = (newToLocation) => {
         setTo(newToLocation);
         props.setTo(toLocation);
     };
-
-    // Store new Time in hook and in redux
-    const updateTimeAndDate = (newToLocation) => {
-        setTo(newToLocation);
-        props.setTo(toLocation);
-    };
+    
+    /* DATE COMPONENTS */
+    
+    // Setting date for date/time picker (Android)
+    const [currentIoSDate, setIoSDate] = useState(null);
+    
+    // Setting date for date/time picker (Android)
+    const [currentAndroidDate, setAndroidDate] = useState(null);
+    const [rideAndroidTime, setAndroidTime] = useState(null);
 
     // Alert pop up for dates in the past
     const dateAlert = (selectedDate) => {
@@ -99,21 +96,18 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                 'We\'re Sorry!',
                 'Please select a time in the future to schedule your request.',
                 [
-                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
                 ],
                 {cancelable: false},
-              );
+                );
+            }
         }
-    }
-
-    // If this is a scheduled request, render the Text Input fields to select a From and To Destination
-    //  then, allow to user to view their destination request on the map
-    //  and then, render Time&Date selector to confirm future request
-    //  and then, ask user to submit request
-    // Else,
-    //  only render the Text Input fields to select a From and To Destination,
-    //  then, allow user to view their desination request on the map,
-    //  and then, ask user to submit request
+    
+    // Store new Time in hook and in redux
+    const updateTimeAndDate = (newToLocation) => {
+        setTo(newToLocation);
+        props.setTo(toLocation);
+    };
 
     if (props.scheduled) {
         if (fromLocation !== '' && toLocation !== '') {
@@ -165,10 +159,14 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                         }
                         <Surface style={styles2.timeAndDateBox}>
                             {Platform.OS === 'ios' && 
-                                <Text>{currentIoSDate}</Text>
+                                <Text>
+                                    {Moment(currentIoSDate).format("MM-DD-YYYY")}
+                                </Text>
                             }
                             {Platform.OS === 'android' &&
-                                <Text>{currentAndroidDate}</Text>
+                                <Text>
+                                    {Moment(currentAndroidDate).format("MM-DD-YYYY")}
+                                </Text>
                             }
                             <Button style={styles2.backButton}>Hello!</Button>
                             <Button style={styles2.backButton}>Hello2!</Button>
