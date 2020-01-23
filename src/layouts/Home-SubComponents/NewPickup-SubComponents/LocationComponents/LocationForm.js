@@ -14,19 +14,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
 
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
-
-    // Rendering of DateTimePicker on Click of Next to select date and time
-    //  Adjust styling and rendering of this component !!!
-
-    // If there is a From and a To location in state hooks, render Location page with two Text fields
-    //  that contain the To and From coordinates ---> allow both to be clickable and to return to original Location form 
-    //      ---> best way to transition on returning back to form
-    //  Also create a back button (arrow) to be placed to the left of the To and From location Text fields to
-    //      also navigate back to original Location form input fields
-    //  Then allow for Date/Time picker to show, and underneath create a Next and Back button
-    //      only enable Next button as clickable when a date in the future is selected
-    //  If the button "Schedule a Ride Now", do not display the Time/Date picker (set another hook to only render
-    //      selection input fields)
     
     const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
 
@@ -88,21 +75,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     const [currentAndroidDate, setAndroidDate] = useState(null);
     const [rideAndroidTime, setAndroidTime] = useState(null);
 
-    // Alert pop up for dates in the past
-    const dateAlert = (selectedDate) => {
-        let today = new Date();
-        if (selectedDate < today) {
-            Alert.alert(
-                'We\'re Sorry!',
-                'Please select a time in the future to schedule your request.',
-                [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
-                ],
-                {cancelable: false},
-                );
-            }
-        }
-    
     // Store new Time in hook and in redux
     const updateTimeAndDate = (newToLocation) => {
         setTo(newToLocation);
@@ -142,7 +114,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 currentAndroidDate={currentAndroidDate}
                                 setAndroidDate={setAndroidDate}
                                 setAndroidTime={setAndroidTime}
-                                dateAlert={dateAlert}
                             >
                             </DateAndTimePicker>
                         }
@@ -158,21 +129,43 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                             </DateAndTimePicker>
                         }
                         <Surface style={styles2.timeAndDateBox}>
-                            <View>
-                                {Platform.OS === 'ios' && 
-                                    <Text>
-                                        {Moment(currentIoSDate).format("LLL")}
-                                    </Text>
+                            <View style={styles2.requestBorder}>
+                                {Platform.OS === 'ios' &&
+                                    <TouchableOpacity 
+                                        onPress={() => {
+                                            setIoSDate(null);
+                                        }}>
+                                        <Text style={styles2.requestText}>New Scheduled Request Date:</Text>
+                                        <Text style={styles2.requestText}>
+                                            {Moment(currentIoSDate).format("LLL")}
+                                        </Text>
+                                    </TouchableOpacity>
                                 }
                                 {Platform.OS === 'android' &&
-                                    <Text>
-                                        {Moment(currentAndroidDate).format("LLL")}
-                                    </Text>
+                                    <TouchableOpacity 
+                                        onPress={() => {
+                                            setAndroidDate(null);
+                                        }}>
+                                        <Text style={styles2.requestText}>New Scheduled Request Date:</Text>
+                                        <Text style={styles2.requestText}>
+                                            {Moment(currentAndroidDate).format("LLL")}
+                                        </Text>
+                                    </TouchableOpacity>
                                 }
                             </View>
                             <View style={styles2.buttonBox}>
-                                <Button style={styles2.backButton}>Hello!</Button>
-                                <Button style={styles2.backButton}>Hello2!</Button>
+                                <Button style={styles2.backButton} onPress={() => {setTo('')}}>Back</Button>
+                                <Button style={styles2.nextButton} 
+                                        onPress={() => {
+                                            if (currentIoSDate) {
+                                                props.setTime(currentIoSDate)
+                                            } else if (currentAndroidDate) {
+                                                props.setTime(currentAndroidDate)
+                                            };
+                                            props.setForm(1);
+                                        }}>
+                                    Next
+                                </Button>
                             </View>
                         </Surface>
                     </View>
@@ -394,6 +387,11 @@ const styles2 = StyleSheet.create({
         top: '50%',
         width: 500,
         maxHeight: 200,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        textAlign: 'center',
+        alignContent: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column'
@@ -406,28 +404,49 @@ const styles2 = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row'
     },
-    backButtonBox: {
-        flex: 1,
-        width: 500,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        alignContent: 'center',
+    requestText: {
+        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
+        letterSpacing: 2,
+        fontWeight: "bold",
+        fontSize: 15,
+        lineHeight: 40,
+        color: theme.colors.primary,
+    },
+    requestBorder: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        paddingRight: 10,
+        paddingLeft: 10,
+        marginTop: 10
     },
     backButton: {
         flex: 1,
         width: 100,
-        height: 30,
+        height: 70,
+        marginLeft: 50,
+        marginRight: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    nextButton: {
+        flex: 1,
+        width: 100,
+        height: 70,
         marginLeft: 10,
         marginRight: 50,
         borderRadius: 10,
         paddingLeft: 10,
         paddingRight: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-    }
+    },
 });
 
 const mapStateToProps = state => {

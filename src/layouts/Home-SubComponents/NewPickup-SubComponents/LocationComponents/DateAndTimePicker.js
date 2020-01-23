@@ -14,36 +14,40 @@ const DateAndTimePicker = props => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(true);
 
    // Change modal's view in screen
-   const [modalView, setmodalView] = useState(true);
+  const [modalView, setmodalView] = useState(true);
+
+  const dateAlert = (selectedDate) => {
+    let today = new Date();
+    if (selectedDate < today) {
+        Alert.alert(
+            'We\'re Sorry!',
+            'Please select a time in the future to schedule your request.',
+            [
+                {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+          return false
+        } else {
+          return true
+        }
+    }
 
   const hideDatePicker = date => {
-    if (!date) {
-      Alert.alert(
-        'We\'re Sorry!',
-        'Please select a time in the future to schedule your request.',
-        [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        {cancelable: false},
-        );
-    } else {
+    if (date) {
       setDatePickerVisibility(false);
     }
   };
 
   const handleIoSConfirm = date => {
-    if (date < props.currentIoSDate) {
-      props.dateAlert()
-    } else {
-      props.setIoSDate(date);
+    if (dateAlert(date)) {
       hideDatePicker();
+      props.setIoSDate(date);
     }
   };
 
   const handleAndroidDate = date => {
-    if (date < props.currentAndroidDate) {
-      props.dateAlert()
-    } else {
+    if (dateAlert(date)) {
       props.setAndroidDate(date);
       setMode('time')
       hideDatePicker();
