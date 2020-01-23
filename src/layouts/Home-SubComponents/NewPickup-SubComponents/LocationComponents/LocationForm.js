@@ -18,8 +18,8 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     const GOOGLE_MAPS_APIKEY = '';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
-    const [fromLocation, setFrom] = useState('');
-    const [toLocation, setTo] = useState('');
+    const [fromLocation, setFromLocation] = useState(null);
+    const [toLocation, setToLocation] = useState(null);
 
     // Hook for mounting initial From location of user
     const [componentDidMount, setMounted] = useState(false);
@@ -40,7 +40,8 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                 // console.log("This is the response: ", res);
                 let address = res.data.results[1].formatted_address
                 // Setting initial from location to user's current geoLocation address
-                setFrom(address);
+                setFromLocation(address);
+                props.setFrom(address);
                 // Setting current from value as default until user changes text input field
                 changeFrom(false);
                 // Setting componentDidMount to true
@@ -50,20 +51,20 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
             }
         }
     }
-
     // Get user's reverse geoCoded address
     getReverseGeocode();
-    
     // Store new From location in hook and in redux
     const updateFromState = (newFromLocation) => {
-        setFrom(newFromLocation);
-        props.setFrom(fromLocation);
+        setFromLocation(newFromLocation);
+        // console.log("This is the newFromLocation: ", fromLocation)
+        props.setFrom(newFromLocation);
     };
     
     // Store new To location in hook and in redux
     const updateToState = (newToLocation) => {
-        setTo(newToLocation);
-        props.setTo(toLocation);
+        setToLocation(newToLocation);
+        // console.log("This is the newToLocation: ", newToLocation)
+        props.setTo(newToLocation);
     };
     
     /* DATE COMPONENTS */
@@ -82,7 +83,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     };
 
     if (props.scheduled) {
-        if (fromLocation !== '' && toLocation !== '') {
+        if (fromLocation !== null && toLocation !== null) {
             return (
                 <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
                     <View style={styles2.container}>
@@ -90,7 +91,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                             <Surface style={styles2.addressBox}>
                                 <TouchableOpacity style={styles2.fromAddress}
                                     onPress={() => {
-                                        setFrom('');
+                                        setFromLocation(null);
                                     }}>
                                     <Text numberOfLines={1}>
                                         {fromLocation}
@@ -98,7 +99,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles2.toAddress}
                                     onPress={() => {
-                                        setTo('');
+                                        setToLocation(null);
                                     }}>
 
                                     <Text numberOfLines={1}>
@@ -124,7 +125,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 currentAndroidDate={currentAndroidDate}
                                 setAndroidDate={setAndroidDate}
                                 setAndroidTime={setAndroidTime}
-                                dateAlert={dateAlert}
                             >
                             </DateAndTimePicker>
                         }
@@ -154,13 +154,17 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 }
                             </View>
                             <View style={styles2.buttonBox}>
-                                <Button style={styles2.backButton} onPress={() => {setTo('')}}>Back</Button>
+                                <Button style={styles2.backButton} onPress={() => {setToLocation('')}}>Back</Button>
                                 <Button style={styles2.nextButton} 
                                         onPress={() => {
                                             if (Platform.OS === 'ios') {
                                                 props.setTime(currentIoSDate)
                                             } else if (Platform.OS === 'android') {
-                                                props.setTime(currentAndroidDate)
+                                                let timeObj = {
+                                                    date: currentAndroidDate,
+                                                    time: rideAndroidTime
+                                                }
+                                                props.setTime(timeObj)
                                             };
                                             props.setForm(1);
                                         }}>
@@ -179,8 +183,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                             apiKey={GOOGLE_MAPS_APIKEY}
                             toLocation={toLocation}
                             fromLocation={fromLocation}
-                            setFrom={setFrom}
-                            setTo={setTo}
                             newFromLocation={newFromLocation}
                             changeFrom={changeFrom}
                             updateFromState={updateFromState}
@@ -213,8 +215,8 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 mode='contained'
                                 onPress={() => {
                                     props.setPage("home");
-                                    setFrom('');
-                                    setTo('');
+                                    setFromLocation(null);
+                                    setToLocation(null);
                                 }}
                             >
                                 Back
@@ -232,8 +234,6 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                     apiKey={GOOGLE_MAPS_APIKEY}
                     toLocation={toLocation}
                     fromLocation={fromLocation}
-                    setFrom={setFrom}
-                    setTo={setTo}
                     newFromLocation={newFromLocation}
                     changeFrom={changeFrom}
                     updateFromState={updateFromState}
@@ -265,8 +265,8 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                         mode='contained'
                         onPress={() => {
                             props.setPage("home");
-                            setFrom('');
-                            setTo('');
+                            setFromLocation(null);
+                            setToLocation(null);
                         }}
                     >
                         Back
