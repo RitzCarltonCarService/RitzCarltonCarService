@@ -9,13 +9,17 @@ import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
 import DateAndTimePicker from './DateAndTimePicker.js';
 import LocationMapView from './LocationMapView.js';
+<<<<<<< HEAD
 import getPickups from '../../../../components/getPickups';
+=======
+>>>>>>> robsotherbranch
 import { updateScheduledPickups } from '../../../../redux/actions';
 
 const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
     
+<<<<<<< HEAD
 <<<<<<< HEAD
     // Rendering of DateTimePicker on Click of Next to select date and time
     //  Adjust styling and rendering of this component !!!
@@ -34,6 +38,9 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
 =======
     const GOOGLE_MAPS_APIKEY = '';
 >>>>>>> 390c7ffaa4b6cbe5dd58b64da864daaafffd4e62
+=======
+    const GOOGLE_MAPS_APIKEY = '';
+>>>>>>> robsotherbranch
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFromLocation] = useState(null);
@@ -290,7 +297,11 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                             setToLocation(null);
                             updateFromLocation(null);
                             updateToLocation(null);
+<<<<<<< HEAD
                             getPickups(props.userData.uid, props.updateScheduledPickups);
+=======
+                            getPickups(props.updateScheduledPickups);
+>>>>>>> robsotherbranch
                         }}
                     >
                         Back
@@ -482,8 +493,13 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
+<<<<<<< HEAD
     updateToLocation: updateToLocation,
     updateFromLocation: updateFromLocation,
+=======
+    updateFromLocation: updateFromLocation,
+    updateToLocation: updateToLocation,
+>>>>>>> robsotherbranch
     updateScheduledPickups: updateScheduledPickups
 }
 
