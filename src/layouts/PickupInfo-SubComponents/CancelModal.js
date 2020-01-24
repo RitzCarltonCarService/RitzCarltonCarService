@@ -41,7 +41,11 @@ const CancelModal = props => (
                     onPress={()=>{
                         props.setModalOpen(false);
                         props.setPage("home");
+<<<<<<< HEAD
                         getPickups(props.userData.uid, updateScheduledPickups);
+=======
+                        getPickups(updateScheduledPickups);
+>>>>>>> robsotherbranch
                     }}
                     style={styles.yesButton}
                     // labelStyle={styles.buttonText}
@@ -129,7 +133,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+<<<<<<< HEAD
         userData: state.userData
+=======
+        id: state.id
+>>>>>>> robsotherbranch
     }
 }
 
@@ -137,4 +145,8 @@ const mapDispatchToProps = {
     updateScheduledPickups: updateScheduledPickups
 }
 
+<<<<<<< HEAD
 export default connect(mapStateToProps, mapDispatchToProps)(CancelModal);
+=======
+export default connect(mapStateToProps, mapDispatchToProps)(CancelModal);
+>>>>>>> robsotherbranch

@@ -24,6 +24,8 @@ const NewPickup = props => {
             return (
                 <View>
                     <LocationForm 
+                        bags={bags}
+                        passengers={passengers}
                         scheduled={props.scheduled}
                         setPage={props.setPage}
                         setForm={setForm} 
@@ -50,6 +52,8 @@ const NewPickup = props => {
             return (
                 <View>
                     <SummaryScreen
+                        passengers={passengers}
+                        bags={bags}
                         setForm={setForm}
                         setPage={props.setPage}
                         immediateLocation={immediateLocation}
