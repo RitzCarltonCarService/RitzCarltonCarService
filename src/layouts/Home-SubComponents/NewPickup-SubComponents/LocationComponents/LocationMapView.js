@@ -108,11 +108,11 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                                 }}
                                                 label="To:"
                                                 placeholder="Where are you going?"
+                                                onChangeText={() => changeToInput(true)}
                                                 editable={true}
                                                 defaultValue={inputValue}
                                                 value={props.toLocation}
                                                 onFocus={() => {setFocusedThing(2)}}
-                                                onChangeText={() => changeToInput(true)}
                                             />
                                         </React.Fragment>
                                     }

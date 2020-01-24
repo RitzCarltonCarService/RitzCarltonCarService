@@ -17,7 +17,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
 
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
     
-    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
+    const GOOGLE_MAPS_APIKEY = '';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFromLocation] = useState(null);
