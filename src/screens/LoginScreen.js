@@ -43,12 +43,17 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
          password: password.value
       });
 
+      const databaseResponse = await axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/login', {
+         id: response.uid
+      });
+
       dispatch(setUserData({
          uid: response.uid,
          displayName: response.displayName,
          email: response.email,
          phoneNumber: response.phoneNumber,
          photoURL: response.photoURL,
+         ...databaseResponse.data
       }));
 
       setLoading(false);

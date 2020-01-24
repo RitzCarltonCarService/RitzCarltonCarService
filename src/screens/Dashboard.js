@@ -10,7 +10,7 @@ import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import MapBackground from '../components/MapBackground';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
 
-const Home = ({ region, userData }) => {
+const Home = ({ region, userData, navigation }) => {
    const [page, setPage] = useState("home");
    // Boolean to indicate whether this is a scheduled ride or an immediate request
    const [scheduled, setScheduled] = useState(true);
@@ -50,7 +50,7 @@ const Home = ({ region, userData }) => {
             })()}
          </View>
 
-         <Bread visible={visible} onDismiss={() => setVisibility(false)} />
+         <Bread visible={visible} navigation={navigation} setPage={setPage} onDismiss={() => setVisibility(false)} />
 
          <Toast
             type={toast.type}
