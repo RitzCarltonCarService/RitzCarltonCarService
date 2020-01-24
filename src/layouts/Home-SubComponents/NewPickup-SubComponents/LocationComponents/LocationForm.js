@@ -15,7 +15,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
 
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
     
-    const GOOGLE_MAPS_APIKEY = '';
+    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFromLocation] = useState(null);
@@ -77,10 +77,10 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     const [rideAndroidTime, setAndroidTime] = useState(null);
 
     // Store new Time in hook and in redux
-    const updateTimeAndDate = (newToLocation) => {
-        setTo(newToLocation);
-        props.setTo(toLocation);
-    };
+    // const updateTimeAndDate = (newToLocation) => {
+    //     setTo(newToLocation);
+    //     props.setTo(toLocation);
+    // };
 
     if (props.scheduled) {
         if (fromLocation !== null && toLocation !== null) {
@@ -115,6 +115,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 currentAndroidDate={currentAndroidDate}
                                 setAndroidDate={setAndroidDate}
                                 setAndroidTime={setAndroidTime}
+                                changeFrom={props.changeFrom}
                             >
                             </DateAndTimePicker>
                         }
@@ -125,6 +126,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 currentAndroidDate={currentAndroidDate}
                                 setAndroidDate={setAndroidDate}
                                 setAndroidTime={setAndroidTime}
+                                changeFrom={props.changeFrom}
                             >
                             </DateAndTimePicker>
                         }
@@ -154,7 +156,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 }
                             </View>
                             <View style={styles2.buttonBox}>
-                                <Button style={styles2.backButton} onPress={() => {setToLocation('')}}>Back</Button>
+                                <Button style={styles2.backButton} onPress={() => {setToLocation(null)}}>Back</Button>
                                 <Button style={styles2.nextButton} 
                                         onPress={() => {
                                             if (Platform.OS === 'ios') {
@@ -204,10 +206,10 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                             { cancelable: false },
                                         );
                                     } else {
+                                        props.setTime(new Date());
                                         props.setForm(1)
                                     }
-                                }
-                                }
+                                }}
                             >
                                 Next
                             </Button>
@@ -254,6 +256,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                     { cancelable: false },
                                 );
                             } else {
+                                props.setTime(new Date());
                                 props.setForm(1)
                             }
                         }

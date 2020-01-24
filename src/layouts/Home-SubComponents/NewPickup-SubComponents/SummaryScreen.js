@@ -13,12 +13,27 @@ import Button from '../../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SummaryScreen = props => {
+    console.log("This is the current request object: ", props.requestObject)
+
     let momentJSdate = props.requestObject.time;
-    let newRequest = props.requestObject;
-    newRequest['hotelID'] = null
+    let pickUpData = {};
+    
+    pickUpData['hotelId'] = 1; // maybe change in the future!
+    pickUpData['startTime'] = props.requestObject.time; // maybe change in the future!
+    pickUpData['startAddress'] = props.requestObject.from;
+    pickUpData['startLat'] = props.requestObject.fromCoordinates.lat;
+    pickUpData['startLng'] = props.requestObject.fromCoordinates.lng;
+    pickUpData['endAddress'] = props.requestObject.to;
+    pickUpData['endLat'] = props.requestObject.toCoordinates.lat;
+    pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
+    pickUpData['passengerId'] = props.requestObject.userData.uid;
 
-    console.log("These are the props for the new request: ", props.requestObject)
+    // if (props.immediateLocation) {
+    //     console.log("This is the newFromLocation: ", props.immediateLocation)
+    //     pickUpData['specifiedStartTime'] = null;
+    // }
 
+    console.log("These are the props for the new request: ", pickUpData)
 
     return (
         <>
@@ -67,17 +82,18 @@ const SummaryScreen = props => {
                         <Button
                             onPress={() => {
                                 // Posting new ride request to the database
-                                axios.post('ritzcarservice.us-east-2.elasticbeanstalk.com/api/createPickup', {
-                                    newRequest: props.requestObject
+                                axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/newPickup', {
+                                    pickupData: pickUpData
                                 })
                                 .then((response) => {
+                                    props.setPage("home");
                                     console.log(response);
                                 })
                                 .catch((error) => {
+                                    props.setPage("home");
                                     console.log(error);
                                 });
-                                props.updateScheduledPickups(dummyData);
-                                props.setPage("home");
+                                // props.updateScheduledPickups(dummyData);
                             }}
                         >
                             Submit Ride Request

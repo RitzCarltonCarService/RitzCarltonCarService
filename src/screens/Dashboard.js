@@ -30,7 +30,6 @@ const Home = ({ region, userData, fromLocation, toLocation }) => {
       <>
          <MapBackground region={region} fromLocation={fromLocation} toLocation={toLocation}/>
          <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
-
          <View style={styles.container}>
             {(() => {
                switch (page) {
