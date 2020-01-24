@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../../redux/actions';
 import { View, Text, StyleSheet } from 'react-native';
@@ -11,6 +11,9 @@ import Button from '../../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SummaryScreen = props => {
+    // const [date, setDate] = useState(new Date());
+    var today = new Date();
+    var calendarDate = (today.getMonth()+1)+' / '+today.getDate()+' / '+ today.getFullYear();
     return (
         <>
             <TheWhiteSquare height={70} style={{borderWidth:3}}>
@@ -27,11 +30,11 @@ const SummaryScreen = props => {
                 <View style={styles.descriptor}>
                     <Text>
                         <Text style={{fontWeight: "bold"}}>Date: </Text>
-                        XX / XX / XXXX
+                        {calendarDate}
                     </Text>
                     <Text>
                         <Text style={{fontWeight: "bold"}}>Pick-Up Location: </Text>
-                        123 JONathan street how much will this hold
+                        123 Jonathan street how much will this hold
                     </Text>
                     <Text>
                         <Text style={{fontWeight: "bold"}}>Destination: </Text>
@@ -51,7 +54,7 @@ const SummaryScreen = props => {
                     <IconButton icon="account" size={50} color="black"></IconButton>
                     <View style={{marginTop: "5%"}}>
                         <Text style={{fontWeight: "bold"}}>Your Driver: </Text>
-                        <Text>JONathan Keane </Text>
+                        <Text>Jonathan Keane </Text>
                     </View>
                 </View>
                 <View style={styles.logoContainer}>

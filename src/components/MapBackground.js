@@ -17,14 +17,14 @@ import { StyleSheet, View, Keyboard } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions';
 import { aubergineMapStyle, silverMapStyle } from '../core/mapStyles';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { vh, vw } from 'react-native-viewport-units';
+// import { vh, vw } from 'react-native-viewport-units';
 
 const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation, updateRideDistance, updateRideDuration, ...props }) => {
-   const ASPECT_RATIO = vw / vh;
+   // const ASPECT_RATIO = vw / vh;
    let hour = new Date().getHours();
    let origin = {};
    let destination = {};
-   const GOOGLE_MAPS_APIKEY = '';
+   const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
    const refContainer = useRef(null);
 
    if (fromLocation) {
