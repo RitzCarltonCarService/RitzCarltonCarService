@@ -9,6 +9,7 @@ import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
 import DateAndTimePicker from './DateAndTimePicker.js';
 import LocationMapView from './LocationMapView.js';
+import getPickups from '../../../../components/getPickups';
 import { updateScheduledPickups } from '../../../../redux/actions';
 
 const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
@@ -464,8 +465,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-    updateFromLocation: updateFromLocation,
     updateToLocation: updateToLocation,
+    updateFromLocation: updateFromLocation,
     updateScheduledPickups: updateScheduledPickups
 }
 
