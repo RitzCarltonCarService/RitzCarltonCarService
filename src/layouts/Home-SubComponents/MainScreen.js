@@ -7,7 +7,6 @@ import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
 import dummyData from '../../dummyData/dummy_pickup_data';
-import axios from 'axios';
 
 const MainScreen = props => {
 

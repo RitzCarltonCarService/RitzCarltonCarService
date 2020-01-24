@@ -8,7 +8,9 @@ import { Surface } from "react-native-paper";
 import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
 import DateAndTimePicker from './DateAndTimePicker.js';
-import LocationMapView from './LocationMapView.js'
+import LocationMapView from './LocationMapView.js';
+import getPickups from '../../../../components/getPickups';
+import { updateScheduledPickups } from '../../../../redux/actions';
 
 const LocationForm = ({ updateFromLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
@@ -28,7 +30,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     //  If the button "Schedule a Ride Now", do not display the Time/Date picker (set another hook to only render
     //      selection input fields)
     
-    const GOOGLE_MAPS_APIKEY = '';
+    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFrom] = useState('');
@@ -270,7 +272,9 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                         onPress={() => {
                             props.setPage("home");
                             setFrom('');
-                            setTo('');    
+                            setTo('');
+                            console.log(getPickups);
+                            getPickups(props.updateScheduledPickups);
                         }}
                     >
                         Back
@@ -422,7 +426,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-    updateFromLocation: updateFromLocation
+    updateFromLocation: updateFromLocation,
+    updateScheduledPickups: updateScheduledPickups
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(memo(LocationForm));
