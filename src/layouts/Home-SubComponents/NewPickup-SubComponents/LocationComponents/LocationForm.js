@@ -285,13 +285,9 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                             props.setPage("home");
                             setFromLocation(null);
                             setToLocation(null);
-<<<<<<< HEAD
-                            getPickups(props.updateScheduledPickups);
-=======
                             updateFromLocation(null);
                             updateToLocation(null);
                             getPickups(props.userData.uid, props.updateScheduledPickups);
->>>>>>> 6e42e1c5697b3a909226cee05f835dd13c27e9f5
                         }}
                     >
                         Back
@@ -483,10 +479,6 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-<<<<<<< HEAD
-=======
-    updateToLocation: updateToLocation,
->>>>>>> 6e42e1c5697b3a909226cee05f835dd13c27e9f5
     updateFromLocation: updateFromLocation,
     updateScheduledPickups: updateScheduledPickups
 }
