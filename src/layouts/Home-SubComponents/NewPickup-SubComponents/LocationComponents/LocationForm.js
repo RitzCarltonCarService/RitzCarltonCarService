@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Moment from 'moment';
 import { connect } from 'react-redux';
-import { updateFromLocation } from '../../../../redux/actions';
+import { updateFromLocation, updateToLocation } from '../../../../redux/actions';
 import React, { useState, memo } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity, Text, Platform } from 'react-native';
 import { Surface } from "react-native-paper";
@@ -12,7 +12,7 @@ import LocationMapView from './LocationMapView.js';
 import getPickups from '../../../../components/getPickups';
 import { updateScheduledPickups } from '../../../../redux/actions';
 
-const LocationForm = ({ updateFromLocation, ...props }) => {
+const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
 
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
@@ -272,6 +272,8 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                             props.setPage("home");
                             setFromLocation(null);
                             setToLocation(null);
+                            updateFromLocation(null);
+                            updateToLocation(null);
                             getPickups(props.updateScheduledPickups);
                         }}
                     >
@@ -464,6 +466,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     updateFromLocation: updateFromLocation,
+    updateToLocation: updateToLocation,
     updateScheduledPickups: updateScheduledPickups
 }
 
