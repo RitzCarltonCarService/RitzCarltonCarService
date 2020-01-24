@@ -1,20 +1,22 @@
 import axios from 'axios';
-import Moment from 'react-moment';
+import Moment from 'moment';
 import { connect } from 'react-redux';
-import { updateFromLocation } from '../../../../redux/actions';
+import { updateFromLocation, updateToLocation } from '../../../../redux/actions';
 import React, { useState, memo } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity, Text, Platform } from 'react-native';
 import { Surface } from "react-native-paper";
 import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
 import DateAndTimePicker from './DateAndTimePicker.js';
-import LocationMapView from './LocationMapView.js'
+import LocationMapView from './LocationMapView.js';
+import getPickups from '../../../../components/getPickups';
+import { updateScheduledPickups } from '../../../../redux/actions';
 
-const LocationForm = ({ updateFromLocation, ...props }) => {
+const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
-    
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
     
+<<<<<<< HEAD
     // Rendering of DateTimePicker on Click of Next to select date and time
     //  Adjust styling and rendering of this component !!!
     
@@ -29,112 +31,95 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     //      selection input fields)
     
     const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
+=======
+    const GOOGLE_MAPS_APIKEY = '';
+>>>>>>> 390c7ffaa4b6cbe5dd58b64da864daaafffd4e62
 
     // Hooks for storing 'toLocation' and 'fromLocation'
-    const [fromLocation, setFrom] = useState('');
-    const [toLocation, setTo] = useState('');
+    const [fromLocation, setFromLocation] = useState(null);
+    const [toLocation, setToLocation] = useState(null);
 
     // Hook for mounting initial From location of user
     const [componentDidMount, setMounted] = useState(false);
 
-    const [newFromLocation, changeFrom] = useState(null);
     // Hook to use different From location for rerendering purposes
+    const [newFromLocation, changeFrom] = useState(null);
 
+    // Using user's geoLocation to get their actual address
     getReverseGeocode = async () => {
         if (props.geoLocation) {
             // If component has not mounted, request reverse geolocation
             if (!componentDidMount) {
                 let lat = props.geoLocation.latitude;
                 let long = props.geoLocation.longitude;
-                let coords = lat + "," + long; 
-        
+                let coords = lat + "," + long;
+
                 let res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords}&key=${GOOGLE_MAPS_APIKEY}`);
                 // console.log("This is the response: ", res);
                 let address = res.data.results[1].formatted_address
                 // Setting initial from location to user's current geoLocation address
-                setFrom(address);
+                setFromLocation(address);
+                props.setFrom(address);
                 // Setting current from value as default until user changes text input field
                 changeFrom(false);
                 // Setting componentDidMount to true
                 setMounted(true);
                 // Setting Redux state to user's current location
                 updateFromLocation(res.data.results[1].geometry.location)
-            }    
-        }    
+            }
+        }
     }
-
     // Get user's reverse geoCoded address
     getReverseGeocode();
-
+    // Store new From location in hook and in redux
+    const updateFromState = (newFromLocation) => {
+        setFromLocation(newFromLocation);
+        // console.log("This is the newFromLocation: ", fromLocation)
+        props.setFrom(newFromLocation);
+    };
+    
+    // Store new To location in hook and in redux
+    const updateToState = (newToLocation) => {
+        setToLocation(newToLocation);
+        // console.log("This is the newToLocation: ", newToLocation)
+        props.setTo(newToLocation);
+    };
+    
+    /* DATE COMPONENTS */
+    
     // Setting date for date/time picker (Android)
     const [currentIoSDate, setIoSDate] = useState(null);
-
+    
     // Setting date for date/time picker (Android)
     const [currentAndroidDate, setAndroidDate] = useState(null);
     const [rideAndroidTime, setAndroidTime] = useState(null);
 
-    // Store new From location in hook and in redux
-    const updateFromState = (newFromLocation) => {
-        setFrom(newFromLocation);
-        props.setFrom(fromLocation);
-    };
-
-    // Store new To location in hook and in redux
-    const updateToState = (newToLocation) => {
-        setTo(newToLocation);
-        props.setTo(toLocation);
-    };
-
     // Store new Time in hook and in redux
-    const updateTimeAndDate = (newToLocation) => {
-        setTo(newToLocation);
-        props.setTo(toLocation);
-    };
-
-    // Alert pop up for dates in the past
-    const dateAlert = (selectedDate) => {
-        let today = new Date();
-        if (selectedDate < today) {
-            Alert.alert(
-                'We\'re Sorry!',
-                'Please select a time in the future to schedule your request.',
-                [
-                  {text: 'OK', onPress: () => console.log('OK Pressed')},
-                ],
-                {cancelable: false},
-              );
-        }
-    }
-
-    // If this is a scheduled request, render the Text Input fields to select a From and To Destination
-    //  then, allow to user to view their destination request on the map
-    //  and then, render Time&Date selector to confirm future request
-    //  and then, ask user to submit request
-    // Else,
-    //  only render the Text Input fields to select a From and To Destination,
-    //  then, allow user to view their desination request on the map,
-    //  and then, ask user to submit request
+    // const updateTimeAndDate = (newToLocation) => {
+    //     setTo(newToLocation);
+    //     props.setTo(toLocation);
+    // };
 
     if (props.scheduled) {
-        if (fromLocation !== '' && toLocation !== '') {
+        if (fromLocation !== null && toLocation !== null) {
             return (
-                <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
+                <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
                     <View style={styles2.container}>
                         <View style={styles2.mapAndAddressBox}>
                             <Surface style={styles2.addressBox}>
-                                <TouchableOpacity style={styles2.fromAddress} 
+                                <TouchableOpacity style={styles2.fromAddress}
                                     onPress={() => {
-                                        setFrom('');        
+                                        setFromLocation(null);
                                     }}>
-                                    <Text numberOfLines = {1}>
+                                    <Text numberOfLines={1}>
                                         {fromLocation}
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles2.toAddress} 
+                                <TouchableOpacity style={styles2.toAddress}
                                     onPress={() => {
-                                        setTo('');        
+                                        setToLocation(null);
                                     }}>
-                                    
+
                                     <Text numberOfLines={1}>
                                         {toLocation}
                                     </Text>
@@ -148,7 +133,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 currentAndroidDate={currentAndroidDate}
                                 setAndroidDate={setAndroidDate}
                                 setAndroidTime={setAndroidTime}
-                                dateAlert={dateAlert}     
+                                changeFrom={props.changeFrom}
                             >
                             </DateAndTimePicker>
                         }
@@ -159,66 +144,99 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 currentAndroidDate={currentAndroidDate}
                                 setAndroidDate={setAndroidDate}
                                 setAndroidTime={setAndroidTime}
-                                dateAlert={dateAlert}     
+                                changeFrom={props.changeFrom}
                             >
                             </DateAndTimePicker>
                         }
                         <Surface style={styles2.timeAndDateBox}>
-                            {Platform.OS === 'ios' && 
-                                <Text>{currentIoSDate}</Text>
-                            }
-                            {Platform.OS === 'android' &&
-                                <Text>{currentAndroidDate}</Text>
-                            }
-                            <Button style={styles2.backButton}>Hello!</Button>
-                            <Button style={styles2.backButton}>Hello2!</Button>
+                            <View style={styles2.requestBorder}>
+                                {Platform.OS === 'ios' &&
+                                    <TouchableOpacity 
+                                        onPress={() => {
+                                            setIoSDate(null);
+                                        }}>
+                                        <Text style={styles2.requestText}>New Scheduled Request Date:</Text>
+                                        <Text style={styles2.requestText}>
+                                            {Moment(currentIoSDate).format("LLL")}
+                                        </Text>
+                                    </TouchableOpacity>
+                                }
+                                {Platform.OS === 'android' &&
+                                    <TouchableOpacity 
+                                        onPress={() => {
+                                            setAndroidDate(null);
+                                        }}>
+                                        <Text style={styles2.requestText}>New Scheduled Request Date:</Text>
+                                        <Text style={styles2.requestText}>
+                                            {Moment(currentAndroidDate).format("LLL")}
+                                        </Text>
+                                    </TouchableOpacity>
+                                }
+                            </View>
+                            <View style={styles2.buttonBox}>
+                                <Button style={styles2.backButton} onPress={() => {setToLocation(null)}}>Back</Button>
+                                <Button style={styles2.nextButton} 
+                                        onPress={() => {
+                                            if (Platform.OS === 'ios') {
+                                                props.setTime(currentIoSDate)
+                                            } else if (Platform.OS === 'android') {
+                                                let timeObj = {
+                                                    date: currentAndroidDate,
+                                                    time: rideAndroidTime
+                                                }
+                                                props.setTime(timeObj)
+                                            };
+                                            props.setForm(1);
+                                        }}>
+                                    Next
+                                </Button>
+                            </View>
                         </Surface>
                     </View>
                 </TouchableWithoutFeedback>
             )
         } else {
             return (
-                <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
-                    <View styles={styles.container}> 
-                        <LocationMapView styles={styles.contentBox} 
-                                apiKey={GOOGLE_MAPS_APIKEY}
-                                toLocation={toLocation}   
-                                fromLocation={fromLocation}
-                                setFrom={setFrom}       
-                                setTo={setTo}
-                                newFromLocation={newFromLocation}
-                                changeFrom={changeFrom}
-                                updateFromState={updateFromState}
-                                updateToState={updateToState}
-                            >
+                <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+                    <View styles={styles.container}>
+                        <LocationMapView styles={styles.contentBox}
+                            apiKey={GOOGLE_MAPS_APIKEY}
+                            toLocation={toLocation}
+                            fromLocation={fromLocation}
+                            newFromLocation={newFromLocation}
+                            changeFrom={changeFrom}
+                            updateFromState={updateFromState}
+                            updateToState={updateToState}
+                        >
                         </LocationMapView>
                         <View styles={styles.buttonBox}>
                             <Button styles={styles.nextButton}
-                                mode='contained' 
+                                mode='contained'
                                 onPress={() => {
-                                    
+
                                     if (!toLocation) {
                                         Alert.alert(
-                                        'We\'re Sorry!',
-                                        'Please input a destination before continuing.',
-                                        [
-                                        {text: 'OK', onPress: () => console.log('OK Pressed')},
-                                        ],
-                                        {cancelable: false},
-                                    );
+                                            'We\'re Sorry!',
+                                            'Please input a destination before continuing.',
+                                            [
+                                                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                            ],
+                                            { cancelable: false },
+                                        );
                                     } else {
-                                        props.setForm(1)}
+                                        props.setTime(new Date());
+                                        props.setForm(1)
                                     }
-                                }
+                                }}
                             >
                                 Next
                             </Button>
                             <Button styles={styles.backButton}
-                                mode='contained' 
+                                mode='contained'
                                 onPress={() => {
                                     props.setPage("home");
-                                    setFrom('');
-                                    setTo('');        
+                                    setFromLocation(null);
+                                    setToLocation(null);
                                 }}
                             >
                                 Back
@@ -234,10 +252,8 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
             <View styles={styles.container}>
                 <LocationMapView styles={styles.contentBox}
                     apiKey={GOOGLE_MAPS_APIKEY}
-                    toLocation={toLocation}   
+                    toLocation={toLocation}
                     fromLocation={fromLocation}
-                    setFrom={setFrom}       
-                    setTo={setTo}
                     newFromLocation={newFromLocation}
                     changeFrom={changeFrom}
                     updateFromState={updateFromState}
@@ -246,31 +262,35 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                 </LocationMapView>
                 <View styles={styles.buttonBox}>
                     <Button styles={styles.nextButton}
-                        mode='contained' 
+                        mode='contained'
                         onPress={() => {
-                            
                             if (!toLocation) {
                                 Alert.alert(
-                                'We\'re Sorry!',
-                                'Please input a destination before continuing.',
-                                [
-                                {text: 'OK', onPress: () => console.log('OK Pressed')},
-                                ],
-                                {cancelable: false},
-                            );
+                                    'We\'re Sorry!',
+                                    'Please input a destination before continuing.',
+                                    [
+                                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                    ],
+                                    { cancelable: false },
+                                );
                             } else {
-                                props.setForm(1)}
+                                props.setTime(new Date());
+                                props.setForm(1)
                             }
+                        }
                         }
                     >
                         Next
                     </Button>
                     <Button styles={styles.backButton}
-                        mode='contained' 
+                        mode='contained'
                         onPress={() => {
                             props.setPage("home");
-                            setFrom('');
-                            setTo('');    
+                            setFromLocation(null);
+                            setToLocation(null);
+                            updateFromLocation(null);
+                            updateToLocation(null);
+                            getPickups(props.userData.uid, props.updateScheduledPickups);
                         }}
                     >
                         Back
@@ -391,38 +411,80 @@ const styles2 = StyleSheet.create({
         top: '50%',
         width: 500,
         maxHeight: 200,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        textAlign: 'center',
+        alignContent: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column'
     },
-    backButtonBox: {
+    buttonBox: {
         flex: 1,
         width: 500,
-        height: 50,
+        maxHeight: 200,
         justifyContent: 'center',
         alignItems: 'center',
-        alignSelf: 'center',
-        alignContent: 'center',
+        flexDirection: 'row'
+    },
+    requestText: {
+        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
+        letterSpacing: 2,
+        fontWeight: "bold",
+        fontSize: 15,
+        lineHeight: 40,
+        color: theme.colors.primary,
+    },
+    requestBorder: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        paddingRight: 10,
+        paddingLeft: 10,
+        marginTop: 10
     },
     backButton: {
         flex: 1,
         width: 100,
-        height: 50,
+        height: 70,
+        marginLeft: 50,
+        marginRight: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-    }
+    },
+    nextButton: {
+        flex: 1,
+        width: 100,
+        height: 70,
+        marginLeft: 10,
+        marginRight: 50,
+        borderRadius: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
 });
 
 const mapStateToProps = state => {
     // console.log('This is state: ', state)
     return {
         geoLocation: state.geoLocation,
+        userData: state.userData
     }
 }
 
 const mapDispatchToProps = {
-    updateFromLocation: updateFromLocation
+    updateToLocation: updateToLocation,
+    updateFromLocation: updateFromLocation,
+    updateScheduledPickups: updateScheduledPickups
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(memo(LocationForm));

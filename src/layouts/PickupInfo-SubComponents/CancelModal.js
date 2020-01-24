@@ -5,6 +5,8 @@ import Button from '../../components/Button';
 import { theme } from '../../core/theme';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
+import getPickups from '../../components/getPickups';
+import { updateScheduledPickups } from '../../redux/actions';
 
 const { vw, vh } = require('react-native-viewport-units');
 
@@ -39,6 +41,7 @@ const CancelModal = props => (
                     onPress={()=>{
                         props.setModalOpen(false);
                         props.setPage("home");
+                        getPickups(props.userData.uid, updateScheduledPickups);
                     }}
                     style={styles.yesButton}
                     // labelStyle={styles.buttonText}
@@ -124,4 +127,14 @@ const styles = StyleSheet.create({
 
 })
 
-export default connect(null, null)(CancelModal);
+const mapStateToProps = state => {
+    return {
+        userData: state.userData
+    }
+}
+
+const mapDispatchToProps = {
+    updateScheduledPickups: updateScheduledPickups
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CancelModal);

@@ -5,10 +5,10 @@ import { View } from 'react-native';
 import DescribeRide from '../../../components/DescribeRide';
 
 const RideShareQuestion = (props) => {
-    let title ="Indiv Ride" //String 1 "individual Ride"
-    let header1 ="How many" //String 2 "how many"
-    let header2 ="pasajeros are"//string 3 "passengers are"
-    let header3 ="traveling con you?"//string 4 "traveling with you"
+    let title ="Ride Share" //String 1 "individual Ride"
+    let header1 ="Would you be willing" //String 2 "how many"
+    let header2 ="to share this ride"//string 3 "passengers are"
+    let header3 ="with another Ritz Carlton resident?"//string 4 "traveling with you"
     let nextForm = 4// props.setForm(3)
     let previousForm = 2//back button props.setForm(1)
 

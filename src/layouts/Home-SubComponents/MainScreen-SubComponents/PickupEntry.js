@@ -7,10 +7,12 @@ import { theme } from '../../../core/theme';
 
 const PickupEntry = props => {
 
-    let from = props.data.from;
-    let to = props.data.to;
-    let time = props.data.time;
-    let date = props.data.date;
+    let datetime = new Date(props.data.estimatedStartTime).toString().split(" ");
+
+    let from = props.data.startAddress;
+    let to = props.data.endAddress;
+    let time = datetime[4];
+    let date = datetime[0] + " " + datetime[1] + " " + datetime[2] + " " + datetime[3];
 
     if (from.length > 40) {
         from = from.substring(0, 37) + "...";
@@ -32,17 +34,12 @@ const PickupEntry = props => {
 
     return (
         <TouchableHighlight
-            onPress={() => {
-                console.log(props.id)
-                props.updateCurrentPickup(props.id);
-                props.setPage("pickup info");
-            }}
             underlayColor={"lightgray"}
         >
             <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.text}>
-                    From: {from}
+                    From: {to}
                 </Text>
                 <Text style={styles.text}>
                     To: {to}
@@ -74,8 +71,12 @@ const PickupEntry = props => {
                         lineHeight: 9,
                         color: theme.colors.secondary,
                      }}
+                     onPress={() => {
+                        props.updateCurrentPickup(props.id);
+                        props.setPage("pickup info");
+                    }}
                 >
-                    Cancel
+                    View
                 </Button>
             </View>
             </View>

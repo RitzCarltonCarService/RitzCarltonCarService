@@ -6,12 +6,16 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Modal, Portal, Provider } from 'react-native-paper'
 import Button from '../../components/Button';
 import { theme } from '../../core/theme';
+import dateParser from '../../components/dateParser';
+import DetailsModal from './DetailsModal';
 
 const { vh, vw } = require('react-native-viewport-units');
 
 const PrePickupInfo = props => {
     
-    let [modalOpen, setModalOpen] = useState(false)
+    let [modalOpen, setModalOpen] = useState(false);
+
+    let [detailsOpen, setDetailsOpen] = useState(false);
 
     const pickup = props.scheduledPickups[props.currentPickup];
 
@@ -19,20 +23,24 @@ const PrePickupInfo = props => {
         <>
             <View style={styles.statusContainer}>
                 <Text style={styles.bannerText}>
-                    Ride Scheduled For: {pickup.date}
+                    Ride Scheduled For: {dateParser.getDateFromDate(pickup.estimatedStartTime)}
                 </Text>
             </View>
 
             <View style={styles.pickupTimeContainer}>
                 <Text style={styles.bannerText}>
-                    Departure Time:  {pickup.time}
+                    Departure Time:  {dateParser.getTimeFromDate(pickup.estimatedStartTime)}
                 </Text>
             </View>
 
             <View style={styles.contactButtonPosition}>
-                <Button style={styles.contactButton} labelStyle={styles.contactButtonText}>
+                <Button
+                    style={styles.contactButton}
+                    labelStyle={styles.contactButtonText}
+                    onPress={() => {setDetailsOpen(true)}}
+                >
                     <Text>
-                        Contact Driver
+                        View Details
                     </Text>
                 </Button>
             </View>
@@ -57,6 +65,14 @@ const PrePickupInfo = props => {
                         visible={modalOpen}
                     >
                         <CancelModal setModalOpen={setModalOpen} setPage={props.setPage}/>
+                    </Modal>
+                </Portal>
+            </Provider>
+
+            <Provider>
+                <Portal>
+                    <Modal visible={detailsOpen}>
+                        <DetailsModal setDetailsOpen={setDetailsOpen} pickup={pickup}/>
                     </Modal>
                 </Portal>
             </Provider>

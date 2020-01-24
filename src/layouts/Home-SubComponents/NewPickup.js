@@ -16,6 +16,8 @@ const NewPickup = props => {
     const [passengers, setPassengers] = useState(null);
     const [bags, setBags] = useState(null);
     const [rideShare, setRideShare] = useState(true);
+    // Hook to use different From location for rerendering purposes
+    const [immediateLocation, changeFrom] = useState(false);
 
     switch (form) {
         case 0:
@@ -27,7 +29,8 @@ const NewPickup = props => {
                         setForm={setForm} 
                         setFrom={setFrom} 
                         setTo={setTo} 
-                        setTime={setTime}    
+                        setTime={setTime}
+                        changeFrom={changeFrom}    
                     />
                 </View>
             )
@@ -46,14 +49,10 @@ const NewPickup = props => {
         case 3:
             return (
                 <View>
-                    <RideShareQuestion setForm={setForm} setRideShare={setRideShare}/>
-                </View>
-            )
-        case 4:
-            return (
-                <View>
                     <SummaryScreen
+                        setForm={setForm}
                         setPage={props.setPage}
+                        immediateLocation={immediateLocation}
                         requestObject={{
                             from: from,
                             to: to,
@@ -62,12 +61,12 @@ const NewPickup = props => {
                             distance: props.distance,
                             bags: bags,
                             passengers: passengers,
-                            rideShare: rideShare
+                            rideShare: rideShare,
+                            userData: props.userData,
+                            fromCoordinates: props.fromLocation,
+                            toCoordinates: props.toLocation
                         }}
                     />
-                    <Text>
-                        {props.setPage}
-                    </Text>
                 </View>
             )
         default:
@@ -88,7 +87,10 @@ const mapStateToProps = state => {
     return {
         form: state.nav.form,
         duration: state.duration,
-        distance: state.distance
+        distance: state.distance,
+        userData: state.userData,
+        fromLocation: state.fromLocation,
+        toLocation: state.toLocation
     }
 }
 

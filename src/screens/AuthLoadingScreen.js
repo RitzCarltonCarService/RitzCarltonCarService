@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, memo } from "react";
 import { updateGeoLocation, setUserData } from "../redux/actions";
 import { ActivityIndicator } from "react-native";
 import { FIREBASE_CONFIG } from "../core/config";
@@ -21,24 +21,19 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
 
       if (status !== 'granted') {
+         Alert.alert(
+            'Please be Advised',
+            'This app will not work without location services enabled.',
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+        );
          setError('Permission to access location was denied');
       };
 
       return await Location.getCurrentPositionAsync({});
-   }
-
-   useEffect(() => {
-     getCurrentLocation()
-      .then((position) => {
-         let coords = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: 0.003,
-            longitudeDelta: 0.003,
-         }
-         dispatch(updateGeoLocation(coords))
-      })  
-   },[]);
+   };
 
    firebase.auth().onAuthStateChanged(user => {
       // User is logged in

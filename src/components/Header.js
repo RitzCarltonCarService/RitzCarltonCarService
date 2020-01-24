@@ -9,7 +9,7 @@
  */
 
 import React, { memo, useState, useEffect } from "react";
-import { StyleSheet, Text, Animated } from "react-native";
+import { StyleSheet, Animated } from "react-native";
 import { theme } from "../core/theme";
 
 const Header = ({ style, animationData, children, ...props }) => {
