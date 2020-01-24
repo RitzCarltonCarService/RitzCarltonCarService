@@ -19,6 +19,13 @@ const NewPickup = props => {
     // Hook to use different From location for rerendering purposes
     const [immediateLocation, changeFrom] = useState(false);
 
+    const [from, setFrom] = useState(null);
+    const [to, setTo] = useState(null);
+    const [time, setTime] = useState(null);
+    const [passengers, setPassengers] = useState(null);
+    const [bags, setBags] = useState(null);
+    const [rideShare, setRideShare] = useState(true);
+
     switch (form) {
         case 0:
             return (
