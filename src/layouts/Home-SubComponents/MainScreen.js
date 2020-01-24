@@ -15,11 +15,19 @@ const MainScreen = props => {
     // Using user's geoLocation to get their actual address
     getScheduledRequests = async () => {
         if (props.geoLocation) {
+<<<<<<< HEAD
             // If component has not mounted, request all requested pickups using the UserID from Redux store
             if (!componentDidMount) {
                 let res = await axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getPickups', {
                     params: {
                         id: props.userData.uid
+=======
+            // If component has not mounted, request all requested pickups from user
+            if (!componentDidMount) {
+                let res = await axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getPickups', {
+                    params: {
+                        id: 1
+>>>>>>> 394527ec19293b59af6f2a227b78611ede5347a0
                     }
                 })
                 // console.log("This is the result: ", res.data);
@@ -74,8 +82,12 @@ const MainScreen = props => {
 const mapStateToProps = state => {
     return {
         scheduledPickups: state.scheduledPickups,
+<<<<<<< HEAD
         geoLocation: state.geoLocation,
         userData: state.userData
+=======
+        geoLocation: state.geoLocation
+>>>>>>> 394527ec19293b59af6f2a227b78611ede5347a0
     }
 }
 
