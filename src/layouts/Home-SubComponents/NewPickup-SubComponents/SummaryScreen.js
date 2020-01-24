@@ -62,17 +62,17 @@ const SummaryScreen = props => {
                     </Text>
                     </View>
                     <View style={styles.carAndDriver}>
-                        <IconButton icon="car" size={50} color="black"></IconButton>
+                        <IconButton icon="briefcase" size={50} color="black"></IconButton>
                         <View>
-                            <Text style={{ fontWeight: "bold" }}>Number of Bags: </Text>
-                            <Text> {props.} </Text>
+                            <Text style={{ fontWeight: "bold", fontSize: 16}}>Number of Bags: </Text>
+                            <Text style={styles.bagsAndPassengers}> {props.bags} </Text>
                         </View>
                     </View>
                     <View style={styles.carAndDriver}>
-                        <IconButton icon="account" size={50} color="black"></IconButton>
+                        <IconButton icon="account-group" size={50} color="black"></IconButton>
                         <View style={{ marginTop: "5%" }}>
-                            <Text style={{ fontWeight: "bold" }}>Your Driver: </Text>
-                            <Text>John Doe</Text>
+                            <Text style={{ fontWeight: "bold", fontSize: 16}}>Number of Passengers: </Text>
+                            <Text style={styles.bagsAndPassengers}>{props.passengers}</Text>
                         </View>
                     </View>
                     <View style={styles.logoContainer}>
@@ -159,6 +159,11 @@ const styles = StyleSheet.create({
     buttonContainer: {
         top: "18%",
     },
+    bagsAndPassengers: {
+        fontWeight: "bold",
+        fontSize: 18, 
+        color: 'purple',
+    }
 })
 
 const mapStateToProps = state => {
