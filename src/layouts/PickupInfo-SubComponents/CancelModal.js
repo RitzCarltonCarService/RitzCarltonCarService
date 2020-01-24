@@ -41,7 +41,7 @@ const CancelModal = props => (
                     onPress={()=>{
                         props.setModalOpen(false);
                         props.setPage("home");
-                        getPickups(updateScheduledPickups);
+                        getPickups(props.updateScheduledPickups);
                     }}
                     style={styles.yesButton}
                     // labelStyle={styles.buttonText}
