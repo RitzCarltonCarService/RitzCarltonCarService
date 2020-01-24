@@ -129,7 +129,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        id: state.id,
         userData: state.userData
     }
 }
