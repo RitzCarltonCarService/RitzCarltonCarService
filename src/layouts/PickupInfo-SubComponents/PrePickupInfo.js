@@ -64,7 +64,7 @@ const PrePickupInfo = props => {
                     <Modal
                         visible={modalOpen}
                     >
-                        <CancelModal setModalOpen={setModalOpen} setPage={props.setPage}/>
+                        <CancelModal setModalOpen={setModalOpen} setPage={props.setPage} id={pickup.id}/>
                     </Modal>
                 </Portal>
             </Provider>

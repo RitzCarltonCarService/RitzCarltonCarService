@@ -105,7 +105,7 @@ const SummaryScreen = props => {
                 </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
-                <Button onPress={() => { props.setForm(3) }}>
+                <Button onPress={() => { props.setForm(2) }}>
                     Back
                 </Button>
             </View>

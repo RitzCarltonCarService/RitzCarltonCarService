@@ -4,6 +4,7 @@ import { updateCurrentPickup } from '../../../redux/actions';
 import { View, Text, Image, StyleSheet, Platform, TouchableHighlight } from 'react-native';
 import Button from '../../../components/Button';
 import { theme } from '../../../core/theme';
+import dateParser from '../../../components/dateParser';
 
 const PickupEntry = props => {
 
@@ -15,10 +16,10 @@ const PickupEntry = props => {
     let date = datetime[0] + " " + datetime[1] + " " + datetime[2] + " " + datetime[3];
 
     if (from.length > 40) {
-        from = from.substring(0, 37) + "...";
+        from = from.substring(0, 35) + "...";
     }
 
-    if (to.length > 49) {
+    if (to.length > 40) {
         to = to.substring(0, 37) + "...";
     }
 
@@ -39,16 +40,16 @@ const PickupEntry = props => {
             <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.text}>
-                    From: {to}
+                    <Text style={{fontWeight: "bold"}}>From: </Text>{to}
                 </Text>
                 <Text style={styles.text}>
-                    To: {to}
+                    <Text style={{fontWeight: "bold"}}>To: </Text>{to}
                 </Text>
                 <Text style={styles.text}>
-                    Time: {time}
+                    <Text style={{fontWeight: "bold"}}>Time: </Text>{dateParser.translateTime(time)}
                 </Text>
                 <Text style={styles.text}>
-                    Date: {date}
+                    <Text style={{fontWeight: "bold"}}>Date: </Text>{date}
                 </Text>
             </View>
             <View style={styles.rightCol}>
