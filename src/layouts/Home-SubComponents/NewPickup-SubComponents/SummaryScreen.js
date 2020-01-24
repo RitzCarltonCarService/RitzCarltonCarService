@@ -5,23 +5,37 @@ import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../../redux/actions';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton, Button as AccountButton } from 'react-native-paper';
-import dummyData from '../../../dummyData/dummy_pickup_data';
 import { State } from 'react-native-gesture-handler';
 import TheWhiteSquare from '../../../components/TheWhiteSquare';
+import getPickups from '../../../components/getPickups';
 import Logo from '../../../components/Logo';
 import Button from '../../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SummaryScreen = props => {
     let momentJSdate = props.requestObject.time;
-    let newRequest = props.requestObject;
-    newRequest['hotelID'] = null
+    let pickUpData = {};
+    
+    pickUpData['hotelId'] = 1; // maybe change in the future!
+    pickUpData['startTime'] = props.requestObject.time; // maybe change in the future!
+    pickUpData['startAddress'] = props.requestObject.from;
+    pickUpData['startLat'] = props.requestObject.fromCoordinates.lat;
+    pickUpData['startLng'] = props.requestObject.fromCoordinates.lng;
+    pickUpData['endAddress'] = props.requestObject.to;
+    pickUpData['endLat'] = props.requestObject.toCoordinates.lat;
+    pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
+    pickUpData['passengerId'] = props.requestObject.userData.uid;
 
-    console.log("These are the props for the new request: ", props.requestObject)
+    console.log("This is the Pick Up data object: ", pickUpData);
 
+    // REMEMBER! The below might have to be added when Scheduled requests are for the same day
+    // if (props.immediateLocation) {
+    //     console.log("This is the newFromLocation: ", props.immediateLocation)
+    //     pickUpData['specifiedStartTime'] = null;
+    // }
 
     return (
-        <>
+        <View>
             <TheWhiteSquare height={70} style={{ borderWidth: 3 }}>
                 <View style={styles.requestScreen}>
                     <View style={styles.titleContainer}>
@@ -48,36 +62,36 @@ const SummaryScreen = props => {
                     </Text>
                     </View>
                     <View style={styles.carAndDriver}>
-                        <IconButton icon="car" size={50} color="black"></IconButton>
+                        <IconButton icon="briefcase" size={50} color="black"></IconButton>
                         <View>
-                            <Text style={{ fontWeight: "bold" }}>Your Car: </Text>
-                            <Text>
-                                <Text style={{ fontWeight: "bold" }}>Mercedes: </Text> A-Class Subcompact Luxury Hatchback/Sedan
-                        </Text>
+                            <Text style={{ fontWeight: "bold", fontSize: 16}}>Number of Bags: </Text>
+                            <Text style={styles.bagsAndPassengers}> {props.bags} </Text>
                         </View>
                     </View>
                     <View style={styles.carAndDriver}>
-                        <IconButton icon="account" size={50} color="black"></IconButton>
+                        <IconButton icon="account-group" size={50} color="black"></IconButton>
                         <View style={{ marginTop: "5%" }}>
-                            <Text style={{ fontWeight: "bold" }}>Your Driver: </Text>
-                            <Text>John Doe</Text>
+                            <Text style={{ fontWeight: "bold", fontSize: 16}}>Number of Passengers: </Text>
+                            <Text style={styles.bagsAndPassengers}>{props.passengers}</Text>
                         </View>
                     </View>
                     <View style={styles.logoContainer}>
                         <Button
                             onPress={() => {
                                 // Posting new ride request to the database
-                                axios.post('ritzcarservice.us-east-2.elasticbeanstalk.com/api/createPickup', {
-                                    newRequest: props.requestObject
+                                axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/newPickup', {
+                                    pickupData: pickUpData
                                 })
                                 .then((response) => {
-                                    console.log(response);
+                                    console.log("This is the response from the server", response)
+                                    // On submission of new scheduled ride, then repopulate Scheduled Pick-ups with data
+                                    getPickups(props.userData.uid, props.updateScheduledPickups)
+                                    props.setPage("home");
                                 })
                                 .catch((error) => {
+                                    props.setPage("home");
                                     console.log(error);
                                 });
-                                props.updateScheduledPickups(dummyData);
-                                props.setPage("home");
                             }}
                         >
                             Submit Ride Request
@@ -93,7 +107,7 @@ const SummaryScreen = props => {
                     Back
                 </Button>
             </View>
-        </>
+        </View>
     )
 }
 
@@ -145,11 +159,17 @@ const styles = StyleSheet.create({
     buttonContainer: {
         top: "18%",
     },
+    bagsAndPassengers: {
+        fontWeight: "bold",
+        fontSize: 18, 
+        color: 'purple',
+    }
 })
 
 const mapStateToProps = state => {
     return {
-        nav: state.nav
+        nav: state.nav,
+        userData: state.userData
     }
 }
 

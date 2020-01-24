@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Moment from 'moment';
 import { connect } from 'react-redux';
-import { updateFromLocation } from '../../../../redux/actions';
+import { updateFromLocation, updateToLocation } from '../../../../redux/actions';
 import React, { useState, memo } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity, Text, Platform } from 'react-native';
 import { Surface } from "react-native-paper";
@@ -12,11 +12,24 @@ import LocationMapView from './LocationMapView.js';
 import getPickups from '../../../../components/getPickups';
 import { updateScheduledPickups } from '../../../../redux/actions';
 
-const LocationForm = ({ updateFromLocation, ...props }) => {
+const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
-
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
     
+    // Rendering of DateTimePicker on Click of Next to select date and time
+    //  Adjust styling and rendering of this component !!!
+    
+    // If there is a From and a To location in state hooks, render Location page with two Text fields
+    //  that contain the To and From coordinates ---> allow both to be clickable and to return to original Location form 
+    //      ---> best way to transition on returning back to form
+    //  Also create a back button (arrow) to be placed to the left of the To and From location Text fields to
+    //      also navigate back to original Location form input fields
+    //  Then allow for Date/Time picker to show, and underneath create a Next and Back button
+    //      only enable Next button as clickable when a date in the future is selected
+    //  If the button "Schedule a Ride Now", do not display the Time/Date picker (set another hook to only render
+    //      selection input fields)
+    
+
     const GOOGLE_MAPS_APIKEY = '';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
@@ -79,10 +92,10 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
     const [rideAndroidTime, setAndroidTime] = useState(null);
 
     // Store new Time in hook and in redux
-    const updateTimeAndDate = (newToLocation) => {
-        setTo(newToLocation);
-        props.setTo(toLocation);
-    };
+    // const updateTimeAndDate = (newToLocation) => {
+    //     setTo(newToLocation);
+    //     props.setTo(toLocation);
+    // };
 
     if (props.scheduled) {
         if (fromLocation !== null && toLocation !== null) {
@@ -117,6 +130,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 currentAndroidDate={currentAndroidDate}
                                 setAndroidDate={setAndroidDate}
                                 setAndroidTime={setAndroidTime}
+                                changeFrom={props.changeFrom}
                             >
                             </DateAndTimePicker>
                         }
@@ -127,6 +141,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 currentAndroidDate={currentAndroidDate}
                                 setAndroidDate={setAndroidDate}
                                 setAndroidTime={setAndroidTime}
+                                changeFrom={props.changeFrom}
                             >
                             </DateAndTimePicker>
                         }
@@ -156,7 +171,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                 }
                             </View>
                             <View style={styles2.buttonBox}>
-                                <Button style={styles2.backButton} onPress={() => {setToLocation('')}}>Back</Button>
+                                <Button style={styles2.backButton} onPress={() => {setToLocation(null)}}>Back</Button>
                                 <Button style={styles2.nextButton} 
                                         onPress={() => {
                                             if (Platform.OS === 'ios') {
@@ -206,10 +221,10 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                             { cancelable: false },
                                         );
                                     } else {
+                                        props.setTime(new Date());
                                         props.setForm(1)
                                     }
-                                }
-                                }
+                                }}
                             >
                                 Next
                             </Button>
@@ -256,6 +271,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                                     { cancelable: false },
                                 );
                             } else {
+                                props.setTime(new Date());
                                 props.setForm(1)
                             }
                         }
@@ -269,7 +285,13 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                             props.setPage("home");
                             setFromLocation(null);
                             setToLocation(null);
+<<<<<<< HEAD
                             getPickups(props.updateScheduledPickups);
+=======
+                            updateFromLocation(null);
+                            updateToLocation(null);
+                            getPickups(props.userData.uid, props.updateScheduledPickups);
+>>>>>>> 6e42e1c5697b3a909226cee05f835dd13c27e9f5
                         }}
                     >
                         Back
@@ -456,10 +478,15 @@ const mapStateToProps = state => {
     // console.log('This is state: ', state)
     return {
         geoLocation: state.geoLocation,
+        userData: state.userData
     }
 }
 
 const mapDispatchToProps = {
+<<<<<<< HEAD
+=======
+    updateToLocation: updateToLocation,
+>>>>>>> 6e42e1c5697b3a909226cee05f835dd13c27e9f5
     updateFromLocation: updateFromLocation,
     updateScheduledPickups: updateScheduledPickups
 }
