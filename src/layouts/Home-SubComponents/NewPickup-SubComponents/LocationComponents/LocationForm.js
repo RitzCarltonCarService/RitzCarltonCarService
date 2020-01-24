@@ -8,7 +8,9 @@ import { Surface } from "react-native-paper";
 import { theme } from "../../../../core/theme.js";
 import Button from '../../../../components/Button';
 import DateAndTimePicker from './DateAndTimePicker.js';
-import LocationMapView from './LocationMapView.js'
+import LocationMapView from './LocationMapView.js';
+import getPickups from '../../../../components/getPickups';
+import { updateScheduledPickups } from '../../../../redux/actions';
 
 const LocationForm = ({ updateFromLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
@@ -267,6 +269,7 @@ const LocationForm = ({ updateFromLocation, ...props }) => {
                             props.setPage("home");
                             setFromLocation(null);
                             setToLocation(null);
+                            getPickups(props.updateScheduledPickups);
                         }}
                     >
                         Back
@@ -457,7 +460,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-    updateFromLocation: updateFromLocation
+    updateFromLocation: updateFromLocation,
+    updateScheduledPickups: updateScheduledPickups
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(memo(LocationForm));
