@@ -45,9 +45,11 @@ const DateAndTimePicker = props => {
               let today = new Date();
               today.setSeconds(today.getSeconds() + 60);
 
-              if (Platform.OS === 'ios') {  
+              if (Platform.OS === 'ios') {
+                props.changeFrom(true);  
                 handleIoSConfirm(today)
               } else if (Platform.OS === 'android') {
+                props.changeFrom(true);
                 handleAndroidDate(today)
               }
             }} 

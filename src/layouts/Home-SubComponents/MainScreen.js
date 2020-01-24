@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../redux/actions';
 import { View, Text, StyleSheet, Platform } from 'react-native';
@@ -6,9 +7,36 @@ import EntryListView from './MainScreen-SubComponents/EntryListView';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
+<<<<<<< HEAD
 import dummyData from '../../dummyData/dummy_pickup_data';
+=======
+>>>>>>> 730de60824a6cca10ca3e486217ea930d14c70d8
 
 const MainScreen = props => {
+    // Hook for mounting initial From location of user
+    const [componentDidMount, setMounted] = useState(false);
+
+    // Using user's geoLocation to get their actual address
+    getScheduledRequests = async () => {
+        if (props.geoLocation) {
+            // If component has not mounted, request all requested pickups using the UserID from Redux store
+            if (!componentDidMount) {
+                let res = await axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getPickups', {
+                    params: {
+                        id: props.userData.uid
+                    }
+                })
+                // console.log("This is the result: ", res.data);
+                props.updateScheduledPickups(res.data);
+
+                // Setting componentDidMount to true
+                setMounted(true);
+            }
+        }
+    }
+
+    // Get user's reverse geoCoded address
+    getScheduledRequests();
 
     return (
         <>
@@ -37,33 +65,6 @@ const MainScreen = props => {
                     Request a Ride Now
                 </Button>
                 <Button onPress={() => {
-                        // axios.post("http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/signup", {
-                        //     id: "12",
-                        //     name: "Fred",
-                        //     email: "fred@fred.fred",
-                        //     type: "resident",
-                        //     phoneNumber: "a number",
-                        //     hotelId: 1
-                        // })
-                        //     // method: "POST",
-                        //     // body: JSON.stringify({
-                        //     //     id: "5",
-                        //     //     name: "Fred",
-                        //     //     email: "fred@fred.fred",
-                        //     //     type: "resident",
-                        //     //     phoneNumber: "a number",
-                        //     //     hotelId: 1
-                        //     // })
-                        // //})
-                        // .then((data) => {
-                        //     console.log(data.data);
-                        //     props.updateScheduledPickups(dummyData);
-                        // })
-                        // .catch((err) => {
-                        //     console.log(err);
-                        // })
-
-                        // Setting page to 'new pickup' request and 'scheduled' to true (for scheduled ride)
                         props.setPage("new pickup")
                         props.setScheduled(true)
                     }} mode={"contained"}>
@@ -76,7 +77,9 @@ const MainScreen = props => {
 
 const mapStateToProps = state => {
     return {
-        scheduledPickups: state.scheduledPickups
+        scheduledPickups: state.scheduledPickups,
+        geoLocation: state.geoLocation,
+        userData: state.userData
     }
 }
 
