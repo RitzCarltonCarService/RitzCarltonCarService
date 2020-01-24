@@ -1,5 +1,5 @@
 import React, { useState, memo } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Appearance, useColorScheme } from 'react-native-appearance';
 
@@ -14,25 +14,58 @@ const DateAndTimePicker = props => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(true);
 
    // Change modal's view in screen
-   const [modalView, setmodalView] = useState(true);
+  const [modalView, setmodalView] = useState(true);
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
+  const dateAlert = (selectedDate) => {
+    let today = new Date();
+    if (selectedDate < today) {
+        Alert.alert(
+            'We\'re Sorry!',
+            'Please select a time in the future to schedule your request.',
+            [
+                {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+          return false
+        } else {
+          return true
+        }
+    }
+
+  const hideDatePicker = date => {
+    if (date) {
+      setDatePickerVisibility(false);
+    } else {
+      Alert.alert(
+        'No Date Selected!',
+        'You haven\'t selected a date. Pressing OK will select the current time and date.',
+        [
+            {text: 'OK', onPress: () => {
+              let today = new Date();
+              today.setSeconds(today.getSeconds() + 60);
+
+              if (Platform.OS === 'ios') {  
+                handleIoSConfirm(today)
+              } else if (Platform.OS === 'android') {
+                handleAndroidDate(today)
+              }
+            }} 
+        ],
+        {cancelable: false},
+      );
+    }
   };
 
   const handleIoSConfirm = date => {
-    if (date < props.currentIoSDate) {
-      props.dateAlert()
-    } else {
-      props.setIoSDate(date);
+    if (dateAlert(date)) {
       hideDatePicker();
+      props.setIoSDate(date);
     }
   };
 
   const handleAndroidDate = date => {
-    if (date < props.currentAndroidDate) {
-      props.dateAlert()
-    } else {
+    if (dateAlert(date)) {
       props.setAndroidDate(date);
       setMode('time')
       hideDatePicker();
@@ -51,7 +84,6 @@ const DateAndTimePicker = props => {
           headerTextIOS="Pick a date & time"
           cancelTextIOS="Cancel"
           isVisible={isDatePickerVisible}
-          value={props.currentIoSDate}
           mode="datetime"
           display="default"
           onConfirm={handleIoSConfirm}
@@ -62,7 +94,6 @@ const DateAndTimePicker = props => {
       {props.currentAndroidDate === null && (
         <DateTimePickerModal
           isVisible={true}
-          value={new Date()}
           mode={mode}
           display="spinner"
           onConfirm={handleAndroidDate}
@@ -73,7 +104,6 @@ const DateAndTimePicker = props => {
       {props.rideAndroidTime === null && (
         <DateTimePickerModal
           isVisible={true}
-          value={new Date()}
           mode={mode}
           datePickerMode
           display="clock"

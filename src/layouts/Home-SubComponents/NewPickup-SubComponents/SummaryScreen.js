@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React from 'react';
+import Moment from 'moment';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../../redux/actions';
 import { View, Text, StyleSheet } from 'react-native';
@@ -11,66 +13,80 @@ import Button from '../../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SummaryScreen = props => {
-    // const [date, setDate] = useState(new Date());
-    var today = new Date();
-    var calendarDate = (today.getMonth()+1)+' / '+today.getDate()+' / '+ today.getFullYear();
+    let momentJSdate = props.requestObject.time;
+    let newRequest = props.requestObject;
+    newRequest['hotelID'] = null
+
+    console.log("These are the props for the new request: ", props.requestObject)
+
+
     return (
         <>
-            <TheWhiteSquare height={70} style={{borderWidth:3}}>
-            <View style={styles.requestScreen}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>
-                        Your new Pick-up
+            <TheWhiteSquare height={70} style={{ borderWidth: 3 }}>
+                <View style={styles.requestScreen}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title}>
+                            Your new Pick-up
                     </Text>
-                    <Text style={styles.title}>
-                        Request:
+                        <Text style={styles.title}>
+                            Request:
                     </Text>
-                    <View style={styles.divider}/>
-                </View>
-                <View style={styles.descriptor}>
-                    <Text>
-                        <Text style={{fontWeight: "bold"}}>Date: </Text>
-                        {calendarDate}
-                    </Text>
-                    <Text>
-                        <Text style={{fontWeight: "bold"}}>Pick-Up Location: </Text>
-                        123 Jonathan street how much will this hold
-                    </Text>
-                    <Text>
-                        <Text style={{fontWeight: "bold"}}>Destination: </Text>
-                        143 Taylor Street Lorem Ipsum super long street name
-                    </Text>
-                </View>
-                <View style={styles.carAndDriver}>
-                    <IconButton icon="car" size={50} color="black"></IconButton>
-                    <View>
-                    <Text style={{fontWeight: "bold"}}>Your Car: </Text>
+                        <View style={styles.divider} />
+                    </View>
+                    <View style={styles.descriptor}>
                         <Text>
-                            <Text style={{fontWeight: "bold"}}>Mercedes: </Text> A-Class Subcompact Luxury Hatchback/Sedan
+                            <Text style={{ fontWeight: "bold" }}>Date: </Text>
+                            {Moment(momentJSdate).format("LLL")}
+                    </Text>
+                        <Text>
+                            <Text style={{ fontWeight: "bold" }}>Pick-Up Location: </Text>
+                            {props.requestObject.from}
+                    </Text>
+                        <Text>
+                            <Text style={{ fontWeight: "bold" }}>Destination: </Text>
+                            {props.requestObject.to}
+                    </Text>
+                    </View>
+                    <View style={styles.carAndDriver}>
+                        <IconButton icon="car" size={50} color="black"></IconButton>
+                        <View>
+                            <Text style={{ fontWeight: "bold" }}>Your Car: </Text>
+                            <Text>
+                                <Text style={{ fontWeight: "bold" }}>Mercedes: </Text> A-Class Subcompact Luxury Hatchback/Sedan
                         </Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.carAndDriver}>
-                    <IconButton icon="account" size={50} color="black"></IconButton>
-                    <View style={{marginTop: "5%"}}>
-                        <Text style={{fontWeight: "bold"}}>Your Driver: </Text>
-                        <Text>Jonathan Keane </Text>
+                    <View style={styles.carAndDriver}>
+                        <IconButton icon="account" size={50} color="black"></IconButton>
+                        <View style={{ marginTop: "5%" }}>
+                            <Text style={{ fontWeight: "bold" }}>Your Driver: </Text>
+                            <Text>John Doe</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.logoContainer}>
-                    <Button
-                    onPress={() => { 
-                        props.updateScheduledPickups(dummyData);
-                        props.setPage("home");
-                    }}
-                    >
-                    Submit Ride Request
+                    <View style={styles.logoContainer}>
+                        <Button
+                            onPress={() => {
+                                // Posting new ride request to the database
+                                axios.post('ritzcarservice.us-east-2.elasticbeanstalk.com/api/createPickup', {
+                                    newRequest: props.requestObject
+                                })
+                                .then((response) => {
+                                    console.log(response);
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                });
+                                props.updateScheduledPickups(dummyData);
+                                props.setPage("home");
+                            }}
+                        >
+                            Submit Ride Request
                     </Button>
+                    </View>
+                    <View style={styles.logoBox}>
+                        <Logo style={{ height: 100, width: 100 }} />
+                    </View>
                 </View>
-                <View style={styles.logoBox}>
-                    <Logo  style={{height:100, width:100}}/>
-                </View>
-            </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
                 <Button onPress={() => { props.setForm(3) }}>
@@ -128,7 +144,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         top: "18%",
-    },  
+    },
 })
 
 const mapStateToProps = state => {

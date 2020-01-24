@@ -34,15 +34,15 @@ export function updateGeoLocation(position) {
 };
 
 export function updateCurrentPickup(newPickup) {
-    return { type: UPDATE_CURRENT_PICKUP, newPickup: newPickup}
+    return { type: UPDATE_CURRENT_PICKUP, newPickup: newPickup }
 }
 
 export function updateFromLocation(fromLocation) {
-    return { type: ADD_FROM_LOCATION, newFromLocation: fromLocation}
+    return { type: ADD_FROM_LOCATION, newFromLocation: fromLocation }
 }
 
 export function updateToLocation(toLocation) {
-    return { type: ADD_TO_LOCATION, newToLocation: toLocation}
+    return { type: ADD_TO_LOCATION, newToLocation: toLocation }
 }
 
 export function updateRideDuration(time) {

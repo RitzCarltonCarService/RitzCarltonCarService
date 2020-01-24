@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { vh, vw } from 'react-native-viewport-units';
+import Bread from '../components/Bread';
 import Toast from '../components/Toast';
 import NewPickup from '../layouts/Home-SubComponents/NewPickup';
+import MenuButton from '../components/MenuButton';
 import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import MapBackground from '../components/MapBackground';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
@@ -13,6 +15,7 @@ const Home = ({ region, userData, fromLocation, toLocation }) => {
    // Boolean to indicate whether this is a scheduled ride or an immediate request
    const [scheduled, setScheduled] = useState(true);
    const [toast, setToast] = useState({ value: "", type: "" });
+   const [visible, setVisibility] = useState(false);
 
    useEffect(() => {
       if (userData.displayName) {
@@ -26,6 +29,8 @@ const Home = ({ region, userData, fromLocation, toLocation }) => {
    return (
       <>
          <MapBackground region={region} fromLocation={fromLocation} toLocation={toLocation}/>
+         <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
+
          <View style={styles.container}>
             {(() => {
                switch (page) {
@@ -44,6 +49,8 @@ const Home = ({ region, userData, fromLocation, toLocation }) => {
                }
             })()}
          </View>
+
+         <Bread visible={visible} onDismiss={() => setVisibility(false)} />
 
          <Toast
             type={toast.type}

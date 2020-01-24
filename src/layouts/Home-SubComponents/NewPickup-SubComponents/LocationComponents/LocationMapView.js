@@ -123,6 +123,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                                 paddingLeft: 40 
                                                 }}
                                                 label="To:"
+                                                placeholder="Where are you going?"
                                                 editable={true}
                                                 autoFocus={true}
                                                 defaultValue={inputValue}
