@@ -272,11 +272,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                             setToLocation(null);
                             updateFromLocation(null);
                             updateToLocation(null);
-<<<<<<< HEAD
                             getPickups(props.userData.uid, props.updateScheduledPickups);
-=======
-                            getPickups(props.updateScheduledPickups);
->>>>>>> 394527ec19293b59af6f2a227b78611ede5347a0
                         }}
                     >
                         Back
