@@ -7,6 +7,7 @@ const getPickups = function(actionDispatch) {
         }
     })
     .then((data) => {
+        console.log("This is the GET data from the server: ", data)
         actionDispatch(data.data);
     })
     .catch((err) => {

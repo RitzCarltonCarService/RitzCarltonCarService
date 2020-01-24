@@ -5,16 +5,14 @@ import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../../redux/actions';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton, Button as AccountButton } from 'react-native-paper';
-import dummyData from '../../../dummyData/dummy_pickup_data';
 import { State } from 'react-native-gesture-handler';
 import TheWhiteSquare from '../../../components/TheWhiteSquare';
+import getPickups from '../../../components/getPickups';
 import Logo from '../../../components/Logo';
 import Button from '../../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SummaryScreen = props => {
-    console.log("This is the current request object: ", props.requestObject)
-
     let momentJSdate = props.requestObject.time;
     let pickUpData = {};
     
@@ -28,12 +26,13 @@ const SummaryScreen = props => {
     pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
     pickUpData['passengerId'] = props.requestObject.userData.uid;
 
+    console.log("This is the Pick Up data object: ", pickUpData);
+
+    // REMEMBER! The below might have to be added when Scheduled requests are for the same day
     // if (props.immediateLocation) {
     //     console.log("This is the newFromLocation: ", props.immediateLocation)
     //     pickUpData['specifiedStartTime'] = null;
     // }
-
-    console.log("These are the props for the new request: ", pickUpData)
 
     return (
         <View>
@@ -86,14 +85,15 @@ const SummaryScreen = props => {
                                     pickupData: pickUpData
                                 })
                                 .then((response) => {
+                                    console.log("This is the response from the server", response)
+                                    // On submission of new scheduled ride, then repopulate Scheduled Pick-ups with data
+                                    getPickups(props.updateScheduledPickups)
                                     props.setPage("home");
-                                    console.log(response);
                                 })
                                 .catch((error) => {
                                     props.setPage("home");
                                     console.log(error);
                                 });
-                                // props.updateScheduledPickups(dummyData);
                             }}
                         >
                             Submit Ride Request
