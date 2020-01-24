@@ -49,12 +49,6 @@ const NewPickup = props => {
         case 3:
             return (
                 <View>
-                    <RideShareQuestion setForm={setForm} setRideShare={setRideShare}/>
-                </View>
-            )
-        case 4:
-            return (
-                <View>
                     <SummaryScreen
                         setForm={setForm}
                         setPage={props.setPage}
@@ -73,9 +67,6 @@ const NewPickup = props => {
                             toCoordinates: props.toLocation
                         }}
                     />
-                    <Text>
-                        {props.setPage}
-                    </Text>
                 </View>
             )
         default:
