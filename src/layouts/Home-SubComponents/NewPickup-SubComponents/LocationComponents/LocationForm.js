@@ -272,7 +272,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                             setToLocation(null);
                             updateFromLocation(null);
                             updateToLocation(null);
-                            getPickups(props.updateScheduledPickups);
+                            getPickups(props.userData.uid, props.updateScheduledPickups);
                         }}
                     >
                         Back
@@ -459,6 +459,7 @@ const mapStateToProps = state => {
     // console.log('This is state: ', state)
     return {
         geoLocation: state.geoLocation,
+        userData: state.userData
     }
 }
 

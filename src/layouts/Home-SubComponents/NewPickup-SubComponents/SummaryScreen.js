@@ -87,7 +87,7 @@ const SummaryScreen = props => {
                                 .then((response) => {
                                     console.log("This is the response from the server", response)
                                     // On submission of new scheduled ride, then repopulate Scheduled Pick-ups with data
-                                    getPickups(props.updateScheduledPickups)
+                                    getPickups(props.userData.uid, props.updateScheduledPickups)
                                     props.setPage("home");
                                 })
                                 .catch((error) => {
@@ -165,7 +165,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        nav: state.nav
+        nav: state.nav,
+        userData: state.userData
     }
 }
 

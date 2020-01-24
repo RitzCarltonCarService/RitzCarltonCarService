@@ -41,7 +41,7 @@ const CancelModal = props => (
                     onPress={()=>{
                         props.setModalOpen(false);
                         props.setPage("home");
-                        getPickups(updateScheduledPickups);
+                        getPickups(props.userData.uid, updateScheduledPickups);
                     }}
                     style={styles.yesButton}
                     // labelStyle={styles.buttonText}
@@ -129,7 +129,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        id: state.id
+        id: state.id,
+        userData: state.userData
     }
 }
 
