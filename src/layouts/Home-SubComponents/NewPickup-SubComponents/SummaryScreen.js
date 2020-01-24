@@ -64,10 +64,8 @@ const SummaryScreen = props => {
                     <View style={styles.carAndDriver}>
                         <IconButton icon="car" size={50} color="black"></IconButton>
                         <View>
-                            <Text style={{ fontWeight: "bold" }}>Your Car: </Text>
-                            <Text>
-                                <Text style={{ fontWeight: "bold" }}>Mercedes: </Text> A-Class Subcompact Luxury Hatchback/Sedan
-                        </Text>
+                            <Text style={{ fontWeight: "bold" }}>Number of Bags: </Text>
+                            <Text> {props.} </Text>
                         </View>
                     </View>
                     <View style={styles.carAndDriver}>
