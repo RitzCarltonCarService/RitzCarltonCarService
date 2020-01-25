@@ -35,11 +35,6 @@
     "react-native-screens": "^2.0.0-alpha.23",
     "react-native-status-bar-height": "^2.4.0",
     "react-native-vector-icons": "^6.6.0",
-<<<<<<< HEAD
-    "react-native-viewport-units": "0.0.5",
-    "react-native-web": "~0.11.7",
-=======
->>>>>>> 6ecd82d853a6b9ec2a168295f015d6b9e9d0c07c
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^2.0.14",
     "react-redux": "^7.1.3",
