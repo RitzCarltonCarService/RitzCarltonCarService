@@ -479,7 +479,6 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-    updateToLocation: updateToLocation,
     updateFromLocation: updateFromLocation,
     updateScheduledPickups: updateScheduledPickups
 }

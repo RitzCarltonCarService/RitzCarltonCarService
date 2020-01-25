@@ -4,6 +4,7 @@ import { updateCurrentPickup } from '../../../redux/actions';
 import { View, Text, Image, StyleSheet, Platform, TouchableHighlight } from 'react-native';
 import Button from '../../../components/Button';
 import { theme } from '../../../core/theme';
+import dateParser from '../../../components/dateParser';
 
 const PickupEntry = props => {
 
@@ -45,7 +46,7 @@ const PickupEntry = props => {
                     To: {to}
                 </Text>
                 <Text style={styles.text}>
-                    Time: {time}
+                    Time: {dateParser.translateTime(time)}
                 </Text>
                 <Text style={styles.text}>
                     Date: {date}

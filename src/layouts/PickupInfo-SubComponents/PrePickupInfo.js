@@ -6,12 +6,8 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Modal, Portal, Provider } from 'react-native-paper'
 import Button from '../../components/Button';
 import { theme } from '../../core/theme';
-<<<<<<< HEAD
 import dateParser from '../../components/dateParser';
 import DetailsModal from './DetailsModal';
-
-=======
->>>>>>> robsotherbranch
 const { vh, vw } = require('react-native-viewport-units');
 
 const PrePickupInfo = props => {
