@@ -11,7 +11,7 @@ export const signUpUser = async ({ name, email, password }) => {
       firebase.auth().currentUser.updateProfile({
          displayName: name
       });
-      return response;
+      return { ...response, displayName: name };
    } catch (error) {
       switch (error.code) {
          case "auth/email-already-in-use":

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { navigate, toHome } from '../redux/actions';
 import { View, StyleSheet } from 'react-native';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
-const { vh, vw } = require('react-native-viewport-units');
+import { units } from '../core/untilities';
 import DriveSched from '../layouts/Driver-Sched-Component/DriveSched';
 import DriveClock from '../layouts/Driver-Clock-Component/DriveClock';
 
@@ -17,15 +17,15 @@ const DriverDash = props => {
             switch (veil) {
                case "schedule":
                   return (
-                        <DriveSched setPage={setVeil} />
+                     <DriveSched setPage={setVeil} />
                   )
                case "path":
                   return (
-                        <DriveClock setPage={setVeil} />
+                     <DriveClock setPage={setVeil} />
                   )
                default:
                   return (
-                        <DriveClock setPage={setVeil} />
+                     <DriveClock setPage={setVeil} />
                   )
             }
          })()}
@@ -47,8 +47,8 @@ const DriverDash = props => {
 
 const styles = StyleSheet.create({
    container: {
-      height: 100 * vh,
-      width: 100 * vw,
+      height: 100 * units.vh,
+      width: 100 * units.vw,
       alignItems: "center"
    }
 })

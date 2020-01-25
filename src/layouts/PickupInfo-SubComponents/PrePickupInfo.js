@@ -6,14 +6,12 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Modal, Portal, Provider } from 'react-native-paper'
 import Button from '../../components/Button';
 import { theme } from '../../core/theme';
+import { units } from '../../core/untilities'
 import dateParser from '../../components/dateParser';
 import DetailsModal from './DetailsModal';
-const { vh, vw } = require('react-native-viewport-units');
 
 const PrePickupInfo = props => {
-    
     let [modalOpen, setModalOpen] = useState(false);
-
     let [detailsOpen, setDetailsOpen] = useState(false);
 
     const pickup = props.scheduledPickups[props.currentPickup];
@@ -36,7 +34,7 @@ const PrePickupInfo = props => {
                 <Button
                     style={styles.contactButton}
                     labelStyle={styles.contactButtonText}
-                    onPress={() => {setDetailsOpen(true)}}
+                    onPress={() => { setDetailsOpen(true) }}
                 >
                     <Text>
                         View Details
@@ -47,7 +45,7 @@ const PrePickupInfo = props => {
             <Button
                 style={styles.cancelButton}
                 labelStyle={styles.cancelButtonText}
-                onPress={() => {setModalOpen(true)}}
+                onPress={() => { setModalOpen(true) }}
             >
                 Cancel Request
             </Button>
@@ -63,7 +61,7 @@ const PrePickupInfo = props => {
                     <Modal
                         visible={modalOpen}
                     >
-                        <CancelModal setModalOpen={setModalOpen} setPage={props.setPage} id={pickup.id}/>
+                        <CancelModal setModalOpen={setModalOpen} setPage={props.setPage} id={pickup.id} />
                     </Modal>
                 </Portal>
             </Provider>
@@ -71,7 +69,7 @@ const PrePickupInfo = props => {
             <Provider>
                 <Portal>
                     <Modal visible={detailsOpen}>
-                        <DetailsModal setDetailsOpen={setDetailsOpen} pickup={pickup}/>
+                        <DetailsModal setDetailsOpen={setDetailsOpen} pickup={pickup} />
                     </Modal>
                 </Portal>
             </Provider>
@@ -95,17 +93,17 @@ export default connect(mapStateToProps, mapDispatchToProps)(PrePickupInfo);
 
 const styles = StyleSheet.create({
     statusContainer: {
-        width: 100 * vw,
-        height: 4 * vh,
-        top: 12 * vh,
+        width: 100 * units.vw,
+        height: 4 * units.vh,
+        top: 12 * units.vh,
         backgroundColor: theme.colors.accentSecondary,
         alignItems: "center",
         justifyContent: "center"
     },
     pickupTimeContainer: {
-        width: 100 * vw,
-        height: 4 * vh,
-        top: 14 * vh,
+        width: 100 * units.vw,
+        height: 4 * units.vh,
+        top: 14 * units.vh,
         backgroundColor: theme.colors.accentSecondary,
         alignItems: "center",
         justifyContent: "center"
@@ -117,9 +115,9 @@ const styles = StyleSheet.create({
         letterSpacing: 2
     },
     contactButtonPosition: {
-        width: 80 * vw,
-        height: 5 * vh,
-        top: 14 * vh
+        width: 80 * units.vw,
+        height: 5 * units.vh,
+        top: 14 * units.vh
     },
     contactButton: {
         width: "100%",
@@ -135,19 +133,19 @@ const styles = StyleSheet.create({
         color: theme.colors.secondary,
     },
     bottomContainer: {
-        width: 94 * vw,
-        height: 15 * vh,
+        width: 94 * units.vw,
+        height: 15 * units.vh,
         borderRadius: 10,
-        top: 62 * vh,
+        top: 62 * units.vh,
         backgroundColor: theme.colors.secondary,
         alignItems: "center"
     },
     cancelButton: {
-        width: 94 * vw,
+        width: 94 * units.vw,
         backgroundColor: "red",
         borderRadius: 10,
-        height: 8 * vh,
-        top: 60 * vh
+        height: 8 * units.vh,
+        top: 60 * units.vh
     },
     cancelButtonText: {
         fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
@@ -171,8 +169,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     buttonContainer: {
-        top: 58 * vh,
-        width: 94 * vw
+        top: 58 * units.vh,
+        width: 94 * units.vw
     },
     backButton: {
         borderRadius: 10,

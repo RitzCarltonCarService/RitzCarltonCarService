@@ -1,25 +1,25 @@
-/*
+/**
  * The LogoBackground is a background made using react-native ImageBackground
  * react-native ImageBackground docs: https://github.com/react-native-community/react-native-maps/blob/HEAD/docs/mapview.md
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Params ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * @resizeMode - TYPE: String, DESC: Determines how to resize the image when the frame doesn't match the raw image dimensions.
- *    'cover': Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions (width and height) of the
- *             image will be equal to or larger than the corresponding dimension of the view (minus padding).
- *    'contain': Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions (width and height) of the
- *              image will be equal to or less than the corresponding dimension of the view (minus padding).
- *    'stretch': Scale width and height independently, This may change the aspect ratio of the src.
- *    'stretch': Scale width and height independently, This may change the aspect ratio of the src.
- * @imageStyles - TYPE: Object, DESC: Allows you to add more styling to the ImageBackground tag on top of the default ones.
- * @containerStyles - TYPE: Object, DESC: Allows you to add more styling to the KeyboardAvoidingView tag on top of the default ones.
- * @children - TYPE: Varied, DESC: Where any other components placed inside of LogoBackground will go
+ * @param {String} resizeMode - Determines how to resize the image when the frame doesn't match
+ *    the raw image dimensions.
+ *       'cover': Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions
+ *          (width and height) of the image will be equal to or larger than the corresponding dimension
+ *          of the view (minus padding).
+ *       'contain': Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions
+ *          (width and height) of the image will be equal to or less than the corresponding dimension of
+ *          the view (minus padding).
+ *       'stretch': Scale width and height independently, This may change the aspect ratio of the src.
+ * @param {Object} imageStyles - Allows you to add more styling to the ImageBackground tag on top
+ *    of the default ones.
+ * @param {Object} containerStyles - Allows you to add more styling to the KeyboardAvoidingView tag
+ *    on top of the default ones.
+ * @param {Any} children - Where any other components placed inside of LogoBackground will go
  */
 
 import React, { memo } from "react";
-import {
-   KeyboardAvoidingView,
-   ImageBackground,
-   StyleSheet,
-} from "react-native";
+import { KeyboardAvoidingView, ImageBackground, StyleSheet } from "react-native";
 
 const LogoBackground = ({ resizeMode = 'center', imageStyles, containerStyles, children }) => (
    <ImageBackground

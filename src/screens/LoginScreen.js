@@ -1,10 +1,11 @@
 import React, { memo, useState, useEffect } from "react";
-import { TouchableOpacity, StyleSheet, Text, View, Keyboard } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { emailValidator, passwordValidator } from "../core/untilities";
 import { setUserData } from "../redux/actions";
 import { loginUser } from '../core/auth-api';
 import { connect } from 'react-redux';
 import { theme } from "../core/theme";
+import axios from 'axios';
 import Logo from "../components/Logo";
 import Toast from "../components/Toast";
 import Header from "../components/Header";
@@ -43,12 +44,17 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
          password: password.value
       });
 
+      const databaseResponse = await axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/login', {
+         id: response.uid
+      });
+
       dispatch(setUserData({
          uid: response.uid,
          displayName: response.displayName,
          email: response.email,
          phoneNumber: response.phoneNumber,
          photoURL: response.photoURL,
+         ...databaseResponse.data
       }));
 
       setLoading(false);
@@ -106,58 +112,61 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
    return (
       <>
          <MapBackground region={region} />
-         <BackButton goBack={() => navigation.navigate("HomeScreen")} />
-         <View style={styles.wrapper}>
-            <TheWhiteSquare height={73} top={13} animationData={animationData} duration={250}>
-               <Logo />
+         {/* <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}> */}
+         <View>
+            <BackButton goBack={() => navigation.navigate("HomeScreen")} />
+            <View style={styles.wrapper}>
+               <TheWhiteSquare height={73} top={13} animationData={animationData} duration={250}>
+                  <Logo />
 
-               <Header>Welcome back!</Header>
+                  <Header>Welcome back!</Header>
 
-               <TextInput
-                  label="Email"
-                  returnKeyType="next"
-                  value={email.value}
-                  onChangeText={text => setEmail({ value: text, error: "" })}
-                  error={!!email.error}
-                  errorText={email.error}
-                  autoCapitalize="none"
-                  autoCompleteType="email"
-                  textContentType="emailAddress"
-                  keyboardType="email-address"
-               />
+                  <TextInput
+                     label="Email"
+                     returnKeyType="next"
+                     value={email.value}
+                     onChangeText={text => setEmail({ value: text, error: "" })}
+                     error={!!email.error}
+                     errorText={email.error}
+                     autoCapitalize="none"
+                     autoCompleteType="email"
+                     textContentType="emailAddress"
+                     keyboardType="email-address"
+                  />
 
-               <TextInput
-                  label="Password"
-                  returnKeyType="done"
-                  value={password.value}
-                  onChangeText={text => setPassword({ value: text, error: "" })}
-                  error={!!password.error}
-                  errorText={password.error}
-                  secureTextEntry
-                  autoCapitalize="none"
-               />
+                  <TextInput
+                     label="Password"
+                     returnKeyType="done"
+                     value={password.value}
+                     onChangeText={text => setPassword({ value: text, error: "" })}
+                     error={!!password.error}
+                     errorText={password.error}
+                     secureTextEntry
+                     autoCapitalize="none"
+                  />
 
-               <View style={styles.forgotPassword}>
-                  <TouchableOpacity
-                     onPress={() => navigation.navigate("ForgotPasswordScreen")}
-                  >
-                     <Text style={styles.label}>Forgot your password?</Text>
-                  </TouchableOpacity>
-               </View>
+                  <View style={styles.forgotPassword}>
+                     <TouchableOpacity
+                        onPress={() => navigation.navigate("ForgotPasswordScreen")}
+                     >
+                        <Text style={styles.label}>Forgot your password?</Text>
+                     </TouchableOpacity>
+                  </View>
 
-               <Button loading={loading} mode="contained" onPress={_onLoginPressed}>
-                  Login
-               </Button>
+                  <Button loading={loading} mode="contained" onPress={_onLoginPressed}>
+                     Login
+                     </Button>
 
-               <View style={styles.row}>
-                  <Text style={styles.label}>Don’t have an account? </Text>
-                  <TouchableOpacity onPress={() => navigation.navigate("SignupScreen")}>
-                     <Text style={styles.link}>Sign up</Text>
-                  </TouchableOpacity>
-               </View>
-            </TheWhiteSquare>
+                  <View style={styles.row}>
+                     <Text style={styles.label}>Don’t have an account? </Text>
+                     <TouchableOpacity onPress={() => navigation.navigate("SignupScreen")}>
+                        <Text style={styles.link}>Sign up</Text>
+                     </TouchableOpacity>
+                  </View>
+               </TheWhiteSquare>
+            </View>
          </View>
-
+         {/* </TouchableWithoutFeedback> */}
 
          <Toast
             type={'error'}
