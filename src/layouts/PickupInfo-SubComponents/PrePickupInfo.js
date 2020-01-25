@@ -37,7 +37,6 @@ const PrePickupInfo = props => {
                     style={styles.contactButton}
                     labelStyle={styles.contactButtonText}
                     onPress={() => {setDetailsOpen(true)}}
-                    labelStyle={{fontSize:20, top:'-4%'}}
                 >
                     <Text>
                         View Details
@@ -49,7 +48,6 @@ const PrePickupInfo = props => {
                 style={styles.cancelButton}
                 labelStyle={styles.cancelButtonText}
                 onPress={() => {setModalOpen(true)}}
-                labelStyle={{fontSize:30}}
             >
                 Cancel Request
             </Button>

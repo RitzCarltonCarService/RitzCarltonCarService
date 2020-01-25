@@ -270,8 +270,6 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                             props.setPage("home");
                             setFromLocation(null);
                             setToLocation(null);
-                            updateFromLocation(null);
-                            updateToLocation(null);
                             getPickups(props.userData.uid, props.updateScheduledPickups);
                         }}
                     >
