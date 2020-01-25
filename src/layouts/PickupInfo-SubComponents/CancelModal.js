@@ -51,7 +51,6 @@ const CancelModal = props => (
                             props.setModalOpen(false);
                             props.setPage("home");
                         })
-                        //getPickups(props.userData.uid, updateScheduledPickups);
                     }}
                     style={styles.yesButton}
                     // labelStyle={styles.buttonText}
