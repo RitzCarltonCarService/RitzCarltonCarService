@@ -7,31 +7,42 @@ const { vh, vw } = require('react-native-viewport-units');
 import DriveSched from '../layouts/Driver-Sched-Component/DriveSched';
 import DriveClock from '../layouts/Driver-Clock-Component/DriveClock';
 import MenuButton from '../components/MenuButton';
+import Bread from '../components/Bread';
 
 const DriverDash = props => {
-   const [veil, setVeil] = useState("clock");
-   const [visible, setVisibility] = useState(true);
+   const [veil, setVeil] = useState("schedule");
+   const [visible, setVisibility] = useState(false);
 
    return (
       <>
       <View style={styles.container}>
          {(() => {
             switch (veil) {
-               case "schedule":
+               case "Schedule":
                   return (
-                        <DriveSched setPage={setVeil} />
+                        <DriveSched setVeil={setVeil} />
                   )
-               case "clock":
+               case "Clock":
                   return (
-                        <DriveClock setPage={setVeil} />
+                        <DriveClock setVeil={setVeil} />
                   )
                default:
                   return (
-                        <DriveClock setPage={setVeil} />
+                        <DriveClock setVeil={setVeil} />
                   )
             }
          })()}
       </View>
+      <Bread 
+         headerOne={`Clock`} 
+         headerTwo={`Schedule`} 
+         visible={visible} 
+         onDismiss={() => setVisibility(false)}
+         func={(component) => {
+            setVeil(component)
+            setVisibility(false)
+         }}
+       />
       <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
       </>
    )

@@ -48,7 +48,7 @@ const Home = ({ region, userData, fromLocation, toLocation }) => {
             })()}
          </View>
 
-         <Bread visible={visible} onDismiss={() => setVisibility(false)} />
+         <Bread headerOne={`Request Pick-up`} headerTwo={`Ride History`} visible={visible} onDismiss={() => setVisibility(false)} />
 
          <Toast
             type={toast.type}

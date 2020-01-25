@@ -9,7 +9,7 @@ import Header from '../components/Header';
 import Button from './Button';
 import { logoutUser } from '../core/auth-api';
 
-const Bread = ({ visible, onDismiss }) => {
+const Bread = ({ visible, onDismiss, headerOne, headerTwo, func }) => {
    const styles = StyleSheet.create({
       wrapper: {
          alignItems: 'center',
@@ -38,8 +38,8 @@ const Bread = ({ visible, onDismiss }) => {
                      }}
                   ></MenuButton>
 
-                  <Header style={{ color: '#FFFFFF' }}>{`Request Pick-up`}</Header>
-                  <Header style={{ color: '#FFFFFF' }}>{`Ride History`}</Header>
+                  <Header onPress={() => {func(headerOne)}} style={{ color: '#FFFFFF' }}>{headerOne}</Header>
+                  <Header onPress={() => {func(headerTwo)}} style={{ color: '#FFFFFF' }}>{headerTwo}</Header> 
                   <Header style={{ color: '#FFFFFF' }}>{`Settings`}</Header>
                   <Header style={{ color: '#FFFFFF' }}>{`Help`}</Header>
 
