@@ -8,7 +8,6 @@ import Button from '../../components/Button';
 import { theme } from '../../core/theme';
 import dateParser from '../../components/dateParser';
 import DetailsModal from './DetailsModal';
-
 const { vh, vw } = require('react-native-viewport-units');
 
 const PrePickupInfo = props => {

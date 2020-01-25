@@ -9,6 +9,7 @@ import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import dateParser from '../../components/dateParser';
 
 const { vw, vh } = require('react-native-viewport-units');
 
@@ -21,22 +22,28 @@ const DetailsModal = props => {
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>
                             Pickup Details
-                    </Text>
+                        </Text>
                         <View style={styles.divider} />
                     </View>
                     <View style={styles.descriptor}>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Date: </Text>
-                            {Moment(props.pickup.estimatedStartTime).format("LLL")}
-                    </Text>
+                            <Text>{dateParser.getDateFromDate(props.pickup.estimatedStartTime)}</Text>
+                        </Text>
+                        <Text>
+                            <Text style={{ fontWeight: "bold" }}>Departure Time: </Text>
+                            <Text>{dateParser.getTimeFromDate(props.pickup.estimatedStartTime)}</Text>
+                        </Text>
+                        <Text style={{ fontWeight: "bold" }}>Estimated Arrival Time: </Text>
+                            <Text>{dateParser.getTimeFromDate(props.pickup.estimatedEndTime)}</Text>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Pick-Up Location: </Text>
-                            {props.pickup.startAddress}
-                    </Text>
+                            <Text>{props.pickup.startAddress}</Text>
+                        </Text>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Destination: </Text>
-                            {props.pickup.endAddress}
-                    </Text>
+                            <Text>{props.pickup.endAddress}</Text>
+                        </Text>
                     </View>
                     <View style={styles.carAndDriver}>
                         <IconButton icon="car" size={50} color="black"></IconButton>
@@ -44,7 +51,7 @@ const DetailsModal = props => {
                             <Text style={{ fontWeight: "bold" }}>Your Car: </Text>
                             <Text>
                                 <Text style={{ fontWeight: "bold" }}>Mercedes: </Text> A-Class Subcompact Luxury Hatchback/Sedan
-                        </Text>
+                            </Text>
                         </View>
                     </View>
                     <View style={styles.carAndDriver}>
@@ -64,7 +71,7 @@ const DetailsModal = props => {
                             }}
                         >
                             Back
-                    </Button>
+                        </Button>
                     </View>
                 </View>
             </TheWhiteSquare>
