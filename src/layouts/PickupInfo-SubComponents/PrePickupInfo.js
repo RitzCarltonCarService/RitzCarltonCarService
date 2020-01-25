@@ -6,12 +6,9 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Modal, Portal, Provider } from 'react-native-paper'
 import Button from '../../components/Button';
 import { theme } from '../../core/theme';
-<<<<<<< HEAD
 import dateParser from '../../components/dateParser';
 import DetailsModal from './DetailsModal';
 
-=======
->>>>>>> robsotherbranch
 const { vh, vw } = require('react-native-viewport-units');
 
 const PrePickupInfo = props => {
@@ -41,6 +38,7 @@ const PrePickupInfo = props => {
                     style={styles.contactButton}
                     labelStyle={styles.contactButtonText}
                     onPress={() => {setDetailsOpen(true)}}
+                    labelStyle={{fontSize:20, top:'-4%'}}
                 >
                     <Text>
                         View Details
@@ -52,6 +50,7 @@ const PrePickupInfo = props => {
                 style={styles.cancelButton}
                 labelStyle={styles.cancelButtonText}
                 onPress={() => {setModalOpen(true)}}
+                labelStyle={{fontSize:30}}
             >
                 Cancel Request
             </Button>
