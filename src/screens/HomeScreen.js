@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
 
 const mapStatetoProps = ({ geoLocation, fromLocation, toLocation }) => ({
    region: geoLocation,
-   fromLocation,
-   toLocation,
+   fromLocation: fromLocation,
+   toLocation: toLocation
 });
 
 export default connect(mapStatetoProps)(HomeScreen);
