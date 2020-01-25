@@ -1,150 +1,56 @@
 import React, { memo, useState, useEffect } from "react";
-import { TouchableOpacity, StyleSheet, Text, View, Picker } from "react-native";
-import MapBackground from "../components/MapBackground";
-import Logo from "../components/Logo";
-import Header from "../components/Header";
-import Button from "../components/Button";
-import TextInput from "../components/TextInput";
-import BackButton from "../components/BackButton";
-import TheWhiteSquare from '../components/TheWhiteSquare';
-import { theme } from "../core/theme";
-import Toast from "../components/Toast";
-import ModalDropdown from 'react-native-modal-dropdown';
+import { connect } from 'react-redux';
+import { navigate, toHome } from '../redux/actions';
+import { View, StyleSheet } from 'react-native';
+import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+const { vh, vw } = require('react-native-viewport-units');
+import DriveSched from '../layouts/Driver-Sched-Component/DriveSched';
+import DriveClock from '../layouts/Driver-Clock-Component/DriveClock';
 
-const DriverDash = ({ navigation }) => {
-   const [date, setDate] = useState(new Date());
-   const [punch, setPunch] = useState({ val: "Clocked Out" });
-   const [dropdownVal, setdropdownVal] = useState({ ddv: "0" });
-
-   const dropdownOptions = [
-      'CLOCK IN',
-      'CLOCK OUT',
-      'START BREAK',
-      'END BREAK',
-      'START MEAL',
-      'END MEAL',
-   ]
-
-   useEffect(() => {
-      var timer = setInterval(() => tick(), 1000);
-
-      return function cleanup() {
-         clearInterval(timer);
-      };
-   });
-
-   function tick() {
-      setDate(new Date());
-   }
-
-   function statusUpdate() {
-      console.log(dropdownVal.ddv)
-      switch (dropdownVal.ddv) {
-         case '1':
-            punch.val = "Clocked Out";
-            break;
-         case '2':
-            punch.val = "On Break";
-            break;
-         case '4':
-            punch.val = "On Meal Time";
-            break;
-         default:
-            punch.val = "Clocked In";
-      }
-      // const d = dropdownVal.ddv;
-      // if (d == 1) {
-      //   punch.val = "Clocked Out";
-      // } else if (d == 2) {
-      //   punch.val = "On Break";
-      // } else if (d == 4) {
-      //   punch.val = "On Meal Time";
-      // } else {
-      //   punch.val = "Clocked In";
-      // }
-      //punch.val = dropdownOptions[dropdownVal.ddv];
-   }
+const DriverDash = props => {
+   const [veil, setVeil] = useState("clock");
+   const [visible, setVisibility] = useState(false);
 
    return (
-      <>
-         <MapBackground />
-         {/* in place of the go back button will use a hamburger and drawer */}
-         {/* we will also set state to worker is false (logout) */}
-         <BackButton goBack={() => navigation.navigate("HomeScreen")} />
-         <View style={styles.wrapper}>
-            <TheWhiteSquare height={75} top={15}>
-               <Logo />
+      <View style={styles.container}>
+         {(() => {
+            switch (veil) {
+               case "schedule":
+                  return (
+                        <DriveSched setPage={setVeil} />
+                  )
+               case "path":
+                  return (
+                        <DriveClock setPage={setVeil} />
+                  )
+               default:
+                  return (
+                        <DriveClock setPage={setVeil} />
+                  )
+            }
+         })()}
+      </View>
+   )
+}
 
-               <Header>Status: {punch.val}</Header>
-               <Header>{date.toLocaleTimeString()}</Header>
-               <ModalDropdown
-                  // defaultValue={ punch.val === 'Clocked In' ? 'CLOCK OUT' : 'CLOCK IN' }
-                  options={dropdownOptions}
-                  style={styles.picker}
-                  textStyle={styles.picker_text}
-                  dropdownStyle={styles.picker_dropdown}
-                  onSelect={(value) => dropdownVal.ddv = value}
-               />
+// const mapStateToProps = state => {
+//    return {
+//       nav: state.nav
+//    }
+// }
 
-               {/* onPress={_onLoginPressed} */}
-               <Button mode="contained" onPress={statusUpdate}>
-                  Submit
-               </Button>
-            </TheWhiteSquare>
-         </View>
+// const mapDispatchToProps = {
+//    navigate: navigate
+// }
 
-         {/* <Toast message={error} onDismiss={() => setError("")} /> */}
-      </>
-   );
-};
+// export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
-   forgotPassword: {
-      width: "100%",
-      alignItems: "flex-end",
-      marginBottom: 24
-   },
-   row: {
-      flexDirection: "row",
-      marginTop: 4
-   },
-   label: {
-      color: theme.colors.secondary
-   },
-   link: {
-      fontWeight: "bold",
-      color: theme.colors.primary
-   },
-   wrapper: {
-      alignItems: 'center'
-   },
-   picker: {
-      width: 200,
-      borderWidth: 0,
-      borderRadius: 3,
-      backgroundColor: 'black',
-   },
-   picker_text: {
-      fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
-      letterSpacing: 2,
-      fontWeight: "bold",
-      fontSize: 17,
-      lineHeight: 26,
-      color: theme.colors.secondary,
-      marginVertical: 10,
-      marginHorizontal: 6,
-      textAlign: 'center',
-      textAlignVertical: 'center',
-   },
-   picker_dropdown: {
-      width: 200,
-      height: 200,
-      fontWeight: "bold",
-      borderColor: 'darkgrey',
-      borderWidth: 2,
-      borderRadius: 3,
-      backgroundColor: 'lightgrey',
-   },
-});
+   container: {
+      height: 100 * vh,
+      width: 100 * vw,
+      alignItems: "center"
+   }
+})
 
-export default memo(DriverDash);
+export default DriverDash;
