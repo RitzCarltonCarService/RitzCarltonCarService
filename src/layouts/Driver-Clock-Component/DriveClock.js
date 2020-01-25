@@ -12,7 +12,6 @@ import { emailValidator, passwordValidator } from "../../core/untilities";
 import Toast from "../../components/Toast";
 import ModalDropdown from 'react-native-modal-dropdown';
 import firebase from 'firebase';
-import MenuButton from '../../components/MenuButton';
 
 const DriveClock = ({ navigation }) => {
    const [date, setDate] = useState(new Date());
@@ -72,7 +71,6 @@ const DriveClock = ({ navigation }) => {
    return (
       <>
          <MapBackground />
-         <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
          <View style={styles.wrapper}>
             <TheWhiteSquare height={75} top={15}>
                <Logo />
@@ -94,8 +92,6 @@ const DriveClock = ({ navigation }) => {
                </Button>
             </TheWhiteSquare>
          </View>
-
-         {/* <Toast message={error} onDismiss={() => setError("")} /> */}
       </>
    );
 };

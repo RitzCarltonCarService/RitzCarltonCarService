@@ -49,13 +49,23 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
 
             getCurrentLocation()
                .then((position) => {
+                  const worker = true;
                   dispatch(updateGeoLocation({
                      latitude: position.coords.latitude,
                      longitude: position.coords.longitude,
                      latitudeDelta: 0.003,
                      longitudeDelta: 0.003,
                   }));
-                  navigation.navigate("Dashboard");
+                  //navigation.navigate("Dashboard");
+                  //implements new testing variable worker
+                  if (!worker) {
+                     navigation.navigate("Dashboard");
+                  };
+
+                  //redirects drivers to a different screen than customers
+                  if (worker) {
+                     navigation.navigate("DriverDash");
+                  };
                });
          } catch (error) {
             setError(error);
