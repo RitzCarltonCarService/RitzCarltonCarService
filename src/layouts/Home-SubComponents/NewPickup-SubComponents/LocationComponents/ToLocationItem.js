@@ -18,6 +18,7 @@ class ToLocationItem extends PureComponent {
                                 const coords = res.geometry.location;
                                 // Passing fromLocation's coordinates to Redux state
                                 this.props.updateToLocation(coords); 
+                                // console.log("These are coords: ", coords);
                                 this.props.updateToState(res.formatted_address);
                             };
                             handlePress();

@@ -3,7 +3,7 @@ import React from 'react';
 import Moment from 'moment';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../../redux/actions';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { IconButton, Button as AccountButton } from 'react-native-paper';
 import { State } from 'react-native-gesture-handler';
 import TheWhiteSquare from '../../../components/TheWhiteSquare';
@@ -26,7 +26,7 @@ const SummaryScreen = props => {
     pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
     pickUpData['passengerId'] = props.requestObject.userData.uid;
 
-    console.log("This is the Pick Up data object: ", pickUpData);
+    // console.log("This is the Pick Up data object: ", pickUpData);
 
     // REMEMBER! The below might have to be added when Scheduled requests are for the same day
     // if (props.immediateLocation) {
@@ -83,10 +83,32 @@ const SummaryScreen = props => {
                                     pickupData: pickUpData
                                 })
                                 .then((response) => {
-                                    console.log("This is the response from the server", response)
-                                    // On submission of new scheduled ride, then repopulate Scheduled Pick-ups with data
-                                    getPickups(props.userData.uid, props.updateScheduledPickups)
-                                    props.setPage("home");
+                                    console.log("This is the response from the server", response.data)
+                                    if (response.data !== "Pickup added!") {
+                                        Alert.alert(
+                                            'No Drivers Available at this Time!',
+                                            'Please schedule a request at a later time.',
+                                            [
+                                                {text: 'Reschedule Now', onPress: () => {
+                                                    props.setPage("home");
+                                                }} 
+                                            ],
+                                            {cancelable: false},
+                                        );
+                                    } else {
+                                        Alert.alert(
+                                            'New Request Submitted - Driver Notified!',
+                                            'You will be notified when your driver is nearby.',
+                                            [
+                                                {text: 'OK', onPress: () => {
+                                                    // On submission of new scheduled ride, then repopulate Scheduled Pick-ups with data
+                                                    getPickups(props.userData.uid, props.updateScheduledPickups)
+                                                    props.setPage("home");
+                                                }} 
+                                            ],
+                                            {cancelable: false},
+                                        );
+                                    }
                                 })
                                 .catch((error) => {
                                     props.setPage("home");

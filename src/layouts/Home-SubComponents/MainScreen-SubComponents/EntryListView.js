@@ -10,6 +10,7 @@ const EntryListView = props => {
     return (
             <ScrollView bounces={false}>
                     {props.scheduledPickups.map((pickup, index) => {
+                        console.log("This is a pick-up: ", pickup)
                         return (
                         // <Button
                         //     title={pickup.name}
