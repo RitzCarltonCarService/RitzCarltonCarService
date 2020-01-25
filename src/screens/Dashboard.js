@@ -29,7 +29,6 @@ const Home = ({ region, userData, fromLocation, toLocation }) => {
    return (
       <>
          <MapBackground region={region} fromLocation={fromLocation} toLocation={toLocation}/>
-         <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
          <View style={styles.container}>
             {(() => {
                switch (page) {
@@ -56,6 +55,7 @@ const Home = ({ region, userData, fromLocation, toLocation }) => {
             message={toast.value}
             onDismiss={() => setToast({ value: "", type: "" })}
          />
+         <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
       </>
    );
 };
