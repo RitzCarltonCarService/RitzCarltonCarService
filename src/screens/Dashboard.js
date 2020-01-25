@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ geoLocation, userData }) => ({
    region: geoLocation,
-   userData,
+   userData: userData,
 });
 
 export default connect(mapStateToProps)(Home);

@@ -19,7 +19,6 @@
     "firebase": "^7.6.1",
     "moment": "^2.24.0",
     "react": "~16.9.0",
-    "react-moment": "^0.9.7",
     "react-native": "^0.61.5",
     "react-native-appearance": "^0.3.2",
     "react-native-gesture-handler": "~1.5.0",

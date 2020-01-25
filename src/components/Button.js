@@ -19,19 +19,26 @@ import { StyleSheet } from "react-native";
 import { Button as PaperButton } from "react-native-paper";
 import { theme } from "../core/theme";
 
+let hour = new Date().getHours();
+let borderWidthTemp = null;
+let borderColorTemp = null;
+(hour > 18 || hour < 6) ? (borderWidthTemp = .5, borderColorTemp = 'white') : null
+
 const Button = ({ mode, style, labelStyle, children, ...props }) => (
+
    <PaperButton
       mode={mode}
-      style={[
-         styles.button,
-         mode === "outlined" && { backgroundColor: theme.colors.surface },
-         style
-      ]}
-      labelStyle={[
-         styles.text,
-         mode === "contained" && { color: theme.colors.surface },
-         labelStyle
-      ]}
+      style={{
+         ...styles.button,
+         // mode === "outlined" && { backgroundColor: theme.colors.surface },
+         ...{ borderWidth: borderWidthTemp, borderColor: borderColorTemp },
+         ...style,
+      }}
+      labelStyle={{
+         ...styles.text,
+         // mode === "contained" && { color: theme.colors.surface },
+         ...labelStyle
+      }}
       {...props}
    >
       {children}

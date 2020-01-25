@@ -6,6 +6,8 @@ import { theme } from '../../core/theme';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import { units } from '../../core/untilities';
+import getPickups from '../../components/getPickups';
+import { updateScheduledPickups } from '../../redux/actions';
 
 const CancelModal = props => (
     <View style={styles.outerContainer}>
@@ -38,6 +40,7 @@ const CancelModal = props => (
                         onPress={() => {
                             props.setModalOpen(false);
                             props.setPage("home");
+                            getPickups(props.userData.uid, updateScheduledPickups);
                         }}
                         style={styles.yesButton}
                     // labelStyle={styles.buttonText}
@@ -97,12 +100,14 @@ const styles = StyleSheet.create({
     },
     yesButton: {
         width: "100%",
+        height: '100%',
         marginVertical: 10,
         backgroundColor: "red",
         borderRadius: 10
     },
     noButton: {
         width: "100%",
+        height: '100%',
         marginVertical: 10,
         backgroundColor: theme.colors.primary,
         borderRadius: 10
@@ -123,4 +128,14 @@ const styles = StyleSheet.create({
 
 })
 
-export default connect(null, null)(CancelModal);
+const mapStateToProps = state => {
+    return {
+        userData: state.userData
+    }
+}
+
+const mapDispatchToProps = {
+    updateScheduledPickups: updateScheduledPickups
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CancelModal);

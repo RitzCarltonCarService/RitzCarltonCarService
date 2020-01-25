@@ -3,11 +3,11 @@ import { View, StyleSheet, Image } from 'react-native'
 import { Modal, Portal } from 'react-native-paper';
 import { logoutUser } from '../core/auth-api';
 import { units } from '../core/untilities';
+import Main from '../layouts/Bread/Main';
 import Button from './Button';
 import MenuButton from '../components/MenuButton';
 import Paragragph from '../components/Paragraph';
 import TheWhiteBox from '../components/TheWhiteSquare';
-import Main from '../layouts/Bread/Main';
 
 const Bread = ({ visible, onDismiss, setPage, navigation }) => {
    const styles = StyleSheet.create({
@@ -62,7 +62,14 @@ const Bread = ({ visible, onDismiss, setPage, navigation }) => {
 
                   <Main _handleRequestPickup={_handleRequestPickup} />
 
-                  <Button mode={'text'} onPress={_handleLogout}>Logout</Button>
+                  <Button
+                     mode={'text'}
+                     style={{
+                        borderWidth: 0,
+                        borderColor: 'black'
+                     }}
+                     onPress={_handleLogout}
+                  >Logout</Button>
 
                   <View style={styles.logoWrapper}>
                      <Image

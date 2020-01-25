@@ -50,7 +50,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                         <React.Fragment>
                                             <TextInput style={{
                                                 width: 300,
-                                                paddingLeft: 40 
+                                                paddingLeft: '6%',
                                                 }}
                                                 label="From:"
                                                 editable={true}
@@ -64,7 +64,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                         <React.Fragment>
                                             <TextInput style={{
                                                 width: 300,
-                                                paddingLeft: 40 
+                                                paddingLeft: '6%' 
                                                 }}
                                                 label="From:"
                                                 editable={true}
@@ -80,7 +80,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                         <React.Fragment>
                                             <TextInput style={{
                                                 width: 300,
-                                                paddingLeft: 40 
+                                                paddingLeft: '6%' 
                                                 }}
                                                 label="From:"
                                                 editable={true}
@@ -104,15 +104,15 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                         <React.Fragment>
                                             <TextInput style={{
                                                 width: 300,
-                                                paddingLeft: 40 
+                                                paddingLeft: '6%' 
                                                 }}
                                                 label="To:"
-                                                placeholder="Where are you going?"
+                                                placeholder="Where are you going??"
+                                                onChangeText={() => changeToInput(true)}
                                                 editable={true}
                                                 defaultValue={inputValue}
                                                 value={props.toLocation}
                                                 onFocus={() => {setFocusedThing(2)}}
-                                                onChangeText={() => changeToInput(true)}
                                             />
                                         </React.Fragment>
                                     }
@@ -120,11 +120,12 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                         <React.Fragment>
                                             <TextInput style={{
                                                 width: 300,
-                                                paddingLeft: 40 
+                                                paddingLeft: '6%' 
                                                 }}
                                                 label="To:"
+                                                placeholder="Where are you going?"
                                                 editable={true}
-                                                autoFocus={true}
+                                                // autoFocus={true}
                                                 defaultValue={inputValue}
                                                 value={inputValue}
                                                 onFocus={() => {setFocusedThing(2)}}

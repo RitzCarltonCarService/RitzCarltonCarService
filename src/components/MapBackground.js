@@ -13,7 +13,7 @@
 import { connect } from 'react-redux';
 import { updateRideDuration, updateRideDistance } from '../redux/actions';
 import React, { memo, useRef } from 'react';
-import { StyleSheet, View, Keyboard } from 'react-native';
+import { StyleSheet, Keyboard } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions';
 import { aubergineMapStyle, silverMapStyle } from '../core/mapStyles';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';

@@ -22,6 +22,14 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
 
       if (status !== 'granted') {
+         Alert.alert(
+            'Please be Advised',
+            'This app will not work without location services enabled.',
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+        );
          setError('Permission to access location was denied');
       };
 

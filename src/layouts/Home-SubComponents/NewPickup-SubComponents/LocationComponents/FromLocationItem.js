@@ -13,15 +13,15 @@ class FromLocationItem extends PureComponent {
                         onPress={() => {
                             handlePress = async () => {
                                 const res = await fetchDetails(this.props.place_id);
-                                // console.log("These are the location's details: ", res);
                                 // Accessing lat/lng coordinates from API response
                                 const coords = res.geometry.location;
+                                console.log("These are the location's details: ", res.geometry.location);
                                 // Passing fromLocation's coordinates to Redux state
                                 this.props.updateFromLocation(coords); 
+                                this.props.updateFromState(res.formatted_address);
                             };
                             handlePress();
                             this.props.setFromValue();
-                            this.props.updateFromState(this.props.description);
                             this.props.clearFromSelections();
                         }}> 
                         <Text>{this.props.description}</Text>

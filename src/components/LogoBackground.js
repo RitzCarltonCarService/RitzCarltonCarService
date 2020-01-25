@@ -11,7 +11,6 @@
  *          (width and height) of the image will be equal to or less than the corresponding dimension of
  *          the view (minus padding).
  *       'stretch': Scale width and height independently, This may change the aspect ratio of the src.
- *       'stretch': Scale width and height independently, This may change the aspect ratio of the src.
  * @param {Object} imageStyles - Allows you to add more styling to the ImageBackground tag on top
  *    of the default ones.
  * @param {Object} containerStyles - Allows you to add more styling to the KeyboardAvoidingView tag
@@ -20,11 +19,7 @@
  */
 
 import React, { memo } from "react";
-import {
-   KeyboardAvoidingView,
-   ImageBackground,
-   StyleSheet,
-} from "react-native";
+import { KeyboardAvoidingView, ImageBackground, StyleSheet } from "react-native";
 
 const LogoBackground = ({ resizeMode = 'center', imageStyles, containerStyles, children }) => (
    <ImageBackground

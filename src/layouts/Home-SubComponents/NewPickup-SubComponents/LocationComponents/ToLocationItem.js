@@ -13,14 +13,15 @@ class ToLocationItem extends PureComponent {
                         onPress={() => {
                             handlePress = async () => {
                                 const res = await fetchDetails(this.props.place_id);
+                                // console.log("This is the response: ", res.formatted_address)
                                 // Accessing lat/lng coordinates from API response
                                 const coords = res.geometry.location;
-                                // console.log("These are the To coordinates: ", coords)
                                 // Passing fromLocation's coordinates to Redux state
                                 this.props.updateToLocation(coords); 
+                                // console.log("These are coords: ", coords);
+                                this.props.updateToState(res.formatted_address);
                             };
                             handlePress();
-                            this.props.updateToState(this.props.description);
                             this.props.clearToSelections();
                             // on selection of item, set view of Time/Date Picker to true
                             this.props.setToValue();

@@ -1,18 +1,41 @@
+import axios from 'axios';
 import React from 'react';
+import Moment from 'moment';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../../redux/actions';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { IconButton, Button as AccountButton } from 'react-native-paper';
-import dummyData from '../../../dummyData/dummy_pickup_data';
 import { State } from 'react-native-gesture-handler';
 import TheWhiteSquare from '../../../components/TheWhiteSquare';
+import getPickups from '../../../components/getPickups';
 import Logo from '../../../components/Logo';
 import Button from '../../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SummaryScreen = props => {
+    let momentJSdate = props.requestObject.time;
+    let pickUpData = {};
+    
+    pickUpData['hotelId'] = 1; // maybe change in the future!
+    pickUpData['startTime'] = props.requestObject.time; // maybe change in the future!
+    pickUpData['startAddress'] = props.requestObject.from;
+    pickUpData['startLat'] = props.requestObject.fromCoordinates.lat;
+    pickUpData['startLng'] = props.requestObject.fromCoordinates.lng;
+    pickUpData['endAddress'] = props.requestObject.to;
+    pickUpData['endLat'] = props.requestObject.toCoordinates.lat;
+    pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
+    pickUpData['passengerId'] = props.requestObject.userData.uid;
+
+    // console.log("This is the Pick Up data object: ", pickUpData);
+
+    // REMEMBER! The below might have to be added when Scheduled requests are for the same day
+    // if (props.immediateLocation) {
+    //     console.log("This is the newFromLocation: ", props.immediateLocation)
+    //     pickUpData['specifiedStartTime'] = null;
+    // }
+
     return (
-        <>
+        <View>
             <TheWhiteSquare height={70} style={{ borderWidth: 3 }}>
                 <View style={styles.requestScreen}>
                     <View style={styles.titleContainer}>
@@ -27,38 +50,70 @@ const SummaryScreen = props => {
                     <View style={styles.descriptor}>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Date: </Text>
-                            XX / XX / XXXX
+                            {Moment(momentJSdate).format("LLL")}
                     </Text>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Pick-Up Location: </Text>
-                            123 JONathan street how much will this hold
+                            {props.requestObject.from}
                     </Text>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Destination: </Text>
-                            143 Taylor Street Lorem Ipsum super long street name
+                            {props.requestObject.to}
                     </Text>
                     </View>
                     <View style={styles.carAndDriver}>
-                        <IconButton icon="car" size={50} color="black"></IconButton>
+                        <IconButton icon="briefcase" size={50} color="black"></IconButton>
                         <View>
-                            <Text style={{ fontWeight: "bold" }}>Your Car: </Text>
-                            <Text>
-                                <Text style={{ fontWeight: "bold" }}>Mercedes: </Text> A-Class Subcompact Luxury Hatchback/Sedan
-                        </Text>
+                            <Text style={{ fontWeight: "bold", fontSize: 16}}>Number of Bags: </Text>
+                            <Text style={styles.bagsAndPassengers}> {props.bags} </Text>
                         </View>
                     </View>
                     <View style={styles.carAndDriver}>
-                        <IconButton icon="account" size={50} color="black"></IconButton>
+                        <IconButton icon="account-group" size={50} color="black"></IconButton>
                         <View style={{ marginTop: "5%" }}>
-                            <Text style={{ fontWeight: "bold" }}>Your Driver: </Text>
-                            <Text>JONathan Keane </Text>
+                            <Text style={{ fontWeight: "bold", fontSize: 16}}>Number of Passengers: </Text>
+                            <Text style={styles.bagsAndPassengers}>{props.passengers}</Text>
                         </View>
                     </View>
                     <View style={styles.logoContainer}>
                         <Button
                             onPress={() => {
-                                props.updateScheduledPickups(dummyData);
-                                props.setPage("home");
+                                // Posting new ride request to the database
+                                axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/newPickup', {
+                                    pickupData: pickUpData
+                                })
+                                .then((response) => {
+                                    console.log("This is the response from the server", response.data)
+                                    if (response.data !== "Pickup added!") {
+                                        Alert.alert(
+                                            'No Drivers Available at this Time!',
+                                            'Please schedule a request at a later time.',
+                                            [
+                                                {text: 'Reschedule Now', onPress: () => {
+                                                    props.setPage("home");
+                                                }} 
+                                            ],
+                                            {cancelable: false},
+                                        );
+                                    } else {
+                                        Alert.alert(
+                                            'New Request Submitted - Driver Notified!',
+                                            'You will be notified when your driver is nearby.',
+                                            [
+                                                {text: 'OK', onPress: () => {
+                                                    // On submission of new scheduled ride, then repopulate Scheduled Pick-ups with data
+                                                    getPickups(props.userData.uid, props.updateScheduledPickups)
+                                                    props.setPage("home");
+                                                }} 
+                                            ],
+                                            {cancelable: false},
+                                        );
+                                    }
+                                })
+                                .catch((error) => {
+                                    props.setPage("home");
+                                    console.log(error);
+                                });
                             }}
                         >
                             Submit Ride Request
@@ -70,11 +125,11 @@ const SummaryScreen = props => {
                 </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
-                <Button onPress={() => { props.setForm(3) }}>
+                <Button onPress={() => { props.setForm(2) }}>
                     Back
                 </Button>
             </View>
-        </>
+        </View>
     )
 }
 
@@ -126,11 +181,17 @@ const styles = StyleSheet.create({
     buttonContainer: {
         top: "18%",
     },
+    bagsAndPassengers: {
+        fontWeight: "bold",
+        fontSize: 18, 
+        color: 'purple',
+    }
 })
 
 const mapStateToProps = state => {
     return {
-        nav: state.nav
+        nav: state.nav,
+        userData: state.userData
     }
 }
 

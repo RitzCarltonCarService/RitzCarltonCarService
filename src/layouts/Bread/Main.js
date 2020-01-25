@@ -21,7 +21,14 @@ const Main = ({ _handleRequestPickup }) => {
             style={styles.menuButton}
          ></MenuButton>
 
-         <Button mode={'text'} onPress={() => console.log('View Profile')}>View Profile</Button>
+         <Button
+            mode={'text'}
+            style={{
+               borderWidth: 0,
+               borderColor: 'black'
+            }}
+            onPress={() => console.log('View Profile')}
+         >View Profile</Button>
 
          <Header style={{ color: '#FFFFFF' }} onPress={_handleRequestPickup}>{`Request Pick-up`}</Header>
          <Header style={{ color: '#FFFFFF' }}>{`Ride History`}</Header>
