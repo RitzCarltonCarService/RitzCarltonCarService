@@ -128,4 +128,4 @@ const mapDispatchToProps = {
    updateRideDistance: updateRideDistance
 }
 
-export default connect(null, mapDispatchToProps)(memo(MapBackground));
+export default connect(null, mapDispatchToProps)(MapBackground);

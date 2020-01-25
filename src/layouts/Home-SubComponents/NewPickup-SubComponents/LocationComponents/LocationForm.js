@@ -228,7 +228,6 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                     </View>
                 </TouchableWithoutFeedback>
             )
-
         }
     } else {
         return (
