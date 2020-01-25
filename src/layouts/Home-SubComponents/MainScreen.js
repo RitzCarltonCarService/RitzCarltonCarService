@@ -7,10 +7,6 @@ import EntryListView from './MainScreen-SubComponents/EntryListView';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
-<<<<<<< HEAD
-import dummyData from '../../dummyData/dummy_pickup_data';
-=======
->>>>>>> 6e42e1c5697b3a909226cee05f835dd13c27e9f5
 
 const MainScreen = props => {
     // Hook for mounting initial From location of user
