@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import { theme } from "../core/theme";
 import Logo from "../components/Logo";
 import Header from "../components/Header";
 import Button from "../components/Button";

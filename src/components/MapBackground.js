@@ -24,9 +24,9 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
    let hour = new Date().getHours();
    let origin = {};
    let destination = {};
-   const GOOGLE_MAPS_APIKEY = '';
+   const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
    const refContainer = useRef(null);
-
+   
    if (fromLocation) {
       if (region.latitude !== fromLocation.lat && region.longitude !== fromLocation.lng) {
          origin['latitude'] = fromLocation.lat;
@@ -40,7 +40,7 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
    }
 
    // If there now exists a latitude or longitude coordinate inside of destination object, render Map with route
-   if (Object.keys(destination).length) {
+   if (destination.latitude !== undefined || destination.longitude !== undefined) {
       // dismissing keyboard after user has inputted new To and From location
       Keyboard.dismiss();
 

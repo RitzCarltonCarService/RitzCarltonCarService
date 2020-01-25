@@ -16,7 +16,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
     
-    const GOOGLE_MAPS_APIKEY = '';
+    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFromLocation] = useState(null);
@@ -218,6 +218,8 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                                 mode='contained'
                                 onPress={() => {
                                     props.setPage("home");
+                                    updateFromLocation(props.geoLocation)
+                                    updateToLocation(props.geoLocation)
                                     setFromLocation(null);
                                     setToLocation(null);
                                 }}
@@ -454,7 +456,6 @@ const styles2 = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    // console.log('This is state: ', state)
     return {
         geoLocation: state.geoLocation,
         userData: state.userData
@@ -463,6 +464,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     updateFromLocation: updateFromLocation,
+    updateToLocation: updateToLocation,
     updateScheduledPickups: updateScheduledPickups
 }
 

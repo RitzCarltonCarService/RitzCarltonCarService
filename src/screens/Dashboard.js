@@ -68,11 +68,14 @@ const styles = StyleSheet.create({
    }
 });
 
-const mapStateToProps = ({ geoLocation, userData, fromLocation, toLocation }) => ({
-   region: geoLocation,
-   userData: userData,
-   fromLocation: fromLocation,
-   toLocation: toLocation
-});
+const mapStateToProps = ({ geoLocation, userData, fromLocation, toLocation }) => {
+   console.log('This is toLocation Redux state in Dashboard: ', toLocation)
+   console.log('This is geoLocation in Redux state in Dashboard: ', geoLocation)
+   return {
+      region: geoLocation,
+      userData: userData,
+      fromLocation: fromLocation,
+      toLocation: toLocation
+}};
 
 export default connect(mapStateToProps)(Home);
