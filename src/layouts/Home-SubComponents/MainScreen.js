@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
         top: "20%"
     },
     logoContainer: {
-        height: "25%"
+        height: "25%",
+        top:"-3%",
     },
     buttonContainer: {
         top: "20%",

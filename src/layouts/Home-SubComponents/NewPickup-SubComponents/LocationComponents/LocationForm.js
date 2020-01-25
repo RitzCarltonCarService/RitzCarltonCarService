@@ -16,21 +16,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
     
-    // Rendering of DateTimePicker on Click of Next to select date and time
-    //  Adjust styling and rendering of this component !!!
-    
-    // If there is a From and a To location in state hooks, render Location page with two Text fields
-    //  that contain the To and From coordinates ---> allow both to be clickable and to return to original Location form 
-    //      ---> best way to transition on returning back to form
-    //  Also create a back button (arrow) to be placed to the left of the To and From location Text fields to
-    //      also navigate back to original Location form input fields
-    //  Then allow for Date/Time picker to show, and underneath create a Next and Back button
-    //      only enable Next button as clickable when a date in the future is selected
-    //  If the button "Schedule a Ride Now", do not display the Time/Date picker (set another hook to only render
-    //      selection input fields)
-    
-
-    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
+    const GOOGLE_MAPS_APIKEY = '';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFromLocation] = useState(null);
@@ -242,7 +228,6 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                     </View>
                 </TouchableWithoutFeedback>
             )
-
         }
     } else {
         return (
@@ -285,8 +270,6 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                             props.setPage("home");
                             setFromLocation(null);
                             setToLocation(null);
-                            updateFromLocation(null);
-                            updateToLocation(null);
                             getPickups(props.userData.uid, props.updateScheduledPickups);
                         }}
                     >

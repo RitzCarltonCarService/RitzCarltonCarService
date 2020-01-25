@@ -111,12 +111,14 @@ const styles = StyleSheet.create({
     },
     yesButton: {
         width: "100%",
+        height: '100%',
         marginVertical: 10,
         backgroundColor: "red",
         borderRadius: 10
     },
     noButton: {
         width: "100%",
+        height: '100%',
         marginVertical: 10,
         backgroundColor: theme.colors.primary,
         borderRadius: 10

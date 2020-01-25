@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateCurrentPickup } from '../../../redux/actions';
+import { updateCurrentPickup, updateToLocation, updateFromLocation } from '../../../redux/actions';
 import { View, Text, Image, StyleSheet, Platform, TouchableHighlight } from 'react-native';
 import Button from '../../../components/Button';
 import { theme } from '../../../core/theme';
@@ -31,8 +31,6 @@ const PickupEntry = props => {
         date = date.substring(0, 17) + "...";
     }
 
-    console.log(props.data)
-
     return (
         <TouchableHighlight
             underlayColor={"lightgray"}
@@ -40,7 +38,7 @@ const PickupEntry = props => {
             <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.text}>
-                    From: {to}
+                    From: {from}
                 </Text>
                 <Text style={styles.text}>
                     To: {to}
@@ -73,7 +71,18 @@ const PickupEntry = props => {
                         color: theme.colors.secondary,
                      }}
                      onPress={() => {
+                        let fromDestination = {};
+                        let toDestination = {};
+
+                        fromDestination['lat'] = props.data.startLat;
+                        fromDestination['lng'] = props.data.startLng;
+
+                        toDestination['lat'] = props.data.endLat;
+                        toDestination['lng'] = props.data.endLng; 
+
                         props.updateCurrentPickup(props.id);
+                        props.updateFromLocation(fromDestination);
+                        props.updateToLocation(toDestination);
                         props.setPage("pickup info");
                     }}
                 >
@@ -86,7 +95,9 @@ const PickupEntry = props => {
 }
 
 const mapDispatchToProps = {
-    updateCurrentPickup: updateCurrentPickup
+    updateCurrentPickup: updateCurrentPickup,
+    updateToLocation: updateToLocation,
+    updateFromLocation: updateFromLocation
 }
 
 export default connect(null, mapDispatchToProps)(PickupEntry);
