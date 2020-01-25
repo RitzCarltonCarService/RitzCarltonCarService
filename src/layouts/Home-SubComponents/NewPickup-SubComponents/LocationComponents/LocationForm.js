@@ -30,7 +30,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     //      selection input fields)
     
 
-    const GOOGLE_MAPS_APIKEY = '';
+    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFromLocation] = useState(null);
