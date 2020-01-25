@@ -125,7 +125,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                                 label="To:"
                                                 placeholder="Where are you going?"
                                                 editable={true}
-                                                autoFocus={true}
+                                                // autoFocus={true}
                                                 defaultValue={inputValue}
                                                 value={inputValue}
                                                 onFocus={() => {setFocusedThing(2)}}
