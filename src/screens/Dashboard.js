@@ -10,7 +10,7 @@ import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import MapBackground from '../components/MapBackground';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
 
-const Home = ({ region, userData, navigation }) => {
+const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
    const [page, setPage] = useState("home");
    // Boolean to indicate whether this is a scheduled ride or an immediate request
    const [scheduled, setScheduled] = useState(true);
@@ -28,8 +28,7 @@ const Home = ({ region, userData, navigation }) => {
 
    return (
       <>
-         <MapBackground region={region} />
-
+         <MapBackground region={region} fromLocation={fromLocation} toLocation={toLocation} />
          <View style={styles.container}>
             {(() => {
                switch (page) {
@@ -69,9 +68,12 @@ const styles = StyleSheet.create({
    }
 });
 
-const mapStateToProps = ({ geoLocation, userData }) => ({
-   region: geoLocation,
-   userData: userData,
-});
+const mapStateToProps = ({ geoLocation, userData, fromLocation, toLocation }) => {
+   return {
+      region: geoLocation,
+      userData: userData,
+      fromLocation: fromLocation,
+      toLocation: toLocation
+}};
 
 export default connect(mapStateToProps)(Home);

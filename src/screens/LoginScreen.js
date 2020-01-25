@@ -173,6 +173,8 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
             message={error}
             onDismiss={() => setError("")}
          />
+         
+         <BackButton goBack={() => navigation.navigate("HomeScreen")} />
       </>
    );
 };
