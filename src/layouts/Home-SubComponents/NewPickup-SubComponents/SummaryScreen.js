@@ -24,7 +24,7 @@ const SummaryScreen = props => {
     pickUpData['endAddress'] = props.requestObject.to;
     pickUpData['endLat'] = props.requestObject.toCoordinates.lat;
     pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
-    pickUpData['passengerId'] = props.requestObject.userData.uid;
+    pickUpData['passengerId'] = props.userData.uid;
 
     // console.log("This is the Pick Up data object: ", pickUpData);
 

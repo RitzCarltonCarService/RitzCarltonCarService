@@ -25,23 +25,6 @@ let borderColorTemp = null;
 (hour > 18 || hour < 6) ? (borderWidthTemp = .5, borderColorTemp = 'white') : null
 
 const Button = ({ mode, style, labelStyle, children, ...props }) => (
-<<<<<<< HEAD
-   
-   <PaperButton
-      mode={mode}
-      style={[
-         styles.button,
-         mode === "outlined" && { backgroundColor: theme.colors.surface },
-         style,
-         style={ borderWidth: borderWidthTemp, borderColor: borderColorTemp}
-      ]}
-      // {hour > 18 || hour < 6 ?  style= {borderWidth: 0.5, borderColor: 'white'}}
-      labelStyle={[
-         styles.text,
-         mode === "contained" && { color: theme.colors.surface },
-         labelStyle
-      ]}
-=======
 
    <PaperButton
       mode={mode}
@@ -56,7 +39,6 @@ const Button = ({ mode, style, labelStyle, children, ...props }) => (
          // mode === "contained" && { color: theme.colors.surface },
          ...labelStyle
       }}
->>>>>>> 6ecd82d853a6b9ec2a168295f015d6b9e9d0c07c
       {...props}
    >
       {children}

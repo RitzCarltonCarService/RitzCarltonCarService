@@ -10,7 +10,7 @@ import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import MapBackground from '../components/MapBackground';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
 
-const Home = ({ region, userData, navigation }) => {
+const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
    const [page, setPage] = useState("home");
    // Boolean to indicate whether this is a scheduled ride or an immediate request
    const [scheduled, setScheduled] = useState(true);
@@ -68,7 +68,9 @@ const styles = StyleSheet.create({
    }
 });
 
-const mapStateToProps = ({ geoLocation, userData }) => ({
+const mapStateToProps = ({ geoLocation, userData, toLocation, fromLocation }) => ({
+   fromLocation: fromLocation,
+   toLocation: toLocation,
    region: geoLocation,
    userData: userData,
 });
