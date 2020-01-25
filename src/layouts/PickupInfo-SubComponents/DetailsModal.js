@@ -29,8 +29,10 @@ const DetailsModal = props => {
                             <Text style={{ fontWeight: "bold" }}>Departure Time: </Text>
                             <Text>{dateParser.getTimeFromDate(props.pickup.estimatedStartTime)}</Text>
                         </Text>
-                        <Text style={{ fontWeight: "bold" }}>Estimated Arrival Time: </Text>
-                        <Text>{dateParser.getTimeFromDate(props.pickup.estimatedEndTime)}</Text>
+                        <Text>
+                            <Text style={{ fontWeight: "bold" }}>Estimated Arrival Time: </Text>
+                            <Text>{dateParser.getTimeFromDate(props.pickup.estimatedEndTime)}</Text>
+                        </Text>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Pick-Up Location: </Text>
                             <Text>{props.pickup.startAddress}</Text>

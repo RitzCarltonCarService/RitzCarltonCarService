@@ -56,7 +56,6 @@ const Home = ({ region, userData, navigation }) => {
             message={toast.value}
             onDismiss={() => setToast({ value: "", type: "" })}
          />
-
          <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
       </>
    );

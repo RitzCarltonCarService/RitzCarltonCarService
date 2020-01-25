@@ -8,6 +8,7 @@ import Logo from '../../components/Logo';
 import { units } from '../../core/untilities';
 import getPickups from '../../components/getPickups';
 import { updateScheduledPickups } from '../../redux/actions';
+import axios from 'axios';
 
 const CancelModal = props => (
     <View style={styles.outerContainer}>
@@ -38,9 +39,17 @@ const CancelModal = props => (
                 <View style={styles.button}>
                     <Button
                         onPress={() => {
-                            props.setModalOpen(false);
-                            props.setPage("home");
-                            getPickups(props.userData.uid, updateScheduledPickups);
+                            axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/deletePickup', {
+                                id: props.id
+                            })
+                                .then(() => {
+                                    props.setModalOpen(false);
+                                    props.setPage("home");
+                                })
+                                .catch(() => {
+                                    props.setModalOpen(false);
+                                    props.setPage("home");
+                                })
                         }}
                         style={styles.yesButton}
                     // labelStyle={styles.buttonText}

@@ -26,7 +26,7 @@ const PrePickupInfo = props => {
 
             <View style={styles.pickupTimeContainer}>
                 <Text style={styles.bannerText}>
-                    Departure Time:  {dateParser.getTimeFromDate(pickup.estimatedStartTime)}
+                    Departure Time: {dateParser.getTimeFromDate(pickup.estimatedStartTime)}
                 </Text>
             </View>
 
@@ -61,7 +61,7 @@ const PrePickupInfo = props => {
                     <Modal
                         visible={modalOpen}
                     >
-                        <CancelModal setModalOpen={setModalOpen} setPage={props.setPage} />
+                        <CancelModal setModalOpen={setModalOpen} setPage={props.setPage} id={pickup.id} />
                     </Modal>
                 </Portal>
             </Provider>
