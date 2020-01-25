@@ -1,32 +1,11 @@
 import React, { memo } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import { logoutUser } from '../core/auth-api';
-import { vw } from 'react-native-viewport-units';
-import Header from '../components/Header';
-import Button from './Button';
-import MenuButton from '../components/MenuButton';
-import Paragragph from '../components/Paragraph';
-import TheWhiteBox from '../components/TheWhiteSquare';
+import { StyleSheet } from 'react-native';
+import Header from '../../components/Header';
+import Button from '../../components/Button';
+import MenuButton from '../../components/MenuButton';
 
-const Main = () => {
+const Main = ({ _handleRequestPickup }) => {
    const styles = StyleSheet.create({
-      logoWrapper: {
-         flexDirection: 'row',
-         alignItems: 'center'
-      },
-      paragragph: {
-         textAlign: 'left',
-         width: 100
-      },
-      theWhiteBox: {
-         justifyContent: 'space-between',
-         right: (vw * 8),
-         backgroundColor: '#000000'
-      },
-      image: {
-         width: 128,
-         height: 128
-      },
       menuButton: {
          position: 'relative',
       }

@@ -1,15 +1,15 @@
-/*
+/**
  * The TextInput is just a react-native-paper Input tag with some universal styling.
  * https://callstack.github.io/react-native-paper/text-input.html
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Params ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * @mode - TYPE: 'flat | 'outlined', DEFAULT VALUE: 'outlined', DESC: Mode of the TextInput.
+ * @param {'flat' | 'outlined'} mode - Mode of the TextInput.
  *    'flat' - flat input with an underline.
  *    'outlined' - input with an outline.
- * @containerStyle - TYPE: Object, DESC: Extra styles for the View Tag that wraps the Input and Error tags
- * @style - TYPE: Object, DESC: Extra styles for the Input Tag if needed
- * @errorText - TYPE: String, DESC: The error text used for error handling
- * @props - Any other props that the Input Tag might take that you need will be passed in here,
- *          Please see the react-native-paper TextInput Docs for a full list of props
+ * @param {Object} containerStyle - Extra styles for the View Tag that wraps the Input and Error tags
+ * @param {Object} style - Extra styles for the Input Tag if needed
+ * @param {String} errorText - The error text used for error handling
+ * @param {Any} props - Any other props that the Input Tag might take that you need will be passed
+ *    in here, Please see the react-native-paper TextInput Docs for a full list of props
  */
 
 import React, { memo } from "react";

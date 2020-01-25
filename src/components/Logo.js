@@ -1,10 +1,10 @@
-/*
+/**
  * The Header is just a Image tag with some universal styling.
  * https://facebook.github.io/react-native/docs/images#__docusaurus
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Params ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * @style - TYPE: Object, DESC: Extra styles for the Text Tag
- * @props - Any other props that the Text Tag might take that you need will be passed in here,
- *          Please see the Image Docs for a full list of props
+ * @param {Object} style - Extra styles for the Text Tag
+ * @param {Any} props - Any other props that the Text Tag might take that you need will be passed
+ *    in here, Please see the Image Docs for a full list of props
  */
 
 import React, { memo } from 'react';

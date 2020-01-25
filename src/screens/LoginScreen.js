@@ -5,6 +5,7 @@ import { setUserData } from "../redux/actions";
 import { loginUser } from '../core/auth-api';
 import { connect } from 'react-redux';
 import { theme } from "../core/theme";
+import axios from 'axios';
 import Logo from "../components/Logo";
 import Toast from "../components/Toast";
 import Header from "../components/Header";

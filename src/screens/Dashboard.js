@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { vh, vw } from 'react-native-viewport-units';
+import { units } from '../core/untilities';
 import Bread from '../components/Bread';
 import Toast from '../components/Toast';
 import NewPickup from '../layouts/Home-SubComponents/NewPickup';
@@ -29,7 +29,6 @@ const Home = ({ region, userData, navigation }) => {
    return (
       <>
          <MapBackground region={region} />
-         <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
 
          <View style={styles.container}>
             {(() => {
@@ -57,14 +56,16 @@ const Home = ({ region, userData, navigation }) => {
             message={toast.value}
             onDismiss={() => setToast({ value: "", type: "" })}
          />
+
+         <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
       </>
    );
 };
 
 const styles = StyleSheet.create({
    container: {
-      height: 100 * vh,
-      width: 100 * vw,
+      height: 100 * units.vh,
+      width: 100 * units.vw,
       alignItems: "center"
    }
 });

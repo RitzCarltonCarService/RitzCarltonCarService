@@ -55,8 +55,6 @@ const RegisterScreen = ({ region, navigation, dispatch }) => {
          phoneNumber: response.user.phoneNumber,
       };
 
-      console.log('API post data: ', test);
-
       await axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/signup', test);
 
       dispatch(setUserData({

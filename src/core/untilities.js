@@ -1,3 +1,13 @@
+import React from 'react-native';
+const { width, height } = React.Dimensions.get('window');
+
+export const units = {
+   vw: width / 100,
+   vh: height / 100,
+   vmin: Math.min(width / 100, height / 100),
+   vmax: Math.max(width / 100, height / 100),
+};
+
 export const emailValidator = email => {
    const regEx = /\S+@\S+\.\S+/;
 
