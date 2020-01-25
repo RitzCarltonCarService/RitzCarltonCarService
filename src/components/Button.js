@@ -1,17 +1,17 @@
-/*
+/**
  * The Button component is just a react-native-paper button with some universal styling.
  * react-native-paper button docs: https://callstack.github.io/react-native-paper/button.html
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Params ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * @mode - TYPE: 'text' | 'outlined' | 'contained', DESC: Mode of the button. You can change the mode to adjust the styling
- *         to give it desired emphasis.
- *    'text' - flat button without background or outline (low emphasis)
- *    'outlined' - button with an outline (medium emphasis)
- *    'contained' - button with a background color and elevation shadow (high emphasis)
- * @style - TYPE: Object, DESC: Allows you to add more styling to the button on top of the default ones
- * @labelStyle - TYPE: Object, DESC: Allows you to add more styling to the text on top of the default ones
- * @children (Required) - TYPE: String, DESC: Label text of the button
- * @props - TYPE: Varied, DESC: Any other react-native-paper button props,
- *          please see the react-native-paper button docs for a full list of the other availible props
+ * @param {'text' | 'outlined' | 'contained'} mode - Mode of the button. You can change the mode
+ *    to adjust the styling to give it desired emphasis.
+ *       'text' - flat button without background or outline (low emphasis)
+ *       'outlined' - button with an outline (medium emphasis)
+ *       'contained' - button with a background color and elevation shadow (high emphasis)
+ * @param {Object} style - Allows you to add more styling to the button on top of the default ones
+ * @param {Object} labelStyle - Allows you to add more styling to the text on top of the default ones
+ * @param {String} children (Required) - Label text of the button
+ * @param {Any} props - Any other react-native-paper button props, please see the react-native-paper
+ *    button docs for a full list of the other availible props
  */
 
 import React, { memo } from "react";
@@ -25,6 +25,7 @@ let borderColorTemp = null;
 (hour > 18 || hour < 6) ? (borderWidthTemp = .5, borderColorTemp = 'white') : null
 
 const Button = ({ mode, style, labelStyle, children, ...props }) => (
+<<<<<<< HEAD
    
    <PaperButton
       mode={mode}
@@ -40,6 +41,22 @@ const Button = ({ mode, style, labelStyle, children, ...props }) => (
          mode === "contained" && { color: theme.colors.surface },
          labelStyle
       ]}
+=======
+
+   <PaperButton
+      mode={mode}
+      style={{
+         ...styles.button,
+         // mode === "outlined" && { backgroundColor: theme.colors.surface },
+         ...{ borderWidth: borderWidthTemp, borderColor: borderColorTemp },
+         ...style,
+      }}
+      labelStyle={{
+         ...styles.text,
+         // mode === "contained" && { color: theme.colors.surface },
+         ...labelStyle
+      }}
+>>>>>>> 6ecd82d853a6b9ec2a168295f015d6b9e9d0c07c
       {...props}
    >
       {children}
