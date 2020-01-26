@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect } from "react";
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { navigate, toHome } from '../redux/actions';
 import { View, StyleSheet } from 'react-native';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
@@ -13,22 +14,61 @@ const DriverDash = props => {
    const [veil, setVeil] = useState("schedule");
    const [visible, setVisibility] = useState(false);
 
+   const initialGet = function () {
+      // [ 
+      //    { 
+      //       id (int),
+      //       carId (int),
+      //       startTime (datetime),
+      //       endTime (dateTime), 
+      //       pickup: [{ 
+      //          id,
+      //          availabilityId,
+      //          passengerId,
+      //          startAddress,
+      //          startLat,
+      //          startLng,
+      //          endAddress,
+      //          endLat,
+      //          endLng,
+      //          estimatedStartTime,
+      //          estimatedEndTime
+      //       }, ...]
+      //    } 
+      // ]
+      axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getShifts', {
+         params: {
+            id: props.userData.uid
+         }
+      })
+      .then((response) => {
+         if (response.data) {
+            console.log(response.data)
+         } else {
+            console.log("no data received")
+         }
+      })
+      .catch((error) => {
+         console.log(error);
+      });
+   };
    return (
+      // initialGet() ----------------------------------------- uncomment when working to
       <>
       <View style={styles.container}>
          {(() => {
             switch (veil) {
                case "Schedule":
                   return (
-                        <DriveSched setVeil={setVeil} />
+                        <DriveSched />
                   )
                case "Clock":
                   return (
-                        <DriveClock setVeil={setVeil} />
+                        <DriveClock />
                   )
                default:
                   return (
-                        <DriveClock setVeil={setVeil} />
+                        <DriveClock />
                   )
             }
          })()}

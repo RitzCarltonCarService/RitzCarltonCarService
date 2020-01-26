@@ -49,6 +49,7 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
          email: response.email,
          phoneNumber: response.phoneNumber,
          photoURL: response.photoURL,
+         userType: response.type,
       }));
 
       setLoading(false);
@@ -59,12 +60,12 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
       };
 
       //implements new testing variable worker
-      if (!worker) {
+      if (response.type === "client") {
          navigation.navigate("Dashboard");
       };
 
       //redirects drivers to a different screen than customers
-      if (worker) {
+      if (response.type === "driver") {
          navigation.navigate("DriverDash");
       };
    };
