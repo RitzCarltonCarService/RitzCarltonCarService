@@ -86,9 +86,9 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                   refContainer.current.fitToCoordinates(result.coordinates, {
                      edgePadding: {
                         right: 15 * units.vw,
-                        bottom: 100 * units.vh,
+                        bottom: 40 * units.vh,
                         left: 15 * units.vw,
-                        top: 100 * units.vh
+                        top: 40 * units.vh
                      }
                   });
                }}

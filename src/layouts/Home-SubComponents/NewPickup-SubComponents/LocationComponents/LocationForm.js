@@ -94,6 +94,8 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                                 <TouchableOpacity style={styles2.fromAddress}
                                     onPress={() => {
                                         setFromLocation(null);
+                                         // reseting the To Location to move back to Location selection
+                                         updateToLocation(null);
                                     }}>
                                     <Text numberOfLines={1}>
                                         {fromLocation}
@@ -101,6 +103,8 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles2.toAddress}
                                     onPress={() => {
+                                        // reseting the To Location to move back to Location selection
+                                        updateToLocation(null);
                                         setToLocation(null);
                                     }}>
 
