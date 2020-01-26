@@ -15,7 +15,7 @@ import BackButton from "../components/BackButton";
 import MapBackground from "../components/MapBackground";
 import TheWhiteSquare from '../components/TheWhiteSquare';
 
-const worker = true;
+const worker = false;
 
 const LoginScreen = ({ region, navigation, dispatch }) => {
    const [animationData, setAnimationData] = useState({ height: 72, top: 13 });

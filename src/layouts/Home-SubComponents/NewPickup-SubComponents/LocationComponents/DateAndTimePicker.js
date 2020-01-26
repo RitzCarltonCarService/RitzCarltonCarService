@@ -17,7 +17,9 @@ const DateAndTimePicker = props => {
   const [modalView, setmodalView] = useState(true);
 
   const dateAlert = (selectedDate) => {
+    console.log("This is the selectedDate: ", selectedDate);
     let today = new Date();
+    console.log("This is the current date of today: ", today)
     if (selectedDate < today) {
         Alert.alert(
             'We\'re Sorry!',
@@ -29,6 +31,7 @@ const DateAndTimePicker = props => {
           );
           return false
         } else {
+          console.log("The date selected is larger")
           return true
         }
     }
@@ -93,16 +96,6 @@ const DateAndTimePicker = props => {
         />
       )}
 
-      {props.currentAndroidDate === null && (
-        <DateTimePickerModal
-          isVisible={true}
-          mode={mode}
-          display="spinner"
-          onConfirm={handleAndroidDate}
-          onCancel={hideDatePicker}
-        />
-      )}
-
       {props.rideAndroidTime === null && (
         <DateTimePickerModal
           isVisible={true}
@@ -110,9 +103,19 @@ const DateAndTimePicker = props => {
           datePickerMode
           display="clock"
           onConfirm={handleAndroidTime}
-          onCancel={hideDatePicker}
         />
       )}
+
+      {/* {props.currentAndroidDate === null && (
+        <DateTimePickerModal
+          isVisible={true}
+          mode={mode}
+          display="default"
+          onConfirm={handleAndroidDate}
+          onCancel={hideDatePicker}
+        />
+      )} */}
+
     </>
   )
 }
