@@ -49,9 +49,6 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
          params: { id: response.user.uid },
       });
 
-      console.log('Login Firebase reponse: ', response.user);
-      console.log('Login DB reponse: ', databaseResponse.data);
-
       dispatch(setUserData({
          uid: response.user.uid,
          displayName: response.user.displayName,
@@ -177,6 +174,8 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
             message={error}
             onDismiss={() => setError("")}
          />
+
+         <BackButton goBack={() => navigation.navigate("HomeScreen")} />
       </>
    );
 };

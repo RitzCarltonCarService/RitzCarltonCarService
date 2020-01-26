@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React from 'react';
+import React, { memo } from 'react';
 import Moment from 'moment';
 import { connect } from 'react-redux';
-import { updateScheduledPickups } from '../../../redux/actions';
+import { updateScheduledPickups, updateToLocation, updateFromLocation } from '../../../redux/actions';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { IconButton, Button as AccountButton } from 'react-native-paper';
 import { State } from 'react-native-gesture-handler';
@@ -24,15 +24,16 @@ const SummaryScreen = props => {
     pickUpData['endAddress'] = props.requestObject.to;
     pickUpData['endLat'] = props.requestObject.toCoordinates.lat;
     pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
-    pickUpData['passengerId'] = props.requestObject.userData.uid;
-
-    // console.log("This is the Pick Up data object: ", pickUpData);
+    pickUpData['passengerId'] = props.userData.uid;
 
     // REMEMBER! The below might have to be added when Scheduled requests are for the same day
     // if (props.immediateLocation) {
     //     console.log("This is the newFromLocation: ", props.immediateLocation)
     //     pickUpData['specifiedStartTime'] = null;
     // }
+
+    // Setting totalPassengers with a default of 1 if there are not other travelers with resident
+    let totalPassengers = 1 + parseInt(props.passengers);
 
     return (
         <View>
@@ -72,7 +73,7 @@ const SummaryScreen = props => {
                         <IconButton icon="account-group" size={50} color="black"></IconButton>
                         <View style={{ marginTop: "5%" }}>
                             <Text style={{ fontWeight: "bold", fontSize: 16}}>Number of Passengers: </Text>
-                            <Text style={styles.bagsAndPassengers}>{props.passengers}</Text>
+                            <Text style={styles.bagsAndPassengers}>{totalPassengers}</Text>
                         </View>
                     </View>
                     <View style={styles.logoContainer}>
@@ -83,14 +84,21 @@ const SummaryScreen = props => {
                                     pickupData: pickUpData
                                 })
                                 .then((response) => {
-                                    console.log("This is the response from the server", response.data)
                                     if (response.data !== "Pickup added!") {
                                         Alert.alert(
                                             'No Drivers Available at this Time!',
                                             'Please schedule a request at a later time.',
                                             [
                                                 {text: 'Reschedule Now', onPress: () => {
+                                                    // Reset both the From and To Locations to be the same
+                                                    let resetOrigin = {};
+                                                    resetOrigin['lat'] = props.geoLocation.latitude;
+                                                    resetOrigin['lng'] = props.geoLocation.longitude; 
+                                                    
+                                                    getPickups(props.userData.uid, props.updateScheduledPickups);
                                                     props.setPage("home");
+                                                    props.updateToLocation(null);
+                                                    props.updateFromLocation(resetOrigin);
                                                 }} 
                                             ],
                                             {cancelable: false},
@@ -102,8 +110,15 @@ const SummaryScreen = props => {
                                             [
                                                 {text: 'OK', onPress: () => {
                                                     // On submission of new scheduled ride, then repopulate Scheduled Pick-ups with data
-                                                    getPickups(props.userData.uid, props.updateScheduledPickups)
+                                                    // Reset both the From and To Locations to be the same
+                                                    let resetOrigin = {};
+                                                    resetOrigin['lat'] = props.geoLocation.latitude;
+                                                    resetOrigin['lng'] = props.geoLocation.longitude; 
+                                                    
+                                                    getPickups(props.userData.uid, props.updateScheduledPickups);
                                                     props.setPage("home");
+                                                    props.updateToLocation(null);
+                                                    props.updateFromLocation(resetOrigin);
                                                 }} 
                                             ],
                                             {cancelable: false},
@@ -191,14 +206,20 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         nav: state.nav,
-        userData: state.userData
+        userData: state.userData,
+        fromLocation: state.fromLocation,
+        toLocation: state.toLocation,
+        geoLocation: state.geoLocation
     }
 }
 
 const mapDispatchToProps = {
+    updateScheduledPickups: updateScheduledPickups,
+    updateFromLocation: updateFromLocation,
+    updateToLocation: updateToLocation,
     updateScheduledPickups: updateScheduledPickups
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SummaryScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(memo(SummaryScreen));
 
 
