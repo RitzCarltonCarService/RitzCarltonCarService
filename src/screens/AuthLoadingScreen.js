@@ -26,10 +26,10 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
             'Please be Advised',
             'This app will not work without location services enabled.',
             [
-                { text: 'OK', onPress: () => console.log('OK Pressed') },
+               { text: 'OK', onPress: () => console.log('OK Pressed') },
             ],
             { cancelable: false },
-        );
+         );
          setError('Permission to access location was denied');
       };
 
@@ -39,11 +39,13 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
    firebase.auth().onAuthStateChanged(user => {
       // User is logged in
       if (user) {
+         console.log('Firebase user object:', user)
          try {
             axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/login', {
                params: { id: user.uid },
             })
                .then((result) => {
+                  console.log('Database result data:', result.data);
                   dispatch(setUserData({
                      uid: user.uid,
                      displayName: user.displayName,
