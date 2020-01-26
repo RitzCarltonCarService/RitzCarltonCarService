@@ -15,7 +15,7 @@ import BackButton from "../components/BackButton";
 import MapBackground from "../components/MapBackground";
 import TheWhiteSquare from '../components/TheWhiteSquare';
 
-const worker = true;
+const worker = false;
 
 const LoginScreen = ({ region, navigation, dispatch }) => {
    const [animationData, setAnimationData] = useState({ height: 72, top: 13 });
@@ -44,16 +44,18 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
          password: password.value
       });
 
+
       const databaseResponse = await axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/login', {
-         id: response.uid
+         params: { id: response.user.uid },
       });
 
       dispatch(setUserData({
-         uid: response.uid,
-         displayName: response.displayName,
-         email: response.email,
-         phoneNumber: response.phoneNumber,
-         photoURL: response.photoURL,
+         uid: response.user.uid,
+         displayName: response.user.displayName,
+         email: response.user.email,
+         phoneNumber: response.user.phoneNumber,
+         photoURL: response.user.photoURL,
+         userType: response.user.type,
          ...databaseResponse.data
       }));
 
@@ -65,12 +67,12 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
       };
 
       //implements new testing variable worker
-      if (!worker) {
+      if (response.user.type === "client") {
          navigation.navigate("Dashboard");
       };
 
       //redirects drivers to a different screen than customers
-      if (worker) {
+      if (response.user.type === "driver") {
          navigation.navigate("DriverDash");
       };
    };
@@ -173,7 +175,7 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
             message={error}
             onDismiss={() => setError("")}
          />
-         
+
          <BackButton goBack={() => navigation.navigate("HomeScreen")} />
       </>
    );

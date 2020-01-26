@@ -1,41 +1,41 @@
 export const appointments = [
   {
-    title: "Website Re-Design Plan",
+    title: "Sharadons - Shopping",
     startDate: new Date(2020, 1, 25, 9, 30),
     endDate: new Date(2020, 1, 25, 11, 30),
     id: 0,
     location: "Room 1"
   },
   {
-    title: "Book Flights to San Fran for Sales Trip",
+    title: "Mr. Mitchell - San Fran for Sales",
     startDate: new Date(2020, 1, 25, 12, 0),
     endDate: new Date(2020, 1, 25, 13, 0),
     id: 1,
     location: "Room 1"
   },
   {
-    title: "Install New Router in Dev Room",
+    title: "Mr. Mitchell - Jersey",
     startDate: new Date(2020, 1, 25, 14, 30),
     endDate: new Date(2020, 1, 25, 15, 30),
     id: 2,
     location: "Room 2"
   },
   {
-    title: "Approve Personal Computer Upgrade Plan",
+    title: "Mrs. Donald - Dinner",
     startDate: new Date(2020, 1, 26, 10, 0),
     endDate: new Date(2020, 1, 26, 11, 0),
     id: 3,
     location: "Room 2"
   },
   {
-    title: "Final Budget Review",
+    title: "Mr. Mitchell - San Fran for Sales",
     startDate: new Date(2020, 1, 26, 12, 0),
     endDate: new Date(2020, 1, 26, 13, 35),
     id: 4,
     location: "Room 2"
   },
   {
-    title: "New Brochures",
+    title: "Mr. Mitchell - San Fran for Sales",
     startDate: new Date(2020, 1, 26, 14, 30),
     endDate: new Date(2020, 1, 26, 15, 45),
     id: 5,

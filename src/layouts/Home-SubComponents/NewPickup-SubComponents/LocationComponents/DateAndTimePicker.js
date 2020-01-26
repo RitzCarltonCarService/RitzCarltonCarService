@@ -61,22 +61,17 @@ const DateAndTimePicker = props => {
 
   const handleIoSConfirm = date => {
     if (dateAlert(date)) {
-      hideDatePicker();
       props.setIoSDate(date);
+      hideDatePicker(date);
     }
   };
 
   const handleAndroidDate = date => {
+    console.log("This is the date: ", date)
     if (dateAlert(date)) {
       props.setAndroidDate(date);
-      setMode('time')
-      hideDatePicker();
+      hideDatePicker(date);
     }
-  };
-
-  const handleAndroidTime = time => {
-    props.setAndroidTime(time);
-    hideDatePicker();
   };
 
   return ( 
@@ -87,29 +82,16 @@ const DateAndTimePicker = props => {
           cancelTextIOS="Cancel"
           isVisible={isDatePickerVisible}
           mode="datetime"
-          display="default"
           onConfirm={handleIoSConfirm}
           onCancel={hideDatePicker}
         />
       )}
 
-      {props.currentAndroidDate === null && (
+      {Platform.OS === 'android' && (
         <DateTimePickerModal
-          isVisible={true}
-          mode={mode}
-          display="spinner"
+          isVisible={isDatePickerVisible}
+          mode="datetime"
           onConfirm={handleAndroidDate}
-          onCancel={hideDatePicker}
-        />
-      )}
-
-      {props.rideAndroidTime === null && (
-        <DateTimePickerModal
-          isVisible={true}
-          mode={mode}
-          datePickerMode
-          display="clock"
-          onConfirm={handleAndroidTime}
           onCancel={hideDatePicker}
         />
       )}

@@ -85,10 +85,10 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                   // refContainer.current.fitToElements(true);
                   refContainer.current.fitToCoordinates(result.coordinates, {
                      edgePadding: {
-                        right: 100,
-                        bottom: 300,
-                        left: 100,
-                        top: 300
+                        right: 15 * units.vw,
+                        bottom: 40 * units.vh,
+                        left: 15 * units.vw,
+                        top: 40 * units.vh
                      }
                   });
                }}
