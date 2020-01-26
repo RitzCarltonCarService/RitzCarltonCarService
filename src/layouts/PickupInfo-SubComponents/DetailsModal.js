@@ -47,7 +47,7 @@ const DetailsModal = props => {
                         <View>
                             <Text style={{ fontWeight: "bold" }}>Your Car: </Text>
                             <Text>
-                                <Text style={{ fontWeight: "bold" }}>Mercedes: </Text> A-Class Subcompact Luxury Hatchback/Sedan
+                                {props.pickup.carType}
                             </Text>
                         </View>
                     </View>
@@ -55,7 +55,7 @@ const DetailsModal = props => {
                         <IconButton icon="account" size={50} color="black"></IconButton>
                         <View style={{ marginTop: "5%" }}>
                             <Text style={{ fontWeight: "bold" }}>Your Driver: </Text>
-                            <Text>John Doe</Text>
+                            <Text>{props.pickup.driverName}</Text>
                         </View>
                     </View>
                     <View style={styles.logoBox}>
