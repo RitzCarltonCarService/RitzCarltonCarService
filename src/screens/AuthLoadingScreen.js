@@ -66,18 +66,14 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
                         }));
                         
                         //implements new testing variable worker
-                        if (user.type === "client") {
+                        if (result.data.type === "resident") {
                            navigation.navigate("Dashboard");
                         };
 
                         //redirects drivers to a different screen than customers
-                        if (user.type === "driver") {
+                        if (result.data.type === "driver") {
                            navigation.navigate("DriverDash");
                         };
-
-                        if(!user.type) {
-                           navigation.navigate("DriverDash");
-                        }
                      });
                });
          } catch (error) {

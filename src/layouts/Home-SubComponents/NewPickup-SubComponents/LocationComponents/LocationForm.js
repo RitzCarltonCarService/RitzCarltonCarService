@@ -11,12 +11,13 @@ import DateAndTimePicker from './DateAndTimePicker.js';
 import LocationMapView from './LocationMapView.js';
 import getPickups from '../../../../components/getPickups';
 import { updateScheduledPickups } from '../../../../redux/actions';
+import { units } from "../../../../core/untilities.js";
 
 const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
     
-    const GOOGLE_MAPS_APIKEY = '';
+    const GOOGLE_MAPS_APIKEY = 'AIzaSyBpktIvH-LC6Pwrp0ShC7NbjH5AqoySf8s';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFromLocation] = useState(null);
@@ -93,6 +94,8 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                                 <TouchableOpacity style={styles2.fromAddress}
                                     onPress={() => {
                                         setFromLocation(null);
+                                         // reseting the To Location to move back to Location selection
+                                         updateToLocation(null);
                                     }}>
                                     <Text numberOfLines={1}>
                                         {fromLocation}
@@ -100,6 +103,8 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles2.toAddress}
                                     onPress={() => {
+                                        // reseting the To Location to move back to Location selection
+                                        updateToLocation(null);
                                         setToLocation(null);
                                     }}>
 
@@ -342,7 +347,8 @@ const styles2 = StyleSheet.create({
     },
     mapAndAddressBox: {
         flex: 1,
-        width: 500,
+        top: 7.5 * units.vh,
+        width: 2 * units.vw,
         marginVertical: 20,
         maxHeight: 75,
         alignItems: 'center',
@@ -391,8 +397,8 @@ const styles2 = StyleSheet.create({
     timeAndDateBox: {
         flex: 1,
         top: '50%',
-        width: 500,
-        maxHeight: 200,
+        width: 100 * units.vw,
+        maxHeight: 30 * units.vh,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: 'gray',
