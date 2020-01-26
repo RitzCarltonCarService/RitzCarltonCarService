@@ -10,7 +10,7 @@ import DriveClock from '../layouts/Driver-Clock-Component/DriveClock';
 import MenuButton from '../components/MenuButton';
 import Bread from '../components/Bread';
 
-const DriverDash = props => {
+const DriverDash = ({ userData }) => {
    const [veil, setVeil] = useState("schedule");
    const [visible, setVisibility] = useState(false);
 
@@ -38,7 +38,7 @@ const DriverDash = props => {
       // ]
       axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getShifts', {
          params: {
-            id: props.userData.uid
+            id: userData.uid
          }
       })
       .then((response) => {
@@ -82,6 +82,7 @@ const DriverDash = props => {
             setVeil(component)
             setVisibility(false)
          }}
+         userData={userData}
        />
       <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
       </>
@@ -94,6 +95,8 @@ const styles = StyleSheet.create({
       width: 100 * vw,
       alignItems: "center"
    }
-})
+});
 
-export default DriverDash;
+const mapStateToProps = ({ userData }) => ({ userData })
+
+export default connect(mapStateToProps)(DriverDash);
