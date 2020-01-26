@@ -18,15 +18,15 @@ import { TextInput as Input } from "react-native-paper";
 import { theme } from "../core/theme";
 
 const TextInput = ({ mode, containerStyle, style, errorText, ...props }) => (
-   <View style={[styles.container, containerStyle]}>
+   <View style={{ ...styles.container, ...containerStyle }}>
       <Input
          selectionColor={theme.colors.primary}
          underlineColor="transparent"
          mode={mode || "outlined"}
-         style={[
-            styles.input,
-            style
-         ]}
+         style={{
+            ...styles.input,
+            ...style
+         }}
          {...props}
       />
       {errorText ? <Text style={styles.error}>{errorText}</Text> : null}
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
       marginVertical: 12
    },
    input: {
-      backgroundColor: theme.colors.surface
+      backgroundColor: theme.colors.surface,
    },
    error: {
       fontSize: 14,
