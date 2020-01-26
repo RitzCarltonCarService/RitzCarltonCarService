@@ -5,52 +5,60 @@ import Button from '../../components/Button';
 import { theme } from '../../core/theme';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
+import { units } from '../../core/untilities';
 import getPickups from '../../components/getPickups';
 import { updateScheduledPickups } from '../../redux/actions';
-
-const { vw, vh } = require('react-native-viewport-units');
+import axios from 'axios';
 
 const CancelModal = props => (
     <View style={styles.outerContainer}>
-    <TheWhiteSquare>
-        <View style={styles.titleContainer}>
-            <Text style={styles.title}>
-                Cancel this Pickup Request?
+        <TheWhiteSquare>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>
+                    Cancel this Pickup Request?
             </Text>
-        </View>
-        <View style={styles.textContainer}>
-            <Text style={styles.text}>
-                You cannot undo this action.
+            </View>
+            <View style={styles.textContainer}>
+                <Text style={styles.text}>
+                    You cannot undo this action.
             </Text>
-        </View>
-        <View style={styles.iconContainer}>
-            <Logo style={{width: 80, height: 80}} />
-        </View>
-        <View style={styles.buttonsContainer}>
-            <View style={styles.button}>
-                <Button
-                    onPress={()=>{props.setModalOpen(false)}}
-                    style={styles.noButton}
-                    // labelStyle={styles.buttonText}
-                >
-                    No
-                </Button>
             </View>
-            <View style={styles.button}>
-                <Button 
-                    onPress={()=>{
-                        props.setModalOpen(false);
-                        props.setPage("home");
-                        getPickups(props.userData.uid, updateScheduledPickups);
-                    }}
-                    style={styles.yesButton}
-                    // labelStyle={styles.buttonText}
-                >
-                    Yes
-                </Button>
+            <View style={styles.iconContainer}>
+                <Logo style={{ width: 80, height: 80 }} />
             </View>
-        </View>
-    </TheWhiteSquare>
+            <View style={styles.buttonsContainer}>
+                <View style={styles.button}>
+                    <Button
+                        onPress={() => { props.setModalOpen(false) }}
+                        style={styles.noButton}
+                    // labelStyle={styles.buttonText}
+                    >
+                        No
+                </Button>
+                </View>
+                <View style={styles.button}>
+                    <Button
+                        onPress={() => {
+                            axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/deletePickup', {
+                                id: props.id
+                            })
+                                .then(() => {
+                                    props.setModalOpen(false);
+                                    props.setPage("home");
+                                })
+                                .catch(() => {
+                                    props.setModalOpen(false);
+                                    props.setPage("home");
+                                })
+                        }}
+                        style={styles.yesButton}
+                    // labelStyle={styles.buttonText}
+                    >
+                        Yes
+                </Button>
+                </View>
+            </View>
+        </TheWhiteSquare>
     </View>
 )
 
@@ -58,16 +66,16 @@ const styles = StyleSheet.create({
     outerContainer: {
         height: "100%",
         width: "100%",
-        bottom: 20 * vh,
+        bottom: 20 * units.vh,
         alignItems: "center",
         justifyContent: "center"
     },
     container: {
-        height: 30 * vh,
-        width: 75 * vw,
+        height: 30 * units.vh,
+        width: 75 * units.vw,
         backgroundColor: theme.colors.secondary
     },
-    titleContainer: {
+    titleContainer: {
         flex: 2,
         alignItems: "center",
         justifyContent: "center"

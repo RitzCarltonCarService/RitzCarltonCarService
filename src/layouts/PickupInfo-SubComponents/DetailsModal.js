@@ -1,17 +1,12 @@
-import axios from 'axios';
 import React from 'react';
-import Moment from 'moment';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton, Button as AccountButton } from 'react-native-paper';
-import { State } from 'react-native-gesture-handler';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import dateParser from '../../components/dateParser';
-
-const { vw, vh } = require('react-native-viewport-units');
+import { units } from '../../core/untilities'
 
 const DetailsModal = props => {
 
@@ -34,8 +29,10 @@ const DetailsModal = props => {
                             <Text style={{ fontWeight: "bold" }}>Departure Time: </Text>
                             <Text>{dateParser.getTimeFromDate(props.pickup.estimatedStartTime)}</Text>
                         </Text>
-                        <Text style={{ fontWeight: "bold" }}>Estimated Arrival Time: </Text>
+                        <Text>
+                            <Text style={{ fontWeight: "bold" }}>Estimated Arrival Time: </Text>
                             <Text>{dateParser.getTimeFromDate(props.pickup.estimatedEndTime)}</Text>
+                        </Text>
                         <Text>
                             <Text style={{ fontWeight: "bold" }}>Pick-Up Location: </Text>
                             <Text>{props.pickup.startAddress}</Text>
@@ -83,7 +80,7 @@ const styles = StyleSheet.create({
     outerContainer: {
         height: "100%",
         width: "100%",
-        bottom: 20 * vh,
+        bottom: 20 * units.vh,
         alignItems: "center",
         justifyContent: "center"
     },

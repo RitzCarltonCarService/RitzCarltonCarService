@@ -215,5 +215,69 @@ export const appointments = [
     endDate: new Date(2020, 2, 7, 14, 30),
     id: 30,
     location: "Room 1"
+  },
+  {
+    title: "Upgrade Server Hardware",
+    startDate: new Date(2020, 2, 3, 9, 30),
+    endDate: new Date(2020, 2, 3, 12, 25),
+    id: 31,
+    location: "Room 2"
+  },
+  {
+    title: "Submit New Website Design",
+    startDate: new Date(2020, 2, 3, 12, 30),
+    endDate: new Date(2020, 2, 3, 18, 0),
+    id: 32,
+    location: "Room 2"
+  },
+  {
+    title: "Launch New Website",
+    startDate: new Date(2020, 2, 3, 12, 20),
+    endDate: new Date(2020, 2, 3, 14, 10),
+    id: 33,
+    location: "Room 2"
+  },
+  {
+    title: "Book Flights to San Fran for Sales Trip",
+    startDate: new Date(2020, 1, 26, 0, 0),
+    endDate: new Date(2020, 1, 27, 0, 0),
+    id: 34,
+    location: "Room 1"
+  },
+  {
+    title: "Customer Workshop",
+    startDate: new Date(2020, 1, 29, 10, 0),
+    endDate: new Date(2020, 1, 30, 14, 30),
+    id: 35,
+    location: "Room 1"
+  },
+  {
+    title: "Google AdWords Strategy",
+    startDate: new Date(2020, 2, 3, 0, 0),
+    endDate: new Date(2020, 2, 4, 10, 30),
+    id: 36,
+    location: "Room 3"
+  },
+  {
+    title: "Rollout of New Website and Marketing Brochures",
+    startDate: new Date(2020, 2, 5, 10, 0),
+    endDate: new Date(2020, 2, 9, 14, 30),
+    id: 37,
+    location: "Room 3"
+  },
+  {
+    title: "Update NDA Agreement",
+    startDate: new Date(2020, 2, 1, 10, 0),
+    endDate: new Date(2020, 2, 3, 14, 30),
+    id: 38,
+    location: "Room 2"
+  },
+  {
+    title: "Customer Workshop",
+    startDate: new Date(2020, 2, 1),
+    endDate: new Date(2020, 2, 2),
+    allDay: true,
+    id: 39,
+    location: "Room 1"
   }
 ];

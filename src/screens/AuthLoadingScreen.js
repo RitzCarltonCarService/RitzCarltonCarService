@@ -10,6 +10,7 @@ import * as Location from 'expo-location';
 import firebase from "firebase/app";
 import Toast from '../components/Toast';
 import "firebase/auth";
+import axios from 'axios';
 
 // Initialize Firebase
 firebase.initializeApp(FIREBASE_CONFIG);
@@ -39,33 +40,39 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
       // User is logged in
       if (user) {
          try {
-            dispatch(setUserData({
-               uid: user.uid,
-               displayName: user.displayName,
-               email: user.email,
-               phoneNumber: user.phoneNumber,
-               photoURL: user.photoURL,
-            }));
-
-            getCurrentLocation()
-               .then((position) => {
-                  const worker = true;
-                  dispatch(updateGeoLocation({
-                     latitude: position.coords.latitude,
-                     longitude: position.coords.longitude,
-                     latitudeDelta: 0.003,
-                     longitudeDelta: 0.003,
+            axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/login', {
+               params: { id: user.uid },
+            })
+               .then((result) => {
+                  dispatch(setUserData({
+                     uid: user.uid,
+                     displayName: user.displayName,
+                     email: user.email,
+                     phoneNumber: user.phoneNumber,
+                     photoURL: user.photoURL,
+                     userType: user.type,
+                     ...result.data
                   }));
-                  //navigation.navigate("Dashboard");
-                  //implements new testing variable worker
-                  if (!worker) {
-                     navigation.navigate("Dashboard");
-                  };
 
-                  //redirects drivers to a different screen than customers
-                  if (worker) {
-                     navigation.navigate("DriverDash");
-                  };
+                  getCurrentLocation()
+                     .then((position) => {
+                        dispatch(updateGeoLocation({
+                           latitude: position.coords.latitude,
+                           longitude: position.coords.longitude,
+                           latitudeDelta: 0.003,
+                           longitudeDelta: 0.003,
+                        }));
+                        
+                        //implements new testing variable worker
+                        if (user.type === "client") {
+                           navigation.navigate("Dashboard");
+                        };
+
+                        //redirects drivers to a different screen than customers
+                        if (user.type === "driver") {
+                           navigation.navigate("DriverDash");
+                        };
+                     });
                });
          } catch (error) {
             setError(error);

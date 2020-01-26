@@ -38,7 +38,7 @@ const PickupEntry = props => {
             <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.text}>
-                    From: {to}
+                    From: {from}
                 </Text>
                 <Text style={styles.text}>
                     To: {to}

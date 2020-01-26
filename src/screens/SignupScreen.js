@@ -13,6 +13,7 @@ import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import MapBackground from "../components/MapBackground";
 import TheWhiteSquare from '../components/TheWhiteSquare';
+import axios from 'axios';
 
 const RegisterScreen = ({ region, navigation, dispatch }) => {
    const [animationData, setAnimationData] = useState({ height: 78, top: 10, fontSize: 26 });
@@ -45,12 +46,25 @@ const RegisterScreen = ({ region, navigation, dispatch }) => {
          password: password.value
       });
 
+      let test = {
+         id: response.user.uid,
+         email: response.user.email,
+         name: name.value,
+         hotelId: 1,
+         type: 'resident',
+         phoneNumber: response.user.phoneNumber,
+      };
+
+      await axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/signup', test);
+
       dispatch(setUserData({
-         uid: response.uid,
-         displayName: response.displayName,
-         email: response.email,
-         phoneNumber: response.phoneNumber,
-         photoURL: response.photoURL,
+         uid: response.user.uid,
+         displayName: name.value,
+         email: response.user.email,
+         phoneNumber: response.user.phoneNumber,
+         photoURL: response.user.photoURL,
+         hotelId: 1,
+         type: 'resident',
       }));
 
       setLoading(false);
@@ -105,7 +119,6 @@ const RegisterScreen = ({ region, navigation, dispatch }) => {
    return (
       <>
          <MapBackground region={region} />
-         <BackButton goBack={() => navigation.navigate("HomeScreen")} />
          <View style={styles.wrapper}>
             <TheWhiteSquare height={78} top={10} animationData={animationData} duration={250}>
                <Logo />
@@ -168,6 +181,8 @@ const RegisterScreen = ({ region, navigation, dispatch }) => {
             message={error}
             onDismiss={() => setError("")}
          />
+         
+         <BackButton goBack={() => navigation.navigate("HomeScreen")} />
       </>
    );
 };
