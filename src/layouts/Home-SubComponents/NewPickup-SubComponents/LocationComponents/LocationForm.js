@@ -168,11 +168,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                                             if (Platform.OS === 'ios') {
                                                 props.setTime(currentIoSDate)
                                             } else if (Platform.OS === 'android') {
-                                                let timeObj = {
-                                                    date: currentAndroidDate,
-                                                    time: rideAndroidTime
-                                                }
-                                                props.setTime(timeObj)
+                                                props.setTime(currentAndroidDate)
                                             };
                                             props.setForm(1);
                                         }}>
@@ -263,7 +259,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                                     { cancelable: false },
                                 );
                             } else {
-                                props.setTime(new Date());
+                                props.setTime(null);
                                 props.setForm(1)
                             }
                         }
