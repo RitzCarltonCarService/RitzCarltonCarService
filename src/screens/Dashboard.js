@@ -9,6 +9,7 @@ import MenuButton from '../components/MenuButton';
 import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import MapBackground from '../components/MapBackground';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
+import { setUserData } from '../redux/actions';
 
 const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
    const [page, setPage] = useState("home");
@@ -48,7 +49,16 @@ const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
             })()}
          </View>
 
-         <Bread headerOne={`Request Pick-up`} headerTwo={`Ride History`} visible={visible} navigation={navigation} setPage={setPage} onDismiss={() => setVisibility(false)} />
+         <Bread
+            visible={visible}
+            navigation={navigation}
+            setPage={setPage}
+            userData={userData}
+            setUserData={setUserData}
+            headerOne={`Request Pick-up`}
+            headerTwo={`Ride History`}
+            onDismiss={() => setVisibility(false)}
+         />
 
          <Toast
             type={toast.type}
@@ -74,6 +84,11 @@ const mapStateToProps = ({ geoLocation, userData, fromLocation, toLocation }) =>
       userData: userData,
       fromLocation: fromLocation,
       toLocation: toLocation
-}};
+   }
+};
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = {
+   setUserData: setUserData
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

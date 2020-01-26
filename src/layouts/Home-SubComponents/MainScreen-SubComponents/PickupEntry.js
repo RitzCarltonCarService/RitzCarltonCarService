@@ -38,16 +38,16 @@ const PickupEntry = props => {
             <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.text}>
-                    From: {from}
+                    <Text style={{fontWeight: "bold"}}>From: </Text>{from}
                 </Text>
                 <Text style={styles.text}>
-                    To: {to}
+                    <Text style={{fontWeight: "bold"}}>To: </Text>{to}
                 </Text>
                 <Text style={styles.text}>
-                    Time: {dateParser.translateTime(time)}
+                    <Text style={{fontWeight: "bold"}}>Time: </Text>{dateParser.translateTime(time)}
                 </Text>
                 <Text style={styles.text}>
-                    Date: {date}
+                    <Text style={{fontWeight: "bold"}}>Date: </Text>{date}
                 </Text>
             </View>
             <View style={styles.rightCol}>

@@ -1,15 +1,18 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { View, StyleSheet, Image } from 'react-native'
 import { Modal, Portal } from 'react-native-paper';
 import { logoutUser } from '../core/auth-api';
 import { units } from '../core/untilities';
 import Main from '../layouts/Bread/Main';
+import Profile from '../layouts/Bread/Profile';
 import Button from './Button';
 import MenuButton from '../components/MenuButton';
 import Paragragph from '../components/Paragraph';
 import TheWhiteBox from '../components/TheWhiteSquare';
 
-const Bread = ({ visible, onDismiss, setPage, navigation, headerOne, headerTwo, func }) => {
+const Bread = ({ visible, onDismiss, setPage, userData, setUserData, navigation, headerOne, headerTwo, func }) => {
+   const [showProfile, setShowProfile] = useState(false);
+
    const styles = StyleSheet.create({
       wrapper: {
          alignItems: 'center',
@@ -34,7 +37,7 @@ const Bread = ({ visible, onDismiss, setPage, navigation, headerOne, headerTwo, 
    });
 
    const _handleViewProfile = () => {
-
+      setShowProfile(!showProfile);
    };
 
    const _handleLogout = () => {
@@ -60,7 +63,21 @@ const Bread = ({ visible, onDismiss, setPage, navigation, headerOne, headerTwo, 
                >
                   {visible ? <MenuButton icon={'menu-open'} onPress={onDismiss} color={'white'} /> : null}
 
-                  <Main _handleRequestPickup={_handleRequestPickup} func={func} ht1={headerOne} ht2={headerTwo} />
+                  {showProfile ?
+                     <Profile
+                        userData={userData}
+                        setUserData={setUserData}
+                        _handleViewProfile={_handleViewProfile}
+                     /> :
+                     <Main
+                        userData={userData}
+                        _handleRequestPickup={_handleRequestPickup}
+                        _handleViewProfile={_handleViewProfile}
+                        func={func}
+                        ht1={headerOne}
+                        ht2={headerTwo}
+                     />
+                  }
 
                   <Button
                      mode={'text'}

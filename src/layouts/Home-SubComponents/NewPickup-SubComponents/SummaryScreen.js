@@ -24,7 +24,7 @@ const SummaryScreen = props => {
     pickUpData['endAddress'] = props.requestObject.to;
     pickUpData['endLat'] = props.requestObject.toCoordinates.lat;
     pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
-    pickUpData['passengerId'] = props.requestObject.userData.uid;
+    pickUpData['passengerId'] = props.userData.uid;
 
     // REMEMBER! The below might have to be added when Scheduled requests are for the same day
     // if (props.immediateLocation) {
