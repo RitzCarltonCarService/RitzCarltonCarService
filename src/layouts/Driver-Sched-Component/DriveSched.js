@@ -5,20 +5,17 @@ import { render } from "react-dom";
 import { appointments } from "./dummyData";
 import { CalendarList, Agenda } from 'react-native-calendars';
 import Logo from "../../components/Logo";
+import Header from "../../components/Header";
+
 const DriveSched = ({ navigation }) => {
-   const [appt, setAppt] = useState(appointments);
+   let [appt, setAppt] = useState(appointments);
+   let [index, setIndex] = useState(-1);
    return (
       <>
          <View>
-         
           <TheWhiteSquare width={200} height={200} top={-5}>
             <Logo top={50} marginBottom={50}/>
-            {/* <CalendarList
-              horizontal={true}
-              scrollEnabled={true}
-              pastScrollRange={0}
-              futureScrollRange={1}
-            /> */}
+            <Header>Driver Schedule</Header>
             <Agenda
               style={styles.sched}
               items={{
@@ -34,7 +31,19 @@ const DriveSched = ({ navigation }) => {
               }}
               //loadItemsForMonth={this.loadItems.bind(this)}
               //selected={'2020-01-22'}
-              renderItem={(item) => {return (<View style={[styles.item, {height: 50}]}><Text>something on the agenda</Text></View>);}}
+              renderItem={(item) => {
+                index++;
+                if(index === appt.length) index = 0;
+                return (
+                <View style={[styles.item, {height: 130}]}>
+                  <Text>
+                    <Text style={styles.bold}>{`${appt[index].title}` + "\n"}</Text>
+                    <Text style={styles.location}>{`${appt[index].location}` + "\n"}</Text>
+                    <Text><Text style={styles.bold}>Start:</Text>{` ${appt[index].startDate}` + "\n"}</Text> 
+                    <Text><Text style={styles.bold}>End:</Text>{` ${appt[index].endDate}` + "\n"}</Text>
+                  </Text>
+                </View>
+              );}}
               renderEmptyDate={() => {return (<View />);}}
               rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
               pastScrollRange={20}
@@ -43,7 +52,7 @@ const DriveSched = ({ navigation }) => {
               markedDates={{
                  '2020-01-22': {selected: true, marked: true, selectedColor: 'red'},
                  '2020-01-23': {selected: true, marked: true, selectedColor: 'lime'},
-                 '2020-01-25': {selected: true, marked: true},
+                 '2020-01-25': {selected: true, marked: true, selectedColor: 'darkviolet'},
                  '2020-01-26': { marked: true, dotColor: 'red'},
                  '2020-01-27': { marked: true},
                  '2020-01-28': { marked: true},
@@ -68,7 +77,7 @@ const styles = StyleSheet.create({
       height: 300,
    },
   item: {
-    backgroundColor: 'white',
+    backgroundColor: 'gainsboro',
     flex: 1,
     borderRadius: 5,
     padding: 10,
@@ -79,6 +88,13 @@ const styles = StyleSheet.create({
     height: 15,
     flex:1,
     paddingTop: 30
+  },
+  bold: {
+    fontWeight: "bold"
+  },
+  location: {
+    color: "dodgerblue",
+    fontWeight: "bold"
   }
 });
 
