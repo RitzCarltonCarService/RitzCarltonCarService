@@ -17,9 +17,7 @@ const DateAndTimePicker = props => {
   const [modalView, setmodalView] = useState(true);
 
   const dateAlert = (selectedDate) => {
-    console.log("This is the selectedDate: ", selectedDate);
     let today = new Date();
-    console.log("This is the current date of today: ", today)
     if (selectedDate < today) {
         Alert.alert(
             'We\'re Sorry!',
@@ -31,7 +29,6 @@ const DateAndTimePicker = props => {
           );
           return false
         } else {
-          console.log("The date selected is larger")
           return true
         }
     }
@@ -64,22 +61,17 @@ const DateAndTimePicker = props => {
 
   const handleIoSConfirm = date => {
     if (dateAlert(date)) {
-      hideDatePicker();
       props.setIoSDate(date);
+      hideDatePicker(date);
     }
   };
 
   const handleAndroidDate = date => {
+    console.log("This is the date: ", date)
     if (dateAlert(date)) {
       props.setAndroidDate(date);
-      setMode('time')
-      hideDatePicker();
+      hideDatePicker(date);
     }
-  };
-
-  const handleAndroidTime = time => {
-    props.setAndroidTime(time);
-    hideDatePicker();
   };
 
   return ( 
@@ -90,32 +82,19 @@ const DateAndTimePicker = props => {
           cancelTextIOS="Cancel"
           isVisible={isDatePickerVisible}
           mode="datetime"
-          display="default"
           onConfirm={handleIoSConfirm}
           onCancel={hideDatePicker}
         />
       )}
 
-      {props.rideAndroidTime === null && (
+      {Platform.OS === 'android' && (
         <DateTimePickerModal
-          isVisible={true}
-          mode={mode}
-          datePickerMode
-          display="clock"
-          onConfirm={handleAndroidTime}
-        />
-      )}
-
-      {/* {props.currentAndroidDate === null && (
-        <DateTimePickerModal
-          isVisible={true}
-          mode={mode}
-          display="default"
+          isVisible={isDatePickerVisible}
+          mode="datetime"
           onConfirm={handleAndroidDate}
           onCancel={hideDatePicker}
         />
-      )} */}
-
+      )}
     </>
   )
 }
