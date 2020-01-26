@@ -13,7 +13,9 @@ import Button from '../../../components/Button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const SummaryScreen = props => {
-    let momentJSdate = props.requestObject.time;
+    let momentJSdate = props.requestObject.time ? props.requestObject.time : new Date();
+
+    console.log("This is a null date: ", momentJSdate)
     let pickUpData = {};
     
     pickUpData['hotelId'] = 1; // maybe change in the future!
@@ -25,6 +27,8 @@ const SummaryScreen = props => {
     pickUpData['endLat'] = props.requestObject.toCoordinates.lat;
     pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
     pickUpData['passengerId'] = props.userData.uid;
+
+    console.log("This is pickUpDate object: ", pickUpData)
 
     // REMEMBER! The below might have to be added when Scheduled requests are for the same day
     // if (props.immediateLocation) {
