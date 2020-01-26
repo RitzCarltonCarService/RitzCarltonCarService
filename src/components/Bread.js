@@ -10,7 +10,7 @@ import MenuButton from '../components/MenuButton';
 import Paragragph from '../components/Paragraph';
 import TheWhiteBox from '../components/TheWhiteSquare';
 
-const Bread = ({ visible, onDismiss, setPage, userData, setUserData, navigation }) => {
+const Bread = ({ visible, onDismiss, setPage, userData, setUserData, navigation, headerOne, headerTwo, func }) => {
    const [showProfile, setShowProfile] = useState(false);
 
    const styles = StyleSheet.create({
@@ -73,6 +73,9 @@ const Bread = ({ visible, onDismiss, setPage, userData, setUserData, navigation 
                         userData={userData}
                         _handleRequestPickup={_handleRequestPickup}
                         _handleViewProfile={_handleViewProfile}
+                        func={func}
+                        ht1={headerOne}
+                        ht2={headerTwo}
                      />
                   }
 

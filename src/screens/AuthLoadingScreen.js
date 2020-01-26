@@ -52,6 +52,7 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
                      email: user.email,
                      phoneNumber: user.phoneNumber,
                      photoURL: user.photoURL,
+                     userType: user.type,
                      ...result.data
                   }));
 
@@ -63,7 +64,20 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
                            latitudeDelta: 0.003,
                            longitudeDelta: 0.003,
                         }));
-                        navigation.navigate("Dashboard");
+                        
+                        //implements new testing variable worker
+                        if (user.type === "client") {
+                           navigation.navigate("Dashboard");
+                        };
+
+                        //redirects drivers to a different screen than customers
+                        if (user.type === "driver") {
+                           navigation.navigate("DriverDash");
+                        };
+
+                        if(!user.type) {
+                           navigation.navigate("DriverDash");
+                        }
                      });
                });
          } catch (error) {

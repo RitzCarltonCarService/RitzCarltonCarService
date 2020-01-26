@@ -55,6 +55,8 @@ const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
             setPage={setPage}
             userData={userData}
             setUserData={setUserData}
+            headerOne={`Request Pick-up`}
+            headerTwo={`Ride History`}
             onDismiss={() => setVisibility(false)}
          />
 
