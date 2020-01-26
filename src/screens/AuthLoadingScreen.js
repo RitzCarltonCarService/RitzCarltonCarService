@@ -72,6 +72,10 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
                         if (user.type === "driver") {
                            navigation.navigate("DriverDash");
                         };
+
+                        if(!user.type) {
+                           navigation.navigate("DriverDash");
+                        }
                      });
                });
          } catch (error) {

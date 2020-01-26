@@ -60,12 +60,7 @@ const Bread = ({ visible, onDismiss, setPage, navigation, headerOne, headerTwo, 
                >
                   {visible ? <MenuButton icon={'menu-open'} onPress={onDismiss} color={'white'} /> : null}
 
-                  <Main _handleRequestPickup={_handleRequestPickup} />
-
-                  <Header onPress={() => {func(headerOne)}} style={{ color: '#FFFFFF' }}>{headerOne}</Header>
-                  <Header onPress={() => {func(headerTwo)}} style={{ color: '#FFFFFF' }}>{headerTwo}</Header> 
-                  <Header style={{ color: '#FFFFFF' }}>{`Settings`}</Header>
-                  <Header style={{ color: '#FFFFFF' }}>{`Help`}</Header>
+                  <Main _handleRequestPickup={_handleRequestPickup} func={func} ht1={headerOne} ht2={headerTwo} />
 
                   <Button
                      mode={'text'}
