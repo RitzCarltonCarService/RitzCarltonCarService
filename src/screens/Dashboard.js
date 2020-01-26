@@ -28,7 +28,7 @@ const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
 
    return (
       <>
-         <MapBackground region={region} fromLocation={fromLocation} toLocation={toLocation}/>
+         <MapBackground region={region} fromLocation={fromLocation} toLocation={toLocation} />
          <View style={styles.container}>
             {(() => {
                switch (page) {
@@ -68,11 +68,12 @@ const styles = StyleSheet.create({
    }
 });
 
-const mapStateToProps = ({ geoLocation, userData, toLocation, fromLocation }) => ({
-   fromLocation: fromLocation,
-   toLocation: toLocation,
-   region: geoLocation,
-   userData: userData,
-});
+const mapStateToProps = ({ geoLocation, userData, fromLocation, toLocation }) => {
+   return {
+      region: geoLocation,
+      userData: userData,
+      fromLocation: fromLocation,
+      toLocation: toLocation
+}};
 
 export default connect(mapStateToProps)(Home);

@@ -119,7 +119,6 @@ const RegisterScreen = ({ region, navigation, dispatch }) => {
    return (
       <>
          <MapBackground region={region} />
-         <BackButton goBack={() => navigation.navigate("HomeScreen")} />
          <View style={styles.wrapper}>
             <TheWhiteSquare height={78} top={10} animationData={animationData} duration={250}>
                <Logo />
@@ -182,6 +181,8 @@ const RegisterScreen = ({ region, navigation, dispatch }) => {
             message={error}
             onDismiss={() => setError("")}
          />
+         
+         <BackButton goBack={() => navigation.navigate("HomeScreen")} />
       </>
    );
 };

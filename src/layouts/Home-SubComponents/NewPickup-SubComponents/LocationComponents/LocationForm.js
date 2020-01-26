@@ -218,6 +218,8 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                                 mode='contained'
                                 onPress={() => {
                                     props.setPage("home");
+                                    updateFromLocation(props.geoLocation)
+                                    updateToLocation(props.geoLocation)
                                     setFromLocation(null);
                                     setToLocation(null);
                                 }}
@@ -454,7 +456,6 @@ const styles2 = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    // console.log('This is state: ', state)
     return {
         geoLocation: state.geoLocation,
         userData: state.userData
@@ -463,6 +464,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     updateFromLocation: updateFromLocation,
+    updateToLocation: updateToLocation,
     updateScheduledPickups: updateScheduledPickups
 }
 

@@ -13,6 +13,8 @@ import BackButton from "../components/BackButton";
 import MapBackground from "../components/MapBackground";
 import TheWhiteSquare from '../components/TheWhiteSquare';
 
+// MOVE BACK BUTTON COMPONENT - DOES NOT WORK ON IPHONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 const ForgotPasswordScreen = ({ region, navigation }) => {
    const [email, setEmail] = useState({ value: "", error: "" });
    const [loading, setLoading] = useState(false);
