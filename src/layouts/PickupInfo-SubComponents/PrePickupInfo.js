@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { navigate } from '../../redux/actions';
+import { navigate, updateToLocation, updateFromLocation } from '../../redux/actions';
 import CancelModal from './CancelModal';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Modal, Portal, Provider } from 'react-native-paper'
@@ -51,8 +51,18 @@ const PrePickupInfo = props => {
             </Button>
 
             <View style={styles.buttonContainer}>
-                <Button onPress={() => { props.setPage("home") }}>
-                    Back
+                <Button onPress={() => { 
+                    // Reset both the From and To Locations to be the same
+                    let resetOrigin = {};
+                    resetOrigin['lat'] = props.geoLocation.latitude;
+                    resetOrigin['lng'] = props.geoLocation.longitude; 
+                    
+                    props.updateToLocation(null);
+                    props.updateFromLocation(resetOrigin);
+                    props.setPage("home")
+                     
+                }}>
+                Back
                 </Button>
             </View>
 
@@ -81,12 +91,15 @@ const PrePickupInfo = props => {
 const mapStateToProps = state => {
     return {
         scheduledPickups: state.scheduledPickups,
-        currentPickup: state.currentPickup
+        currentPickup: state.currentPickup,
+        geoLocation: state.geoLocation
     }
 }
 
 const mapDispatchToProps = {
-    navigate: navigate
+    navigate: navigate,
+    updateToLocation: updateToLocation,
+    updateFromLocation: updateFromLocation
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrePickupInfo);
