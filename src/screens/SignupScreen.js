@@ -54,18 +54,20 @@ const RegisterScreen = ({ region, navigation, dispatch }) => {
          type: 'resident',
          phoneNumber: response.user.phoneNumber,
       };
-
-      await axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/signup', test);
-
-      dispatch(setUserData({
-         uid: response.user.uid,
-         displayName: name.value,
-         email: response.user.email,
-         phoneNumber: response.user.phoneNumber,
-         photoURL: response.user.photoURL,
-         hotelId: 1,
-         type: 'resident',
-      }));
+      
+      if (!response.error) {
+         await axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/signup', test);
+   
+         dispatch(setUserData({
+            uid: response.user.uid,
+            displayName: name.value,
+            email: response.user.email,
+            phoneNumber: response.user.phoneNumber,
+            photoURL: response.user.photoURL,
+            hotelId: 1,
+            type: 'resident',
+         }));
+      }
 
       setLoading(false);
 
