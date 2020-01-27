@@ -49,7 +49,6 @@ const ForgotPasswordScreen = ({ region, navigation }) => {
    return (
       <>
          <MapBackground region={region} />
-         <BackButton goBack={() => navigation.navigate("LoginScreen")} />
          <View style={styles.wrapper}>
             <TheWhiteSquare top={20} height={57}>
                <Logo />
@@ -87,6 +86,8 @@ const ForgotPasswordScreen = ({ region, navigation }) => {
                </TouchableOpacity>
             </TheWhiteSquare>
          </View>
+         
+         <BackButton goBack={() => navigation.navigate("LoginScreen")} />
 
          <Toast
             type={toast.type}
