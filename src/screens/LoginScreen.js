@@ -44,20 +44,20 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
          password: password.value
       });
 
-
-      const databaseResponse = await axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/login', {
-         params: { id: response.user.uid },
-      });
-
-      dispatch(setUserData({
-         uid: response.user.uid,
-         displayName: response.user.displayName,
-         email: response.user.email,
-         phoneNumber: response.user.phoneNumber,
-         photoURL: response.user.photoURL,
-         userType: response.user.type,
-         ...databaseResponse.data
-      }));
+      if (!response.error) {
+         const databaseResponse = await axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/login', {
+            params: { id: response.user.uid },
+         });
+         dispatch(setUserData({
+            uid: response.user.uid,
+            displayName: response.user.displayName,
+            email: response.user.email,
+            phoneNumber: response.user.phoneNumber,
+            photoURL: response.user.photoURL,
+            userType: response.user.type,
+            ...databaseResponse.data
+         }));
+      }
 
       setLoading(false);
 
@@ -67,7 +67,7 @@ const LoginScreen = ({ region, navigation, dispatch }) => {
       };
 
       //implements new testing variable worker
-      if (response.user.type === "client") {
+      if (response.user.type === "resident") {
          navigation.navigate("Dashboard");
       };
 
