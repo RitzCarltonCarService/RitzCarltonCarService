@@ -39,13 +39,13 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
    firebase.auth().onAuthStateChanged(user => {
       // User is logged in
       if (user) {
-         console.log('Firebase user object:', user)
+         // console.log('Firebase user object:', user)
          try {
             axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/login', {
                params: { id: user.uid },
             })
                .then((result) => {
-                  console.log('Database result data:', result.data);
+                  // console.log('Database result data:', result.data);
                   dispatch(setUserData({
                      uid: user.uid,
                      displayName: user.displayName,

@@ -19,9 +19,25 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
     const [fromFunc, setFromFunc] = useFunctionAsState(null);
     const [toFunc, setToFunc] = useFunctionAsState(null);
 
+    // Hard-coding the Ritz-Carlton Residences coordinates into the toLocation results
+    const ritzCarltonResidencesPhila = {
+        id: 1,
+        description: 'The Ritz-Carlton Residences',
+        place_id: 'ChIJO6U0ty_GxokRRF3bnNL5wPQ'
+    }
+
+    // Hard-coding the Philadelphia Airport coordinates into the toLocation results
+    const philadelphiaAirport = {
+        id: 2,
+        description: 'Philadelphia International Airport',
+        place_id: 'ChIJ88WCT2bExokRS1MKpnC8pfw'
+    }
+
     // Initial state of From/To destination results
     const [fromResults, setFromResults] = useState([]);
-    const [toResults, setToResults] = useState([]);
+    const [toResults, setToResults] = useState([ritzCarltonResidencesPhila, philadelphiaAirport]);
+
+    console.log("These are the To Location Results: ", toResults);
 
     // Initial states of Text Input for To/From 
     const [focusedThing, setFocusedThing] = useState(false);
@@ -99,7 +115,12 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                             {({ inputValue, handleTextChange, locationResults, clearSearch }) => (
                                 <View style={styles.toWrapper}>
                                     {setToFunc(clearSearch)}
-                                    {setToResults(locationResults)}
+                                    {() => {
+                                        // Once locationResults is not undefined, push it in alongside default values in ToResults array
+                                        if (locationResults) {
+                                            setToResults(previousData => ({...previousData, locationResults}))
+                                        } 
+                                    }} 
                                     {newToInputValue === false &&
                                         <React.Fragment>
                                             <TextInput style={{
@@ -188,10 +209,18 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = state => {
+    console.log("This is the state in LocationMapView: ", state)
+    return {
+        geoLocation: state.geoLocation,
+        userData: state.userData
+    }
+}
+
 const mapDispatchToProps = {
     navigate: navigate,
     updateToLocation: updateToLocation,
     updateFromLocation: updateFromLocation
 }
 
-export default connect(null, mapDispatchToProps)(memo(LocationMapView));
+export default connect(mapStateToProps, mapDispatchToProps)(memo(LocationMapView));
