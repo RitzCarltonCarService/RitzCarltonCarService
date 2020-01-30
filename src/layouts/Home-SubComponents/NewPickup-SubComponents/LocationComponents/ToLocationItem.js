@@ -22,9 +22,10 @@ class ToLocationItem extends PureComponent {
                                 this.props.updateToState(res.formatted_address);
                             };
                             handlePress();
-                            this.props.clearToSelections();
                             // on selection of item, set view of Time/Date Picker to true
                             this.props.setToValue();
+                            this.props.clearToValues();
+                            this.props.clearToSelections();
                         }}> 
                         <Text>{this.props.description}</Text>
                     </TouchableOpacity>
@@ -36,7 +37,7 @@ class ToLocationItem extends PureComponent {
 
 const styles = StyleSheet.create({
     root: {
-        height: '50%',
+        height: '25%',
         paddingHorizontal: '25%',
         borderBottomWidth: StyleSheet.hairlineWidth,
         justifyContent: 'center',

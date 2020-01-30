@@ -106,6 +106,16 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
         changeToInput(false)
     }
 
+    // Clears the suggested drop down items for From destination suggestions
+    const clearFromValues = () => {
+        setFromLoaded(false);
+    }
+
+    // Clears the suggested drop down items for To destination suggestions
+    const clearToValues = () => {
+        setToLoaded(false);
+    }
+
     return (
         <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
             <View>
@@ -231,6 +241,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                     clearFromSelections={fromFunc}
                                     updateFromState={props.updateFromState}
                                     updateFromLocation={updateFromLocation}
+                                    clearFromValues={clearFromValues}
                                     setFromValue={setFromValue}
                                 >
                                 </FromLocationItem>
@@ -245,6 +256,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                     clearToSelections={toFunc}
                                     updateToState={props.updateToState}
                                     updateToLocation={updateToLocation}
+                                    clearToValues={clearToValues}
                                     setToValue={setToValue}
                                 >
                                 </ToLocationItem>

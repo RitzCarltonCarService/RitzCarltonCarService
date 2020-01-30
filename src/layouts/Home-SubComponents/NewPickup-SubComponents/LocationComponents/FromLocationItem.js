@@ -21,6 +21,7 @@ class FromLocationItem extends PureComponent {
                                 this.props.updateFromState(res.formatted_address);
                             };
                             handlePress();
+                            this.props.clearFromValues();
                             this.props.setFromValue();
                             this.props.clearFromSelections();
                         }}> 
