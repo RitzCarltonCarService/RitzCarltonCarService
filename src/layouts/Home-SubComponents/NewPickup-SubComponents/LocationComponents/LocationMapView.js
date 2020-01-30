@@ -19,20 +19,6 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
     const [fromFunc, setFromFunc] = useFunctionAsState(null);
     const [toFunc, setToFunc] = useFunctionAsState(null);
 
-    // Hard-coding the Ritz-Carlton Residences coordinates into the toLocation results
-    // const ritzCarltonResidencesPhila = {
-    //     id: 1,
-    //     description: 'The Ritz-Carlton Residences',
-    //     place_id: 'ChIJO6U0ty_GxokRRF3bnNL5wPQ'
-    // }
-
-    // // Hard-coding the Philadelphia Airport coordinates into the toLocation results
-    // const philadelphiaAirport = {
-    //     id: 2,
-    //     description: 'Philadelphia International Airport',
-    //     place_id: 'ChIJ88WCT2bExokRS1MKpnC8pfw'
-    // }
-
     // Initial state of from and to Results
     const [fromResults, setFromResults] = useState([]);
     const [toResults, setToResults] = useState([]);
