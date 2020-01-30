@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Logo from '../../../../components/Logo.js';
 
 class ToLocationItem extends PureComponent {
 
@@ -29,10 +30,7 @@ class ToLocationItem extends PureComponent {
                             this.props.clearToSelections();
                         }}>
                         {this.props.description === 'The Ritz-Carlton Residences' && 
-                            <Image 
-                                style={{marginRight: 20, width: 50, height: 50}}
-                                source={require('../../../../../assets/RitzMapIcon.png')}
-                            /> 
+                            <Logo style={{ width: 40, height: 40 }} /> 
                         }
                         {this.props.description === 'Philadelphia International Airport' && 
                             <Icon style={{marginRight: 20}} name="airplane" size={30} /> 
