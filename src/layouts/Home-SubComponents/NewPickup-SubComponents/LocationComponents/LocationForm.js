@@ -30,7 +30,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     const [newFromLocation, changeFrom] = useState(null);
 
     // Using user's geoLocation to get their actual address
-    getReverseGeocode = async () => {
+    const getReverseGeocode = async () => {
         if (props.geoLocation) {
             // If component has not mounted, request reverse geolocation
             if (!componentDidMount) {

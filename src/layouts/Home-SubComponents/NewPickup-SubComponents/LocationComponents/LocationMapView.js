@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useEffect } from 'react';
 import { navigate, updateToLocation, updateFromLocation } from '../../../../redux/actions';
 import { Text, View, StyleSheet, ScrollView, Keyboard, TouchableWithoutFeedback, Alert } from 'react-native';
 import {Surface} from "react-native-paper";
@@ -33,14 +33,68 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
         place_id: 'ChIJ88WCT2bExokRS1MKpnC8pfw'
     }
 
-    // Initial state of From/To destination results
+    // Initial state of from and to Results
     const [fromResults, setFromResults] = useState([]);
-    const [toResults, setToResults] = useState([ritzCarltonResidencesPhila, philadelphiaAirport]);
+    const [toResults, setToResults] = useState([]);
 
-    console.log("These are the To Location Results: ", toResults);
+    // New To and From results
+    const [newFromResults, setNewFromResults] = useState([]);
+    const [newToResults, setNewToResults] = useState([]);
+
+     // Boolean hooks will prevent the initial states above from being displayed before user clicks inside text input 
+     const [fromLoaded, setFromLoaded] = useState(false);
+     const [toLoaded, setToLoaded] = useState(false);
 
     // Initial states of Text Input for To/From 
     const [focusedThing, setFocusedThing] = useState(false);
+
+    // This useEffect looks for changes in the Location results from search From destinations
+    useEffect(() => {
+        // Hard-coding the Ritz-Carlton Residences coordinates into the toLocation results
+        const ritzCarltonResidencesPhila = {
+            id: 1,
+            description: 'The Ritz-Carlton Residences',
+            place_id: 'ChIJO6U0ty_GxokRRF3bnNL5wPQ'
+        }
+
+        // Hard-coding the Philadelphia Airport coordinates into the toLocation results
+        const philadelphiaAirport = {
+            id: 2,
+            description: 'Philadelphia International Airport',
+            place_id: 'ChIJ88WCT2bExokRS1MKpnC8pfw'
+        }
+
+        console.log("These are the results for From Destinations: ", newFromResults)
+        let tempFromResults = newFromResults;
+        tempFromResults.unshift(ritzCarltonResidencesPhila, philadelphiaAirport)
+        console.log("This is the temp fromResults array: ", tempFromResults)
+        setFromResults(tempFromResults);  
+        console.log("These are the toResults state: ", fromResults)
+    }, [newFromResults]);
+
+    // This useEffect looks for changes in the Location results from search To destinations
+    useEffect(() => {
+        // Hard-coding the Ritz-Carlton Residences coordinates into the toLocation results
+        const ritzCarltonResidencesPhila = {
+            id: 1,
+            description: 'The Ritz-Carlton Residences',
+            place_id: 'ChIJO6U0ty_GxokRRF3bnNL5wPQ'
+        }
+
+        // Hard-coding the Philadelphia Airport coordinates into the toLocation results
+        const philadelphiaAirport = {
+            id: 2,
+            description: 'Philadelphia International Airport',
+            place_id: 'ChIJ88WCT2bExokRS1MKpnC8pfw'
+        }
+
+        console.log("These are the results for To Destinations: ", newToResults)
+        let tempToResults = newToResults;
+        tempToResults.unshift(ritzCarltonResidencesPhila, philadelphiaAirport)
+        console.log("This is the temp toResults array: ", tempToResults)
+        setToResults(tempToResults)  
+        console.log("These are the toResults state: ", toResults)
+    }, [newToResults]);
 
     // Resets focus of From text input to display selected address via from-location drop down menu
     const setFromValue = () => {
@@ -61,7 +115,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                             {({ inputValue, handleTextChange, locationResults, clearSearch }) => (
                                 <View style={styles.fromWrapper}>
                                     {setFromFunc(clearSearch)}
-                                    {setFromResults(locationResults)}
+                                    {setNewFromResults(locationResults)}
                                     {props.newFromLocation === false &&
                                         <React.Fragment>
                                             <TextInput style={{
@@ -102,7 +156,9 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                                 editable={true}
                                                 defaultValue={inputValue}
                                                 value={inputValue}
-                                                onFocus={() => {setFocusedThing(1)}}
+                                                onFocus={() => {
+                                                    setFocusedThing(1);    
+                                                }}
                                                 onChangeText={handleTextChange}
                                                 autoFocus={true}
                                             />
@@ -115,12 +171,7 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                             {({ inputValue, handleTextChange, locationResults, clearSearch }) => (
                                 <View style={styles.toWrapper}>
                                     {setToFunc(clearSearch)}
-                                    {() => {
-                                        // Once locationResults is not undefined, push it in alongside default values in ToResults array
-                                        if (locationResults) {
-                                            setToResults(previousData => ({...previousData, locationResults}))
-                                        } 
-                                    }} 
+                                    {setNewToResults(locationResults)}
                                     {newToInputValue === false &&
                                         <React.Fragment>
                                             <TextInput style={{
@@ -133,7 +184,9 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                                 editable={true}
                                                 defaultValue={inputValue}
                                                 value={props.toLocation}
-                                                onFocus={() => {setFocusedThing(2)}}
+                                                onFocus={() => {
+                                                    setFocusedThing(2);
+                                                }}
                                             />
                                         </React.Fragment>
                                     }
@@ -149,7 +202,9 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                                 // autoFocus={true}
                                                 defaultValue={inputValue}
                                                 value={inputValue}
-                                                onFocus={() => {setFocusedThing(2)}}
+                                                onFocus={() => {
+                                                    setFocusedThing(2);
+                                                }}
                                                 onChangeText={handleTextChange}                                 
                                             />
                                         </React.Fragment>
@@ -163,32 +218,42 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                     <ScrollView style={styles.scrollView} 
                         keyboardShouldPersistTaps={'always'} 
                         keyboardDismissMode='on-drag'>
-                        {focusedThing === 1 ?
-                            fromResults.map((el, i) => (
-                                <FromLocationItem
-                                    {...el}
-                                    key={el.id}
-                                    googAPI={props.apiKey}
-                                    clearFromSelections={fromFunc}
-                                    updateFromState={props.updateFromState}
-                                    updateFromLocation={updateFromLocation}
-                                    setFromValue={setFromValue}
-                                >
-                                </FromLocationItem>
-                            )) :
-                            toResults.map((el, i) => (
-                                <ToLocationItem
-                                    {...el}
-                                    key={el.id}
-                                    googAPI={props.apiKey}
-                                    clearToSelections={toFunc}
-                                    updateToState={props.updateToState}
-                                    updateToLocation={updateToLocation}
-                                    setToValue={setToValue}
-                                >
-                                </ToLocationItem>
-                            ))
-                        }
+                        {(() => {
+                            // Checking if From/To TextFields are onFocus & results have loaded before rendering
+                            if (focusedThing === 1 && fromLoaded) {
+                                {/* console.log("These are the current fromResults: ", fromResults) */}
+                                fromResults.map((el, i) => {
+                                    return (
+                                        <FromLocationItem
+                                            {...el}
+                                            key={el.id}
+                                            googAPI={props.apiKey}
+                                            clearFromSelections={fromFunc}
+                                            updateFromState={props.updateFromState}
+                                            updateFromLocation={updateFromLocation}
+                                            setFromValue={setFromValue}
+                                        >
+                                        </FromLocationItem>
+                                    )
+                                })
+                            } else if (focusedThing === 2 && toLoaded) {
+                                console.log("These are the current toResults: ", toResults)
+                                toResults.map((el, i) => {
+                                    return (
+                                        <ToLocationItem
+                                            {...el}
+                                            key={el.id}
+                                            googAPI={props.apiKey}
+                                            clearToSelections={toFunc}
+                                            updateToState={props.updateToState}
+                                            updateToLocation={updateToLocation}
+                                            setToValue={setToValue}
+                                        >
+                                        </ToLocationItem>
+                                    )
+                                })
+                            }
+                        })()}
                     </ScrollView>
                 </View>
             </View>
@@ -210,7 +275,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    console.log("This is the state in LocationMapView: ", state)
+    // console.log("This is the state in LocationMapView: ", state)
     return {
         geoLocation: state.geoLocation,
         userData: state.userData
