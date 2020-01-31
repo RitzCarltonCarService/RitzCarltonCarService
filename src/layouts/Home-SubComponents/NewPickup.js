@@ -15,9 +15,10 @@ const NewPickup = props => {
     const [time, setTime] = useState(null);
     const [passengers, setPassengers] = useState(null);
     const [bags, setBags] = useState(null);
-    const [rideShare, setRideShare] = useState(true);
     // Hook to use different From location for rerendering purposes
     const [immediateLocation, changeFrom] = useState(false);
+
+    // REMEMBER TO ADD CORRECT LOGIC IF A RIDE SHARE SCREEN IS REQUIRED!!!!!!
 
     switch (form) {
         case 0:
@@ -54,6 +55,7 @@ const NewPickup = props => {
                     <SummaryScreen
                         passengers={passengers}
                         bags={bags}
+                        setRideShare={props.setRideShare}
                         setForm={setForm}
                         setPage={props.setPage}
                         immediateLocation={immediateLocation}
@@ -65,7 +67,7 @@ const NewPickup = props => {
                             distance: props.distance,
                             bags: bags,
                             passengers: passengers,
-                            rideShare: rideShare,
+                            rideShare: props.rideShare,
                             userData: props.userData,
                             fromCoordinates: props.fromLocation,
                             toCoordinates: props.toLocation

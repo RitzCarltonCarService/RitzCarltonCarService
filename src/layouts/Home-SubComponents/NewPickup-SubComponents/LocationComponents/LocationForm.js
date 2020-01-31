@@ -201,7 +201,16 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                                     if (!toLocation) {
                                         Alert.alert(
                                             'We\'re Sorry!',
-                                            'Please input a destination before continuing.',
+                                            'Please input a \'To\' destination before continuing.',
+                                            [
+                                                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                            ],
+                                            { cancelable: false },
+                                        );
+                                    } else if (!fromLocation) {
+                                        Alert.alert(
+                                            'We\'re Sorry!',
+                                            'Please input a \'From\' destination before continuing.',
                                             [
                                                 { text: 'OK', onPress: () => console.log('OK Pressed') },
                                             ],
