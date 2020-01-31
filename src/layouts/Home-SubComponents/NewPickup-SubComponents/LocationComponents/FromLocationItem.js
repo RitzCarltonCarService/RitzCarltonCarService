@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Logo from '../../../../components/Logo.js';
 
 class FromLocationItem extends PureComponent {
 
@@ -11,7 +13,7 @@ class FromLocationItem extends PureComponent {
                     <TouchableOpacity 
                         style={styles.root} 
                         onPress={() => {
-                            handlePress = async () => {
+                            const handlePress = async () => {
                                 const res = await fetchDetails(this.props.place_id);
                                 // Accessing lat/lng coordinates from API response
                                 const coords = res.geometry.location;
@@ -21,9 +23,20 @@ class FromLocationItem extends PureComponent {
                                 this.props.updateFromState(res.formatted_address);
                             };
                             handlePress();
+                            this.props.clearFromValues();
                             this.props.setFromValue();
                             this.props.clearFromSelections();
-                        }}> 
+                        }}>
+                        {this.props.description === 'The Ritz-Carlton Residences' && 
+                            <Logo style={{ width: 40, height: 40 }} /> 
+                        }
+                        {this.props.description === 'Philadelphia International Airport' && 
+                            <Icon style={{marginRight: 20}} name="airplane" size={30} /> 
+                        }
+                        {this.props.description !== 'Philadelphia International Airport' &&
+                            this.props.description !== 'The Ritz-Carlton Residences' &&
+                            <Icon style={{marginRight: 20}} name="map-marker-outline" size={30} />
+                        }
                         <Text>{this.props.description}</Text>
                     </TouchableOpacity>
                 )}
@@ -34,11 +47,14 @@ class FromLocationItem extends PureComponent {
 
 const styles = StyleSheet.create({
     root: {
-        height: '50%',
+        height: '25%',
         paddingHorizontal: '25%',
         borderBottomWidth: StyleSheet.hairlineWidth,
         justifyContent: 'center',
-        backgroundColor: 'white'
+        alignContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        flexDirection: 'row'
     }
 })
 

@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { GoogleAutoComplete } from 'react-native-google-autocomplete';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Logo from '../../../../components/Logo.js';
 
 class ToLocationItem extends PureComponent {
 
@@ -11,9 +13,9 @@ class ToLocationItem extends PureComponent {
                     <TouchableOpacity 
                         style={styles.root} 
                         onPress={() => {
-                            handlePress = async () => {
+                            const handlePress = async () => {
                                 const res = await fetchDetails(this.props.place_id);
-                                // console.log("This is the response: ", res.formatted_address)
+                                // console.log("This is the response: ", res)
                                 // Accessing lat/lng coordinates from API response
                                 const coords = res.geometry.location;
                                 // Passing fromLocation's coordinates to Redux state
@@ -22,10 +24,21 @@ class ToLocationItem extends PureComponent {
                                 this.props.updateToState(res.formatted_address);
                             };
                             handlePress();
-                            this.props.clearToSelections();
                             // on selection of item, set view of Time/Date Picker to true
                             this.props.setToValue();
-                        }}> 
+                            this.props.clearToValues();
+                            this.props.clearToSelections();
+                        }}>
+                        {this.props.description === 'The Ritz-Carlton Residences' && 
+                            <Logo style={{ width: 40, height: 40 }} /> 
+                        }
+                        {this.props.description === 'Philadelphia International Airport' && 
+                            <Icon style={{marginRight: 20}} name="airplane" size={30} /> 
+                        }
+                        {this.props.description !== 'Philadelphia International Airport' &&
+                            this.props.description !== 'The Ritz-Carlton Residences' &&
+                            <Icon style={{marginRight: 20}} name="map-marker-outline" size={30} />
+                        } 
                         <Text>{this.props.description}</Text>
                     </TouchableOpacity>
                 )}
@@ -36,11 +49,14 @@ class ToLocationItem extends PureComponent {
 
 const styles = StyleSheet.create({
     root: {
-        height: '50%',
+        height: '25%',
         paddingHorizontal: '25%',
         borderBottomWidth: StyleSheet.hairlineWidth,
         justifyContent: 'center',
-        backgroundColor: 'white'
+        alignContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        flexDirection: 'row'
     }
 })
 

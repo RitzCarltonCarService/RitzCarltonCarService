@@ -30,7 +30,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     const [newFromLocation, changeFrom] = useState(null);
 
     // Using user's geoLocation to get their actual address
-    getReverseGeocode = async () => {
+    const getReverseGeocode = async () => {
         if (props.geoLocation) {
             // If component has not mounted, request reverse geolocation
             if (!componentDidMount) {
@@ -201,7 +201,16 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                                     if (!toLocation) {
                                         Alert.alert(
                                             'We\'re Sorry!',
-                                            'Please input a destination before continuing.',
+                                            'Please input a \'To\' destination before continuing.',
+                                            [
+                                                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                            ],
+                                            { cancelable: false },
+                                        );
+                                    } else if (!fromLocation) {
+                                        Alert.alert(
+                                            'We\'re Sorry!',
+                                            'Please input a \'From\' destination before continuing.',
                                             [
                                                 { text: 'OK', onPress: () => console.log('OK Pressed') },
                                             ],

@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const SummaryScreen = props => {
     let momentJSdate = props.requestObject.time ? props.requestObject.time : new Date();
 
-    console.log("This is a null date: ", momentJSdate)
+    // console.log("This is a null date: ", momentJSdate)
     let pickUpData = {};
     
     pickUpData['hotelId'] = 1; // maybe change in the future!
@@ -28,7 +28,7 @@ const SummaryScreen = props => {
     pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
     pickUpData['passengerId'] = props.userData.uid;
 
-    console.log("This is pickUpDate object: ", pickUpData)
+    // console.log("This is pickUpDate object: ", pickUpData)
 
     // REMEMBER! The below might have to be added when Scheduled requests are for the same day
     // if (props.immediateLocation) {
@@ -91,9 +91,9 @@ const SummaryScreen = props => {
                                     if (response.data !== "Pickup added!") {
                                         Alert.alert(
                                             'No Drivers Available at this Time!',
-                                            'Please schedule a request at a later time.',
+                                            'Would you be interested in sharing this ride?',
                                             [
-                                                {text: 'Reschedule Now', onPress: () => {
+                                                {text: 'No', onPress: () => {
                                                     // Reset both the From and To Locations to be the same
                                                     let resetOrigin = {};
                                                     resetOrigin['lat'] = props.geoLocation.latitude;
@@ -103,7 +103,19 @@ const SummaryScreen = props => {
                                                     props.setPage("home");
                                                     props.updateToLocation(null);
                                                     props.updateFromLocation(resetOrigin);
-                                                }} 
+                                                }},
+                                                {text: 'Yes', onPress: () => {
+                                                    // Reset both the From and To Locations to be the same
+                                                    let resetOrigin = {};
+                                                    resetOrigin['lat'] = props.geoLocation.latitude;
+                                                    resetOrigin['lng'] = props.geoLocation.longitude; 
+                                                    
+                                                    getPickups(props.userData.uid, props.updateScheduledPickups);
+                                                    props.setRideShare(true);
+                                                    props.setPage("home");
+                                                    props.updateToLocation(null);
+                                                    props.updateFromLocation(resetOrigin);
+                                                }}
                                             ],
                                             {cancelable: false},
                                         );
