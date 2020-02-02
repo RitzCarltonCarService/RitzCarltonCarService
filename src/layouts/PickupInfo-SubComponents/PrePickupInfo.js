@@ -60,7 +60,7 @@ const PrePickupInfo = props => {
                     props.updateToLocation(null);
                     props.updateFromLocation(resetOrigin);
                     props.setPage("home")
-                     
+                    
                 }}>
                 Back
                 </Button>

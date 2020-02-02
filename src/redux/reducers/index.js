@@ -8,6 +8,7 @@ import toLocationReducer from './toLocationReducer';
 import durationReducer from './durationReducer.js';
 import distanceReducer from './distanceReducer.js'
 import userDataReducer from './userDataReducer';
+import shiftsReducer from './shiftsReducer';
 
 const rootReducer = combineReducers({
    nav: navigateReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
    toLocation: toLocationReducer,
    duration: durationReducer,
    distance: distanceReducer,
-   userData: userDataReducer
+   userData: userDataReducer,
+   shifts: shiftsReducer
 });
 
 export default rootReducer;
