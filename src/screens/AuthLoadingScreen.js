@@ -4,8 +4,9 @@ import { ActivityIndicator } from "react-native";
 import { FIREBASE_CONFIG } from "../core/config";
 import { connect } from 'react-redux';
 import { theme } from "../core/theme";
-import * as Permissions from 'expo-permissions';
 import LogoBackground from '../components/LogoBackground';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import firebase from "firebase/app";
 import Toast from '../components/Toast';
@@ -18,6 +19,7 @@ firebase.initializeApp(FIREBASE_CONFIG);
 const AuthLoadingScreen = ({ navigation, dispatch }) => {
    const [error, setError] = useState("");
 
+   // Export 'getCurretnLocation' to be used on the driver's side as well!
    const getCurrentLocation = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
 
@@ -39,7 +41,7 @@ const AuthLoadingScreen = ({ navigation, dispatch }) => {
    firebase.auth().onAuthStateChanged(user => {
       // User is logged in
       if (user) {
-         // console.log('Firebase user object:', user)
+         console.log('Firebase user object:', user)
          try {
             axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/login', {
                params: { id: user.uid },
