@@ -1,7 +1,11 @@
+import * as Permissions from 'expo-permissions';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
+import { Notifications } from 'expo';
+import { setUserData } from '../redux/actions';
 import { connect } from 'react-redux';
 import { units } from '../core/untilities';
+import axios from 'axios';
 import Bread from '../components/Bread';
 import Toast from '../components/Toast';
 import NewPickup from '../layouts/Home-SubComponents/NewPickup';
@@ -9,7 +13,6 @@ import MenuButton from '../components/MenuButton';
 import MainScreen from '../layouts/Home-SubComponents/MainScreen';
 import MapBackground from '../components/MapBackground';
 import PrePickupInfo from '../layouts/PickupInfo-SubComponents/PrePickupInfo';
-import { setUserData } from '../redux/actions';
 
 const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
    const [page, setPage] = useState("home");
@@ -20,6 +23,46 @@ const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
    const [toast, setToast] = useState({ value: "", type: "" });
    const [visible, setVisibility] = useState(false);
 
+   // Using useEffect as a ComponentDidMount method to request Permission of the user to send push notifications
+   useEffect(() => {
+      registerForPushNotificationsAsync = async(userID) => {
+         const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+         // only asks if permissions have not already been determined, because
+         // iOS won't necessarily prompt the user a second time.
+         // On Android, permissions are granted on app installation, so
+         // `askAsync` will never prompt the user
+         
+         // Stop here if the user did not grant permissions
+         if (status !== 'granted') {
+            alert('No notification permissions!');
+            return;
+         }
+
+         try {
+            // Get the token that identifies this device
+            let token = await Notifications.getExpoPushTokenAsync();
+            console.log("This is the token: ", token)
+            
+            // POST the token to your backend server from where you can retrieve it to send push notifications.
+            axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/addToken', {
+               userID: userID,
+               token: token
+             })
+             .then((response) => {
+               console.log("This is the user data:", userData.pickups);
+             })
+             .catch((error) => {
+               console.log(error);
+             });         
+         }
+         catch(error) {
+            console.log("This is the error: ", error)
+         }
+      }
+
+      registerForPushNotificationsAsync(userData.uid);
+   }, []);
+   
    useEffect(() => {
       if (userData.displayName) {
          setToast({

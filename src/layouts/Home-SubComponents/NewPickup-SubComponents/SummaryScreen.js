@@ -15,11 +15,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const SummaryScreen = props => {
     let momentJSdate = props.requestObject.time ? props.requestObject.time : new Date();
 
-    // console.log("This is a null date: ", momentJSdate)
+    console.log("This is the requestObject: ", props.requestObject)
     let pickUpData = {};
-    
+
+    let momentHoursMins = Moment(props.requestObject.time).format("hh:mm:ss a");
+    // Creating expected time of arrival
+    let expectedArrivalTime = Moment(props.requestObject.time).add(parseInt(props.requestObject.duration), 'm').format("hh:mm:ss a");
+    let date = Moment(momentJSdate).format("LL");
+
     pickUpData['hotelId'] = 1; // maybe change in the future!
     pickUpData['startTime'] = props.requestObject.time; // maybe change in the future!
+    pickUpData['startHoursMins'] = momentHoursMins;
     pickUpData['startAddress'] = props.requestObject.from;
     pickUpData['startLat'] = props.requestObject.fromCoordinates.lat;
     pickUpData['startLng'] = props.requestObject.fromCoordinates.lng;
@@ -27,8 +33,17 @@ const SummaryScreen = props => {
     pickUpData['endLat'] = props.requestObject.toCoordinates.lat;
     pickUpData['endLng'] = props.requestObject.toCoordinates.lng;
     pickUpData['passengerId'] = props.userData.uid;
+    pickUpData['email'] = props.userData.email;
+    pickUpData['name'] = props.userData.displayName;
+    pickUpData['rideShare'] = props.requestObject.rideShare;
+    pickUpData['expectedArrivalTime'] = expectedArrivalTime; 
+    pickUpData['duration'] = props.requestObject.duration;
+    pickUpData['distance'] = props.requestObject.distance;
+    pickUpData['luggage'] = props.requestObject.bags;
+    pickUpData['travelers'] = props.requestObject.passengers;
+    pickUpData['date'] = date;
 
-    // console.log("This is pickUpDate object: ", pickUpData)
+    console.log("This is pickUpDate object: ", pickUpData)
 
     // REMEMBER! The below might have to be added when Scheduled requests are for the same day
     // if (props.immediateLocation) {
