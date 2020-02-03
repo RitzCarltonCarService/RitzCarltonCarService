@@ -13,13 +13,9 @@ import LocationMapView from './LocationMapView.js';
 import getPickups from '../../../../components/getPickups';
 import { updateScheduledPickups } from '../../../../redux/actions';
 import { units } from "../../../../core/untilities.js";
-import { GOOGLE_MAPS_APIKEY } from 'react-native-dotenv';
+import { GOOGLE_PLACES_APIKEY, GOOGLE_MAPS_APIKEY } from 'react-native-dotenv';
 
 const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
-    // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
-    // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
-    
-    const GOOGLE_MAPS_APIKEY = '';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFromLocation] = useState(null);
@@ -40,7 +36,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                 let long = props.geoLocation.longitude;
                 let coords = lat + "," + long;
 
-                let res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords}&key=${GOOGLE_MAPS_APIKEY}`);
+                let res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords}&key=${GOOGLE_PLACES_APIKEY}`);
                 // console.log("This is the response: ", res);
                 let address = res.data.results[1].formatted_address
                 // Setting initial from location to user's current geoLocation address
