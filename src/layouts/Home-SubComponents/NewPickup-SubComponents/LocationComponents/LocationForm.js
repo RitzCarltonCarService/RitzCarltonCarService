@@ -16,8 +16,6 @@ import { units } from "../../../../core/untilities.js";
 import { GOOGLE_PLACES_APIKEY, GOOGLE_MAPS_APIKEY } from 'react-native-dotenv';
 
 const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
-    // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
-    // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFromLocation] = useState(null);
