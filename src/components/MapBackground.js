@@ -18,6 +18,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import { aubergineMapStyle, silverMapStyle } from '../core/mapStyles';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { units } from '../core/untilities';
+import { GOOGLE_MAPS_APIKEY } from 'react-native-dotenv';
 
 const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation, updateRideDistance, updateRideDuration, ...props }) => {
    const ASPECT_RATIO = units.vw / units.vh;
@@ -80,7 +81,7 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
                onReady={result => {
                   // Adding to Redux store the new distance and duration of user's selected route
                   updateRideDistance(result.distance + 'km')
-                  updateRideDuration(result.duration + 'min')
+                  updateRideDuration(result.duration)
 
                   // refContainer.current.fitToElements(true);
                   refContainer.current.fitToCoordinates(result.coordinates, {

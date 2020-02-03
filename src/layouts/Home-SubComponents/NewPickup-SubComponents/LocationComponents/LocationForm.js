@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import Moment from 'moment';
 import { connect } from 'react-redux';
@@ -12,6 +13,7 @@ import LocationMapView from './LocationMapView.js';
 import getPickups from '../../../../components/getPickups';
 import { updateScheduledPickups } from '../../../../redux/actions';
 import { units } from "../../../../core/untilities.js";
+import { GOOGLE_MAPS_APIKEY } from 'react-native-dotenv';
 
 const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
