@@ -18,8 +18,6 @@ import { GOOGLE_MAPS_APIKEY } from 'react-native-dotenv';
 const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
     // MAKE SURE TO REMOVE GOOGLE MAPS API KEY BEFORE PUSHING TO GIT HUB!!!!!!!!
     // REMEMBER TO ADD API KEY IF YOU WANT TO SEARCH GOOGLE PLACES!!!!!!!!
-    
-    const GOOGLE_MAPS_APIKEY = '';
 
     // Hooks for storing 'toLocation' and 'fromLocation'
     const [fromLocation, setFromLocation] = useState(null);

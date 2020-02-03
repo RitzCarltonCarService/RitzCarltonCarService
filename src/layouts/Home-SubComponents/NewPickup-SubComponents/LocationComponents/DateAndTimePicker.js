@@ -75,7 +75,7 @@ const DateAndTimePicker = props => {
   };
 
   return ( 
-    <>
+    <View>
       {Platform.OS === 'ios' && (
         <DateTimePickerModal
           headerTextIOS="Pick a date & time"
@@ -95,7 +95,7 @@ const DateAndTimePicker = props => {
           onCancel={hideDatePicker}
         />
       )}
-    </>
+    </View>
   )
 }
 
