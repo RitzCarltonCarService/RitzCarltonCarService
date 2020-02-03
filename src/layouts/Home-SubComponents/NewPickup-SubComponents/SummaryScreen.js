@@ -98,11 +98,13 @@ const SummaryScreen = props => {
                     <View style={styles.logoContainer}>
                         <Button
                             onPress={() => {
+                                console.log("pressed submit");
                                 // Posting new ride request to the database
                                 axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/newPickup', {
                                     pickupData: pickUpData
                                 })
                                 .then((response) => {
+                                    console.log(JSON.stringify(response.data));
                                     if (response.data !== "Pickup added!") {
                                         Alert.alert(
                                             'No Drivers Available at this Time!',

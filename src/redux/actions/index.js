@@ -56,3 +56,7 @@ export function updateRideDistance(distance) {
 export function setUserData(payload) {
     return { type: SET_USER_DATA, payload }
 };
+
+export function updateShifts(shifts) {
+    return { type: UPDATE_SHIFTS, newShifts: shifts }
+}
