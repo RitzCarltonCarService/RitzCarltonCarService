@@ -97,7 +97,7 @@ const DriverDash = ({ userData }) => {
       .then(res => {
 
          setInterval(() => {
-            let id = getCarId(shifts);
+            let id = getCarId(res);
             if (!id) {
                return;
             }
