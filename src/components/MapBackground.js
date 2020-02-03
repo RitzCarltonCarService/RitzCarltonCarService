@@ -25,7 +25,6 @@ const MapBackground = ({ style, region, scrollEnabled, fromLocation, toLocation,
    let hour = new Date().getHours();
    let origin = {};
    let destination = {};
-   const GOOGLE_MAPS_APIKEY = '';
    const refContainer = useRef(null);
    
    if (fromLocation) {
