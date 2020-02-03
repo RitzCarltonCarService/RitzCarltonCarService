@@ -60,7 +60,7 @@ const PrePickupInfo = props => {
                     props.updateToLocation(null);
                     props.updateFromLocation(resetOrigin);
                     props.setPage("home")
-                     
+                    
                 }}>
                 Back
                 </Button>
@@ -71,7 +71,7 @@ const PrePickupInfo = props => {
                     <Modal
                         visible={modalOpen}
                     >
-                        <CancelModal setModalOpen={setModalOpen} setPage={props.setPage} id={pickup.id} />
+                        <CancelModal setModalOpen={setModalOpen} setPage={props.setPage} id={pickup.pickupId} />
                     </Modal>
                 </Portal>
             </Provider>
