@@ -104,7 +104,7 @@ const SummaryScreen = props => {
                                     pickupData: pickUpData
                                 })
                                 .then((response) => {
-                                    console.log(JSON.stringify(response.data));
+                                    // console.log(JSON.stringify(response.data));
                                     if (response.data !== "Pickup added!") {
                                         Alert.alert(
                                             'No Drivers Available at this Time!',
@@ -163,7 +163,7 @@ const SummaryScreen = props => {
                                                         }
                                                     })
                                                     .then(response => {
-                                                        console.log(response)
+                                                        console.log("Sent Push!")
                                                     })
                                                     .catch(err => {
                                                         console.log(err)

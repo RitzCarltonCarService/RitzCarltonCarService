@@ -51,7 +51,7 @@ const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
                token: token
              })
              .then((response) => {
-               console.log("This is the user data:", userData.pickups);
+               console.log("Added token!");
              })
              .catch((error) => {
                console.log(error);
