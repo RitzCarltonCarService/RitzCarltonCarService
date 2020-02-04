@@ -59,6 +59,7 @@ const NewPickup = props => {
                         setForm={setForm}
                         setPage={props.setPage}
                         immediateLocation={immediateLocation}
+                        userToken={props.userToken}
                         requestObject={{
                             from: from,
                             to: to,

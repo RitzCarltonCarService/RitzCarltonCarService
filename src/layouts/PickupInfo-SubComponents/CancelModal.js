@@ -7,7 +7,7 @@ import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import { units } from '../../core/untilities';
 import getPickups from '../../components/getPickups';
-import { updateScheduledPickups } from '../../redux/actions';
+import { updateScheduledPickups, updateToLocation, updateFromLocation } from '../../redux/actions';
 import axios from 'axios';
 
 const CancelModal = props => (
@@ -43,6 +43,13 @@ const CancelModal = props => (
                                 id: props.id
                             })
                                 .then(() => {
+                                    // Reseting coordaintes on MapBackground
+                                    let resetOrigin = {};
+                                    resetOrigin['lat'] = props.geoLocation.latitude;
+                                    resetOrigin['lng'] = props.geoLocation.longitude;
+
+                                    props.updateToLocation(null);
+                                    props.updateFromLocation(resetOrigin);
                                     props.setModalOpen(false);
                                     props.setPage("home");
                                 })
@@ -139,12 +146,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        userData: state.userData
+        userData: state.userData,
+        geoLocation: state.geoLocation
     }
 }
 
 const mapDispatchToProps = {
-    updateScheduledPickups: updateScheduledPickups
+    updateScheduledPickups: updateScheduledPickups,
+    updateFromLocation: updateFromLocation,
+    updateToLocation: updateToLocation
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CancelModal);

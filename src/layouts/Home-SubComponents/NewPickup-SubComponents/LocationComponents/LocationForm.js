@@ -35,6 +35,7 @@ const LocationForm = ({ updateFromLocation, updateToLocation, ...props }) => {
                 let lat = props.geoLocation.latitude;
                 let long = props.geoLocation.longitude;
                 let coords = lat + "," + long;
+                // console.log("These are the coords: ", coords)
 
                 let res = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords}&key=${GOOGLE_PLACES_APIKEY}`);
                 // console.log("This is the response: ", res);

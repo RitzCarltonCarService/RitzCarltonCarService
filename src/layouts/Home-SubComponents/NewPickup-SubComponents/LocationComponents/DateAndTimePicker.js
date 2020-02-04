@@ -1,5 +1,5 @@
 import React, { useState, memo } from 'react';
-import { Platform, Alert } from 'react-native';
+import { Platform, Alert, View } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Appearance, useColorScheme } from 'react-native-appearance';
 
@@ -75,7 +75,7 @@ const DateAndTimePicker = props => {
   };
 
   return ( 
-    <>
+    <View>
       {Platform.OS === 'ios' && (
         <DateTimePickerModal
           headerTextIOS="Pick a date & time"
@@ -95,7 +95,7 @@ const DateAndTimePicker = props => {
           onCancel={hideDatePicker}
         />
       )}
-    </>
+    </View>
   )
 }
 
