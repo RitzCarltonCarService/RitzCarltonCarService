@@ -13,7 +13,7 @@ import { updateShifts } from '../redux/actions';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 
-const DriverDash = ({ userData }) => {
+const DriverDash = (props) => {
    const [veil, setVeil] = useState("schedule");
    const [visible, setVisibility] = useState(false);
    const [componentDidMount, setComponentDidMount] = useState(false);
@@ -22,7 +22,7 @@ const DriverDash = ({ userData }) => {
       return new Promise((resolve, reject) => {
          axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getShifts', {
             params: {
-               driverId: userData.uid
+               driverId: props.userData.uid
             }
          })
          .then(res => {
@@ -96,6 +96,8 @@ const DriverDash = ({ userData }) => {
       getShifts()
       .then(res => {
 
+         console.log(res);
+
          setInterval(() => {
             let id = getCarId(res);
             if (!id) {
@@ -113,16 +115,28 @@ const DriverDash = ({ userData }) => {
                })
             })
             .then (data => {
-               console.log(data.data);
                if (data.data === "New info") {
                   return axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getShifts', {
                      params: {
-                        driverId: userData.uid
+                        driverId: props.userData.uid
                      }
                   })
                   .then (res => {
+                     Alert.alert(
+                        'New Pickup',
+                        'A pickup was added to your schedule.',
+                        [
+                          {
+                            text: 'Okay',
+                            onPress: () => console.log('Cancel Pressed'),
+                            style: 'cancel',
+                          },
+                        ],
+                        {cancelable: false},
+                      );
+                     
                      console.log("Grabbing new info");
-                     console.log(res);
+                     props.updateShifts(res);
                   })
                   .catch (err => {
                      console.log(err);
@@ -131,6 +145,9 @@ const DriverDash = ({ userData }) => {
 
             })
          }, 10000);
+
+         console.log("Data: ");
+         props.updateShifts(res);
       })
       .catch (err => {
          console.log(err);
@@ -167,7 +184,7 @@ const DriverDash = ({ userData }) => {
             setVeil(component)
             setVisibility(false)
          }}
-         userData={userData}
+         userData={props.userData}
        />
       <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
       </>

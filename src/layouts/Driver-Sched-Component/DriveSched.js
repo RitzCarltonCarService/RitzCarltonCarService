@@ -1,4 +1,5 @@
 import React, { memo, useState, useEffect } from "react";
+import { connect } from 'react-redux';
 import { StyleSheet, Text, View } from "react-native";
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import { render } from "react-dom";
@@ -7,9 +8,103 @@ import { CalendarList, Agenda } from 'react-native-calendars';
 import Logo from "../../components/Logo";
 import Header from "../../components/Header";
 
-const DriveSched = ({ navigation }) => {
+const formatData = function (data) {
+  let pickups = [];
+
+  //extract pickups from availabilities
+
+  for (let i = 0; i < data.length; i++) {
+    const availability = data[i].pickups;
+
+    for (let j = 0; j < availability.length; j++) {
+      if (availability[j].id) {
+        pickups.push(availability[j]);
+      }
+    }
+  }
+
+  return pickups;
+}
+
+const formatDate = function (date) {
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate() + 1;
+
+  if (month < 10) {
+    month = "0" + month;
+  }
+
+  if (day < 10) {
+    day = "0" + day;
+  }
+
+  return year + "-" + month + "-" + day;
+}
+
+const createSkeleton = function (data) {
+  let date = data[0].estimatedStartTime;
+  let lastDate = data[data.length - 1].estimatedStartTime.split("T")[0];
+
+  let skeleton = {};
+
+  for (let i = 0; i < data.length; i++) {
+    if (!skeleton[data[i].estimatedStartTime.split("T")[0]]) {
+      skeleton[data[i].estimatedStartTime.split("T")[0]] = [];
+    }
+    skeleton[data[i].estimatedStartTime.split("T")[0]].push(data[i]);
+  }
+
+  date = date.split("T")[0]
+
+while (date !== lastDate) {
+    date = new Date(date);
+    date.setDate(date.getDate() + 1)
+
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate() + 1;
+
+    date = formatDate(date);
+
+    if (!skeleton[date]){
+      skeleton[date] = [];
+    }
+
+  }
+
+  console.log(skeleton);
+
+  return skeleton;
+}
+
+const DriveSched = props => {
    let [appt, setAppt] = useState(appointments);
    let [index, setIndex] = useState(-1);
+
+   let pickups = formatData(props.shifts);
+   pickups.sort((a, b) => {return new Date(a.estimatedStartTime) - new Date(b.estimatedStartTime)});
+
+   const skeleton = createSkeleton(pickups);
+
+   const formatTime = function (datetime) {
+     console.log(datetime);
+     let hours = datetime.getHours();
+     let minutes = datetime.getMinutes();
+     let ampm = "AM";
+
+     if (hours > 11) {
+       ampm = "PM";
+       hours -= 12;
+     }
+
+     if (hours === 0) {
+       hours = 12;
+     }
+
+     return hours + ":" + minutes + " " + ampm;
+   }
+
    return (
       <>
          <View>
@@ -18,53 +113,30 @@ const DriveSched = ({ navigation }) => {
             <Header>Driver Schedule</Header>
             <Agenda
               style={styles.sched}
-              items={{
-                '2020-01-22': [{}],
-                '2020-01-23': [{},{},{},{},{},{},{},{},{},{},{},{},{}],
-                '2020-01-24': [],
-                '2020-01-25': [{},{}],
-                '2020-01-26': [{},{}],
-                '2020-01-27': [{},{}],
-                '2020-01-28': [{},{}],
-                '2020-01-29': [{},{}],
-                '2020-01-30': [{},{}],
-              }}
+              items={skeleton}
               //loadItemsForMonth={this.loadItems.bind(this)}
-              //selected={'2020-01-22'}
+              selected={() => {
+                let date = new Date();
+                date.setDate(date.getDate() - 1);
+                return formatDate(date);
+              }}
               renderItem={(item) => {
                 index++;
-                if(index === appt.length) index = 0;
                 return (
                 <View style={[styles.item, {height: 130}]}>
                   <Text>
-                    <Text style={styles.bold}>{`${appt[index].title}` + "\n"}</Text>
-                    <Text style={styles.location}>{`${appt[index].location}` + "\n"}</Text>
-                    <Text><Text style={styles.bold}>Start:</Text>{` ${appt[index].startDate}` + "\n"}</Text> 
-                    <Text><Text style={styles.bold}>End:</Text>{` ${appt[index].endDate}` + "\n"}</Text>
+                    <Text><Text style={styles.bold}>Pickup:</Text><Text style={styles.location}>{` ${formatTime(new Date(item.estimatedStartTime))}` + "\n"}</Text></Text>
+                    <Text>{`${item.startAddress}` + "\n"}</Text>
+                    <Text><Text style={styles.bold}>Dropoff:</Text><Text style={styles.location}>{` ${formatTime(new Date(item.estimatedEndTime))}` + "\n"}</Text></Text>
+                    <Text>{`${item.endAddress}` + "\n"}</Text>
                   </Text>
                 </View>
               );}}
               renderEmptyDate={() => {return (<View />);}}
               rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
-              pastScrollRange={20}
+              pastScrollRange={1}
               futureScrollRange={20}
-              // markingType={'period'}
-              markedDates={{
-                 '2020-01-22': {selected: true, marked: true, selectedColor: 'red'},
-                 '2020-01-23': {selected: true, marked: true, selectedColor: 'lime'},
-                 '2020-01-25': {selected: true, marked: true, selectedColor: 'darkviolet'},
-                 '2020-01-26': { marked: true, dotColor: 'red'},
-                 '2020-01-27': { marked: true},
-                 '2020-01-28': { marked: true},
-                 '2020-01-29': { marked: true},
-                 '2020-01-30': { marked: true},
-              }}
-              // monthFormat={'yyyy'}
-              // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
-              //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
-              // hideExtraDays={false}
             />
-            
           </TheWhiteSquare>
          </View>
       </>
@@ -98,4 +170,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default memo(DriveSched);
+const mapStateToProps = state => {
+  return {
+    shifts: state.shifts
+  }
+}
+
+export default connect(mapStateToProps, null)(DriveSched);
