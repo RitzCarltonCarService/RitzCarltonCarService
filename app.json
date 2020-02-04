@@ -17,6 +17,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification": {
+      "icon": "./assets/RitzMapIcon.png"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

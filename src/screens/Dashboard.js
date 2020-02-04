@@ -22,6 +22,8 @@ const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
    const [rideShare, setRideShare] = useState(false);
    const [toast, setToast] = useState({ value: "", type: "" });
    const [visible, setVisibility] = useState(false);
+   // userToken hook to store user token for push notifications
+   const [userToken, setUserToken] = useState('');
 
    // Using useEffect as a ComponentDidMount method to request Permission of the user to send push notifications
    useEffect(() => {
@@ -41,7 +43,7 @@ const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
          try {
             // Get the token that identifies this device
             let token = await Notifications.getExpoPushTokenAsync();
-            console.log("This is the token: ", token)
+            setUserToken(token);
             
             // POST the token to your backend server from where you can retrieve it to send push notifications.
             axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/addToken', {
@@ -49,7 +51,7 @@ const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
                token: token
              })
              .then((response) => {
-               console.log("This is the user data:", userData.pickups);
+               console.log("Added token!");
              })
              .catch((error) => {
                console.log(error);
@@ -101,7 +103,13 @@ const Home = ({ region, userData, navigation, fromLocation, toLocation }) => {
                switch (page) {
                   case "new pickup":
                      return (
-                        <NewPickup setPage={setPage} setRideShare={setRideShare} rideShare={rideShare} scheduled={scheduled} />
+                        <NewPickup 
+                           setPage={setPage} 
+                           setRideShare={setRideShare} 
+                           rideShare={rideShare} 
+                           scheduled={scheduled} 
+                           userToken={userToken}
+                        />
                      )
                   case "pickup info":
                      return (

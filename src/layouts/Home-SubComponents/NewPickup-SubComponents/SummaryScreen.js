@@ -104,7 +104,7 @@ const SummaryScreen = props => {
                                     pickupData: pickUpData
                                 })
                                 .then((response) => {
-                                    console.log(JSON.stringify(response.data));
+                                    // console.log(JSON.stringify(response.data));
                                     if (response.data !== "Pickup added!") {
                                         Alert.alert(
                                             'No Drivers Available at this Time!',
@@ -146,8 +146,29 @@ const SummaryScreen = props => {
                                                     // Reset both the From and To Locations to be the same
                                                     let resetOrigin = {};
                                                     resetOrigin['lat'] = props.geoLocation.latitude;
-                                                    resetOrigin['lng'] = props.geoLocation.longitude; 
-                                                    
+                                                    resetOrigin['lng'] = props.geoLocation.longitude;
+
+                                                    // Sending push notification to the current user with ride details
+                                                    axios({
+                                                        method: 'post',
+                                                        url: 'https://exp.host/--/api/v2/push/send',
+                                                        headers: {
+                                                            'Content-Type': 'application/json'
+                                                        }, 
+                                                        data: {
+                                                            "to": props.userToken,
+                                                            "sound": "default",
+                                                            "title": "Ritz-Carlton: Ride Request Confirmation",
+                                                            "body": `Thank you for your request.'\n'Request-Date: ${date}'\n'Time: ${momentHoursMins}'`
+                                                        }
+                                                    })
+                                                    .then(response => {
+                                                        console.log("Sent Push!")
+                                                    })
+                                                    .catch(err => {
+                                                        console.log(err)
+                                                    })
+
                                                     getPickups(props.userData.uid, props.updateScheduledPickups);
                                                     props.setPage("home");
                                                     props.updateToLocation(null);
