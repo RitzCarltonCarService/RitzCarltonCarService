@@ -31,9 +31,6 @@ const formatDate = function (date) {
   let month = date.getMonth() + 1;
   let day = date.getDate() + 1;
 
-  console.log(date.getFullYear(), date.getMonth(), date.getDate());
-  console.log(date.toString());
-
   if (month < 10) {
     month = "0" + month;
   }
@@ -72,21 +69,70 @@ const createSkeleton = function (data) {
 
   let dateString = formatDate(date);
 
-  // while (date !== lastDate) {
-  for (let i = 0; i < 21; i++) {
-    console.log(" ");
-    console.log(date);
-    date = new Date(date.getTime() + 8.64e7)
-    console.log(date);
+  let dateArray = dateString.split("-");
+  dateArray[1] = Number(dateArray[1]);
+  dateArray[2] = Number(dateArray[2]);
 
-    dateString = formatDate(date);
+  let monthObject = {
+    31: {
+      1: true,
+      3: true,
+      5: true,
+      7: true,
+      8: true,
+      10: true,
+      12: true
+    },
+    30: {
+      4: true,
+      6: true,
+      9: true,
+      11: true
+    },
+    28: {
+      2: true
+    }
+  }
 
-    console.log("DS:  " + dateString);
+  const changeMonth = function(dateArray) {
+    dateArray[2] = 1;
+    dateArray[1]++;
+    if (dateArray[1] === 13) {
+      dateArray[0]++;
+      dateArray[1] = 1
+    }
+  }
 
+  for (let i = 0; i < 30; i++) {
+
+    let year = dateArray[0];
+    let month = dateArray[1];
+    let day = dateArray[2];
+
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    if (day < 10) {
+      day  = "0" + day;
+    }
+
+    dateString = year + "-" + month + "-" + day;
     if (!skeleton[dateString]){
       skeleton[dateString] = [];
     }
 
+    dateArray[2]++;
+
+    if (monthObject["31"][dateArray[1]] && dateArray[2] === 32) {
+      changeMonth(dateArray);
+    } else if (monthObject["30"][dateArray[1]] && dateArray[2] === 31) {
+      changeMonth(dateArray);
+    } else if (monthObject["28"][dateArray[1]] && dateArray[2] === 30 && dateArray[0] % 4 === 0) {
+      changeMonth(dateArray);
+    } else if (monthObject["28"][dateArray[1]] && dateArray[2] === 29 && dateArray[0] % 4 !== 0) {
+      changeMonth(dateArray);
+    }
   }
 
   return skeleton;
@@ -145,7 +191,7 @@ const DriveSched = props => {
               renderEmptyDate={() => {return (<View />);}}
               rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
               pastScrollRange={2}
-              futureScrollRange={7}
+              futureScrollRange={5}
             />
           </TheWhiteSquare>
          </View>
