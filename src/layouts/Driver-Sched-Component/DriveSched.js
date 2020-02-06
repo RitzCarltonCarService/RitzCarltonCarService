@@ -68,19 +68,23 @@ const createSkeleton = function (data) {
 
   date = date.split("T")[0]
 
+  date = new Date(date);
+
+  let dateString = formatDate(date);
+
   // while (date !== lastDate) {
-  for (let i = 0; i < 30; i++) {
-    date = new Date(date);
+  for (let i = 0; i < 21; i++) {
+    console.log(" ");
+    console.log(date);
     date = new Date(date.getTime() + 8.64e7)
+    console.log(date);
 
-    date = formatDate(date);
+    dateString = formatDate(date);
 
-    if (date === "2020-02-30") {
-      date = "2020-03-01";
-    }
+    console.log("DS:  " + dateString);
 
-    if (!skeleton[date]){
-      skeleton[date] = [];
+    if (!skeleton[dateString]){
+      skeleton[dateString] = [];
     }
 
   }
