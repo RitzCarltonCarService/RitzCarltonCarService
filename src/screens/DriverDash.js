@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { navigate, toHome } from '../redux/actions';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 import { units } from '../core/untilities';
 import DriveSched from '../layouts/Driver-Sched-Component/DriveSched';
@@ -116,12 +116,15 @@ const DriverDash = (props) => {
             })
             .then (data => {
                if (data.data === "New info") {
+                  console.log("There's new info");
                   return axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getShifts', {
                      params: {
                         driverId: props.userData.uid
                      }
                   })
                   .then (res => {
+                     console.log("Got the new info");
+                     console.log(res.data);
                      Alert.alert(
                         'New Pickup',
                         'A pickup was added to your schedule.',
@@ -136,7 +139,8 @@ const DriverDash = (props) => {
                       );
                      
                      console.log("Grabbing new info");
-                     props.updateShifts(res);
+                     console.log(res.data);
+                     props.updateShifts(res.data);
                   })
                   .catch (err => {
                      console.log(err);

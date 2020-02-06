@@ -31,6 +31,9 @@ const formatDate = function (date) {
   let month = date.getMonth() + 1;
   let day = date.getDate() + 1;
 
+  console.log(date.getFullYear(), date.getMonth(), date.getDate());
+  console.log(date.toString());
+
   if (month < 10) {
     month = "0" + month;
   }
@@ -43,8 +46,16 @@ const formatDate = function (date) {
 }
 
 const createSkeleton = function (data) {
-  let date = data[0].estimatedStartTime;
-  let lastDate = data[data.length - 1].estimatedStartTime.split("T")[0];
+  let today = new Date();
+  today = new Date(today.getTime() + 8.64e7);
+  console.log("TWO DAYS AGO: "+ today);
+  console.log(today);
+  let date = formatDate(today);
+  console.log("FIRST DATE SHOWN: " + date);
+  let lastDate = new Date(data[data.length - 1].estimatedStartTime);
+  lastDate = new Date(lastDate.getTime() + (8.64e7 * 30));
+  lastDate = formatDate(lastDate);
+
 
   let skeleton = {};
 
@@ -57,15 +68,16 @@ const createSkeleton = function (data) {
 
   date = date.split("T")[0]
 
-while (date !== lastDate) {
+  // while (date !== lastDate) {
+  for (let i = 0; i < 30; i++) {
     date = new Date(date);
-    date.setDate(date.getDate() + 1)
-
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate() + 1;
+    date = new Date(date.getTime() + 8.64e7)
 
     date = formatDate(date);
+
+    if (date === "2020-02-30") {
+      date = "2020-03-01";
+    }
 
     if (!skeleton[date]){
       skeleton[date] = [];
@@ -73,14 +85,10 @@ while (date !== lastDate) {
 
   }
 
-  console.log(skeleton);
-
   return skeleton;
 }
 
 const DriveSched = props => {
-   let [appt, setAppt] = useState(appointments);
-   let [index, setIndex] = useState(-1);
 
    let pickups = formatData(props.shifts);
    pickups.sort((a, b) => {return new Date(a.estimatedStartTime) - new Date(b.estimatedStartTime)});
@@ -88,7 +96,6 @@ const DriveSched = props => {
    const skeleton = createSkeleton(pickups);
 
    const formatTime = function (datetime) {
-     console.log(datetime);
      let hours = datetime.getHours();
      let minutes = datetime.getMinutes();
      let ampm = "AM";
@@ -121,7 +128,6 @@ const DriveSched = props => {
                 return formatDate(date);
               }}
               renderItem={(item) => {
-                index++;
                 return (
                 <View style={[styles.item, {height: 130}]}>
                   <Text>
@@ -134,8 +140,8 @@ const DriveSched = props => {
               );}}
               renderEmptyDate={() => {return (<View />);}}
               rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
-              pastScrollRange={1}
-              futureScrollRange={20}
+              pastScrollRange={2}
+              futureScrollRange={7}
             />
           </TheWhiteSquare>
          </View>
