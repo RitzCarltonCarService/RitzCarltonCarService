@@ -12,6 +12,7 @@ export const ADD_TO_LOCATION = "ADD_TO_LOCATION";
 export const ADD_DURATION_TIME = 'ADD_DURATION_TIME';
 export const ADD_DISTANCE_AMOUNT = 'ADD_DISTANCE_AMOUNT';
 export const SET_USER_DATA = 'SET_USER_DATA';
+export const UPDATE_SHIFTS = "UPDATE_SHIFTS";
 
 // ----------------------
 // Actions
