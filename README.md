@@ -12,7 +12,7 @@
  - [How to Use?](#how-to-use)
 
 ## Demo
-![GIF OF DEMO](https://thumbs.gfycat.com/FamiliarAdvancedConey-size_restricted.gif)
+![GIF OF DEMO]()
 
 ## Contributors
 * [Taylor George](https://github.com/atgeorge11)
@@ -58,6 +58,7 @@ App is compatible with both Android and iOS platforms.
 * AWS RDS
 #### Additional Technologies
 * Firebase
+* Twilio
 * Mailjet
 * Docker
 * Travis CI
@@ -71,5 +72,5 @@ Ritz Carlton Ride Share was developed as a tech demo. As such, its core features
 * Ride share functionality
 * A management console that managers can use to add driver accounts, schedule driver shifts, and view all data for past and future pickups
 * A map and directions feature for the driver console
-* A more reactive series of app state changes and notifications for both the user and driver consoles immediately before, during, and after pickup (making use of Socket.IO)
+* A more reactive series of app state changes and notifications for both the user and driver consoles immediately before, during, and after pickup (using Socket.IO)
 * Driver time card tracking
