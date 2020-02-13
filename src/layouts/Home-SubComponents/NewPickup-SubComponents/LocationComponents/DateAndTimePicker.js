@@ -4,8 +4,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Appearance, useColorScheme } from 'react-native-appearance';
 
 const DateAndTimePicker = props => {
-  // Checking the dark mode of the phone, and if enabled, override it for iOS
-  const colorScheme = Appearance.getColorScheme();
+  // Checking the dark mode setting of the OS
+  const colorScheme = useColorScheme();
 
   // Display modes for Android (date/time)
   const [mode, setMode] = useState('date');
@@ -84,6 +84,11 @@ const DateAndTimePicker = props => {
           mode="datetime"
           onConfirm={handleIoSConfirm}
           onCancel={hideDatePicker}
+          style={{
+            backgroundColor: colorScheme === 'dark' 
+              ? 'grey'
+              : 'white'
+          }}
         />
       )}
 
