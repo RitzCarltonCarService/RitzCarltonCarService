@@ -60,14 +60,10 @@ const MainScreen = props => {
                 <Button onPress={() => { props.setPage("new pickup"); props.setScheduled(false) }} mode={"contained"}>
                     Request a Ride Now
                 </Button>
-<<<<<<< HEAD
-                <Button onPress={() => { props.updateScheduledPickups(dummyData) }} mode={"contained"}>
-=======
                 <Button onPress={() => {
                         props.setPage("new pickup")
                         props.setScheduled(true)
                     }} mode={"contained"}>
->>>>>>> 5e7b20c058f59d2ad4e9547760db77d3679a14e9
                     Schedule a Ride
                 </Button>
             </View>

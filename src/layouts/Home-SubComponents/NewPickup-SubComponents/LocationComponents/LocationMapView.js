@@ -133,7 +133,6 @@ const LocationMapView = ({ updateToLocation, updateFromLocation, ...props }) => 
                                                 paddingLeft: '6%' 
                                                 }}
                                                 label="From:"
-                                                editable={true}
                                                 defaultValue={inputValue}
                                                 value={props.fromLocation}
                                                 onFocus={() => {setFocusedThing(1)}}
