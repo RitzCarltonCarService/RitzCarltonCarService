@@ -6,7 +6,7 @@ import DescribeRide from '../../../components/DescribeRide';
 
 const RideShareQuestion = (props) => {
     let title ="Individual Ride" //String 1 "individual Ride"
-    let header1 ="How many" //String 2 "how many"
+    let header1 ="How many additional" //String 2 "how many"
     let header2 ="passengers are"//string 3 "passengers are"
     let header3 ="traveling with you?"//string 4 "traveling with you"
     let nextForm = 3// props.setForm(3)
@@ -22,6 +22,7 @@ const RideShareQuestion = (props) => {
                 setForm={props.setForm}
                 nextForm={nextForm}
                 previousForm={previousForm}
+                setField={props.setPassengers}
             />
         </View>
     )

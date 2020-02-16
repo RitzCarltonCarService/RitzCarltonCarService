@@ -1,16 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateCurrentPickup } from '../../../redux/actions';
+import { updateCurrentPickup, updateToLocation, updateFromLocation } from '../../../redux/actions';
 import { View, Text, Image, StyleSheet, Platform, TouchableHighlight } from 'react-native';
 import Button from '../../../components/Button';
 import { theme } from '../../../core/theme';
+import dateParser from '../../../components/dateParser';
 
 const PickupEntry = props => {
 
-    let from = props.data.from;
-    let to = props.data.to;
-    let time = props.data.time;
-    let date = props.data.date;
+    let datetime = new Date(props.data.estimatedStartTime).toString().split(" ");
+
+    let from = props.data.startAddress;
+    let to = props.data.endAddress;
+    let time = datetime[4];
+    let date = datetime[0] + " " + datetime[1] + " " + datetime[2] + " " + datetime[3];
 
     if (from.length > 40) {
         from = from.substring(0, 37) + "...";
@@ -28,30 +31,23 @@ const PickupEntry = props => {
         date = date.substring(0, 17) + "...";
     }
 
-    console.log(props.data)
-
     return (
         <TouchableHighlight
-            onPress={() => {
-                console.log(props.id)
-                props.updateCurrentPickup(props.id);
-                props.setPage("pickup info");
-            }}
             underlayColor={"lightgray"}
         >
             <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.text}>
-                    From: {from}
+                    <Text style={{fontWeight: "bold"}}>From: </Text>{from}
                 </Text>
                 <Text style={styles.text}>
-                    To: {to}
+                    <Text style={{fontWeight: "bold"}}>To: </Text>{to}
                 </Text>
                 <Text style={styles.text}>
-                    Time: {time}
+                    <Text style={{fontWeight: "bold"}}>Time: </Text>{dateParser.translateTime(time)}
                 </Text>
                 <Text style={styles.text}>
-                    Date: {date}
+                    <Text style={{fontWeight: "bold"}}>Date: </Text>{date}
                 </Text>
             </View>
             <View style={styles.rightCol}>
@@ -74,8 +70,23 @@ const PickupEntry = props => {
                         lineHeight: 9,
                         color: theme.colors.secondary,
                      }}
+                     onPress={() => {
+                        let fromDestination = {};
+                        let toDestination = {};
+
+                        fromDestination['lat'] = props.data.startLat;
+                        fromDestination['lng'] = props.data.startLng;
+
+                        toDestination['lat'] = props.data.endLat;
+                        toDestination['lng'] = props.data.endLng; 
+
+                        props.updateCurrentPickup(props.id);
+                        props.updateFromLocation(fromDestination);
+                        props.updateToLocation(toDestination);
+                        props.setPage("pickup info");
+                    }}
                 >
-                    Cancel
+                    View
                 </Button>
             </View>
             </View>
@@ -84,7 +95,9 @@ const PickupEntry = props => {
 }
 
 const mapDispatchToProps = {
-    updateCurrentPickup: updateCurrentPickup
+    updateCurrentPickup: updateCurrentPickup,
+    updateToLocation: updateToLocation,
+    updateFromLocation: updateFromLocation
 }
 
 export default connect(null, mapDispatchToProps)(PickupEntry);

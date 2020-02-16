@@ -1,152 +1,210 @@
 import React, { memo, useState, useEffect } from "react";
-import { TouchableOpacity, StyleSheet, Text, View, Picker } from "react-native";
-import MapBackground from "../components/MapBackground";
-import Logo from "../components/Logo";
-import Header from "../components/Header";
-import Button from "../components/Button";
-import TextInput from "../components/TextInput";
-import BackButton from "../components/BackButton";
-import TheWhiteSquare from '../components/TheWhiteSquare';
-import { theme } from "../core/theme";
-import { emailValidator, passwordValidator } from "../core/untilities";
-import Toast from "../components/Toast";
-import ModalDropdown from 'react-native-modal-dropdown';
-import firebase from 'firebase';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { navigate, toHome } from '../redux/actions';
+import { View, StyleSheet, Alert } from 'react-native';
+import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+import { units } from '../core/untilities';
+import DriveSched from '../layouts/Driver-Sched-Component/DriveSched';
+import DriveClock from '../layouts/Driver-Clock-Component/DriveClock';
+import MenuButton from '../components/MenuButton';
+import Bread from '../components/Bread';
+import { updateShifts } from '../redux/actions';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 
-const DriverDash = ({ navigation }) => {
-   const [date, setDate] = useState(new Date());
-   const [punch, setPunch] = useState({ val: "Clocked Out" });
-   const [dropdownVal, setdropdownVal] = useState({ ddv: "0" });
+const DriverDash = (props) => {
+   const [veil, setVeil] = useState("schedule");
+   const [visible, setVisibility] = useState(false);
+   const [componentDidMount, setComponentDidMount] = useState(false);
 
-   const dropdownOptions = [
-     'CLOCK IN',
-     'CLOCK OUT',
-     'START BREAK',
-     'END BREAK',
-     'START MEAL',
-     'END MEAL',
-    ]
+   const getShifts = function () {
+      return new Promise((resolve, reject) => {
+         axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getShifts', {
+            params: {
+               driverId: props.userData.uid
+            }
+         })
+         .then(res => {
+            resolve(res.data);
+         })
+         .catch(err => {
+            reject(err)
+         })
+      })
+   }
+      // [ 
+      //    { 
+      //       id (int),
+      //       carId (int),
+      //       startTime (datetime),
+      //       endTime (dateTime), 
+      //       pickup: [{ 
+      //          id,
+      //          availabilityId,
+      //          passengerId,
+      //          startAddress,
+      //          startLat,
+      //          startLng,
+      //          endAddress,
+      //          endLat,
+      //          endLng,
+      //          estimatedStartTime,
+      //          estimatedEndTime
+      //       }, ...]
+      //    } 
+      // ]
 
-   useEffect(() => {
-    var timer = setInterval( () => tick(), 1000 );
- 
-    return function cleanup() {
-      clearInterval(timer);
-    };
-   });
-   
-   function tick() {
-    setDate(new Date());
+   const checkShiftTime = function (start, end) {
+      const now = new Date();
+      if (new Date(start) < now && new Date(end) > now) {
+         return true;
+      } else {
+         return false;
+      }
    }
 
-   function statusUpdate() {
-     console.log(dropdownVal.ddv)
-    switch (dropdownVal.ddv) {
-      case '1':
-        punch.val = "Clocked Out";
-        break;
-      case '2':
-        punch.val = "On Break";
-        break;
-      case '4':
-        punch.val = "On Meal Time";
-        break;
-      default:
-        punch.val = "Clocked In";
-    }
-    // const d = dropdownVal.ddv;
-    // if (d == 1) {
-    //   punch.val = "Clocked Out";
-    // } else if (d == 2) {
-    //   punch.val = "On Break";
-    // } else if (d == 4) {
-    //   punch.val = "On Meal Time";
-    // } else {
-    //   punch.val = "Clocked In";
-    // }
-    //punch.val = dropdownOptions[dropdownVal.ddv];
+   const getCarId = function (availabilities) {
+      for (let i = 0; i < availabilities.length; i++) {
+         if (checkShiftTime(availabilities[i].startTime, availabilities[i].endTime)) {
+            return availabilities[i].carId
+         }
+      }
+      return null;
+   }
+
+   const getCurrentLocation = async () => {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+         Alert.alert(
+            'Please be Advised',
+            'This app will not work without location services enabled.',
+            [
+               { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+         );
+         setError('Permission to access location was denied');
+      };
+      return await Location.getCurrentPositionAsync({});
+   };
+
+   console.log(componentDidMount);
+
+   if (!componentDidMount){
+      setComponentDidMount(true);
+      getShifts()
+      .then(res => {
+
+         console.log(res);
+
+         setInterval(() => {
+            let id = getCarId(res);
+            if (!id) {
+               return;
+            }
+
+            console.log("CARID: " + id);
+
+            getCurrentLocation()
+            .then((position) => {
+               return axios.post('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/car', {
+                  id: id,
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+               })
+            })
+            .then (data => {
+               if (data.data === "New info") {
+                  console.log("There's new info");
+                  return axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getShifts', {
+                     params: {
+                        driverId: props.userData.uid
+                     }
+                  })
+                  .then (res => {
+                     console.log("Got the new info");
+                     console.log(res.data);
+                     Alert.alert(
+                        'New Pickup',
+                        'A pickup was added to your schedule.',
+                        [
+                          {
+                            text: 'Okay',
+                            onPress: () => console.log('Cancel Pressed'),
+                            style: 'cancel',
+                          },
+                        ],
+                        {cancelable: false},
+                      );
+                     
+                     console.log("Grabbing new info");
+                     console.log(res.data);
+                     props.updateShifts(res.data);
+                  })
+                  .catch (err => {
+                     console.log(err);
+                  })
+               }
+
+            })
+         }, 10000);
+
+         console.log("Data: ");
+         props.updateShifts(res);
+      })
+      .catch (err => {
+         console.log(err);
+      })
    }
 
    return (
+      // initialGet() ----------------------------------------- uncomment when working to
       <>
-         <MapBackground />
-         {/* in place of the go back button will use a hamburger and drawer */}
-         {/* we will also set state to worker is false (logout) */}
-         <BackButton goBack={() => navigation.navigate("HomeScreen")} />
-         <View style={styles.wrapper}>
-            <TheWhiteSquare height={75} top={15}>
-               <Logo />
-
-               <Header>Status: { punch.val }</Header>
-               <Header>{date.toLocaleTimeString()}</Header>
-               <ModalDropdown 
-                // defaultValue={ punch.val === 'Clocked In' ? 'CLOCK OUT' : 'CLOCK IN' }
-                options={dropdownOptions}
-                style={styles.picker}
-                textStyle={styles.picker_text}
-                dropdownStyle={styles.picker_dropdown}
-                onSelect={(value) => dropdownVal.ddv = value}
-               />
-
-               {/* onPress={_onLoginPressed} */}
-               <Button mode="contained" onPress={statusUpdate}>
-                  Submit
-               </Button>
-            </TheWhiteSquare>
-         </View>
-
-         {/* <Toast message={error} onDismiss={() => setError("")} /> */}
+      <View style={styles.container}>
+         {(() => {
+            switch (veil) {
+               case "Schedule":
+                  return (
+                        <DriveSched />
+                  )
+               case "Clock":
+                  return (
+                        <DriveClock />
+                  )
+               default:
+                  return (
+                        <DriveClock />
+                  )
+            }
+         })()}
+      </View>
+      <Bread 
+         headerOne={`Clock`} 
+         headerTwo={`Schedule`} 
+         visible={visible} 
+         onDismiss={() => setVisibility(false)}
+         func={(component) => {
+            setVeil(component)
+            setVisibility(false)
+         }}
+         userData={props.userData}
+       />
+      <MenuButton onPress={() => setVisibility(true)} setVisibility={setVisibility} />
       </>
-   );
-};
+   )
+}
 
 const styles = StyleSheet.create({
-   forgotPassword: {
-      width: "100%",
-      alignItems: "flex-end",
-      marginBottom: 24
-   },
-   row: {
-      flexDirection: "row",
-      marginTop: 4
-   },
-   label: {
-      color: theme.colors.secondary
-   },
-   link: {
-      fontWeight: "bold",
-      color: theme.colors.primary
-   },
-   wrapper: {
-      alignItems: 'center'
-   },
-   picker: {
-    width: 200,
-    borderWidth: 0,
-    borderRadius: 3,
-    backgroundColor: 'black',
-  },
-  picker_text: {
-    fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
-    letterSpacing: 2,
-    fontWeight: "bold",
-    fontSize: 17,
-    lineHeight: 26,
-    color: theme.colors.secondary,
-    marginVertical: 10,
-    marginHorizontal: 6,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-  },
-  picker_dropdown: {
-    width: 200,
-    height: 200,
-    fontWeight: "bold",
-    borderColor: 'darkgrey',
-    borderWidth: 2,
-    borderRadius: 3,
-    backgroundColor: 'lightgrey',
-  },
+   container: {
+      height: 100 * units.vh,
+      width: 100 * units.vw,
+      alignItems: "center"
+   }
 });
 
-export default memo(DriverDash);
+const mapStateToProps = ({ userData, shifts }) => ({ userData, shifts })
+
+const mapDispatchToProps = { updateShifts: updateShifts }
+
+export default connect(mapStateToProps, mapDispatchToProps)(DriverDash);

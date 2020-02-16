@@ -1,19 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { updateScheduledPickups } from '../../redux/actions';
 import { View, Text, StyleSheet, Platform } from 'react-native';
-import { Title } from 'react-native-paper';
 import EntryListView from './MainScreen-SubComponents/EntryListView';
-import PickupEntry from './MainScreen-SubComponents/PickupEntry';
 import TheWhiteSquare from '../../components/TheWhiteSquare';
 import Logo from '../../components/Logo';
 import Button from '../../components/Button';
-import { NativeViewGestureHandler } from 'react-native-gesture-handler';
-import dummyData from '../../dummyData/dummy_pickup_data';
-
-const { vh, vw } = require('react-native-viewport-units');
 
 const MainScreen = props => {
+    // Hook for mounting initial From location of user
+    const [componentDidMount, setMounted] = useState(false);
+
+    // Using user's geoLocation to get their actual address
+    getScheduledRequests = async () => {
+        if (props.geoLocation) {
+            // If component has not mounted, request all requested pickups using the UserID from Redux store
+            if (!componentDidMount) {
+                let res = await axios.get('http://ritzcarservice.us-east-2.elasticbeanstalk.com/api/getPickups', {
+                    params: {
+                        id: props.userData.uid
+                    }
+                })
+                // console.log("This is the result: ", res.data);
+                props.updateScheduledPickups(res.data);
+
+                // Setting componentDidMount to true
+                setMounted(true);
+            }
+        }
+    }
+
+    // Get user's reverse geoCoded address
+    getScheduledRequests();
 
     return (
         <>
@@ -26,22 +45,29 @@ const MainScreen = props => {
                 <View style={styles.divider} />
                 <View style={styles.mainContainer}>
                     {props.scheduledPickups.length > 0 ?
-                    <EntryListView scheduledPickups={props.scheduledPickups} setPage={props.setPage} />
-                    :
-                    <Text style={styles.noRequestsNotification}>
-                        No Current Requests
+                        <EntryListView scheduledPickups={props.scheduledPickups} setPage={props.setPage} />
+                        :
+                        <Text style={styles.noRequestsNotification}>
+                            No Current Requests
                     </Text>
                     }
                 </View>
                 <View style={styles.logoContainer}>
-                    <Logo style={{width: 80, height: 80}} />
+                    <Logo style={{ width: 80, height: 80 }} />
                 </View>
             </TheWhiteSquare>
             <View style={styles.buttonContainer}>
-                <Button onPress={() => { props.setPage("new pickup")}} mode={"contained"}>
+                <Button onPress={() => { props.setPage("new pickup"); props.setScheduled(false) }} mode={"contained"}>
                     Request a Ride Now
                 </Button>
+<<<<<<< HEAD
                 <Button onPress={() => { props.updateScheduledPickups(dummyData) }} mode={"contained"}>
+=======
+                <Button onPress={() => {
+                        props.setPage("new pickup")
+                        props.setScheduled(true)
+                    }} mode={"contained"}>
+>>>>>>> 5e7b20c058f59d2ad4e9547760db77d3679a14e9
                     Schedule a Ride
                 </Button>
             </View>
@@ -51,7 +77,9 @@ const MainScreen = props => {
 
 const mapStateToProps = state => {
     return {
-        scheduledPickups: state.scheduledPickups
+        scheduledPickups: state.scheduledPickups,
+        geoLocation: state.geoLocation,
+        userData: state.userData
     }
 }
 
@@ -68,7 +96,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     title: {
-        fontFamily: Platform.OS === "ios" ? "Arial" : "Roboto",
+        fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
         fontSize: 25,
         letterSpacing: 2,
         top: "60%"
@@ -91,7 +119,8 @@ const styles = StyleSheet.create({
         top: "20%"
     },
     logoContainer: {
-        height: "25%"
+        height: "25%",
+        top:"-3%",
     },
     buttonContainer: {
         top: "20%",

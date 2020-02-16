@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { navigate } from '../../redux/actions';
-import { View, Text, StyleSheet, Platform, Modal, Portal } from 'react-native';
+import { navigate, updateToLocation, updateFromLocation } from '../../redux/actions';
+import CancelModal from './CancelModal';
+import { View, Text, StyleSheet, Platform } from 'react-native';
+import { Modal, Portal, Provider } from 'react-native-paper'
 import Button from '../../components/Button';
 import { theme } from '../../core/theme';
-
-const { vh, vw } = require('react-native-viewport-units');
+import { units } from '../../core/untilities'
+import dateParser from '../../components/dateParser';
+import DetailsModal from './DetailsModal';
 
 const PrePickupInfo = props => {
-    console.log(props.scheduledPickups);
-    console.log(props.currentPickup);
+    let [modalOpen, setModalOpen] = useState(false);
+    let [detailsOpen, setDetailsOpen] = useState(false);
 
     const pickup = props.scheduledPickups[props.currentPickup];
 
@@ -17,20 +20,24 @@ const PrePickupInfo = props => {
         <>
             <View style={styles.statusContainer}>
                 <Text style={styles.bannerText}>
-                    Ride Scheduled For: {pickup.date}
+                    Ride Scheduled For: {dateParser.getDateFromDate(pickup.estimatedStartTime)}
                 </Text>
             </View>
 
             <View style={styles.pickupTimeContainer}>
                 <Text style={styles.bannerText}>
-                    Departure Time:  {pickup.time}
+                    Departure Time: {dateParser.getTimeFromDate(pickup.estimatedStartTime)}
                 </Text>
             </View>
 
             <View style={styles.contactButtonPosition}>
-                <Button style={styles.contactButton} labelStyle={styles.contactButtonText}>
+                <Button
+                    style={styles.contactButton}
+                    labelStyle={styles.contactButtonText}
+                    onPress={() => { setDetailsOpen(true) }}
+                >
                     <Text>
-                        Contact Driver
+                        View Details
                     </Text>
                 </Button>
             </View>
@@ -38,15 +45,44 @@ const PrePickupInfo = props => {
             <Button
                 style={styles.cancelButton}
                 labelStyle={styles.cancelButtonText}
+                onPress={() => { setModalOpen(true) }}
             >
                 Cancel Request
             </Button>
 
             <View style={styles.buttonContainer}>
-                <Button onPress={() => { props.setPage("home") }}>
-                    Back
+                <Button onPress={() => { 
+                    // Reset both the From and To Locations to be the same
+                    let resetOrigin = {};
+                    resetOrigin['lat'] = props.geoLocation.latitude;
+                    resetOrigin['lng'] = props.geoLocation.longitude; 
+                    
+                    props.updateToLocation(null);
+                    props.updateFromLocation(resetOrigin);
+                    props.setPage("home")
+                    
+                }}>
+                Back
                 </Button>
             </View>
+
+            <Provider>
+                <Portal>
+                    <Modal
+                        visible={modalOpen}
+                    >
+                        <CancelModal setModalOpen={setModalOpen} setPage={props.setPage} id={pickup.pickupId} />
+                    </Modal>
+                </Portal>
+            </Provider>
+
+            <Provider>
+                <Portal>
+                    <Modal visible={detailsOpen}>
+                        <DetailsModal setDetailsOpen={setDetailsOpen} pickup={pickup} />
+                    </Modal>
+                </Portal>
+            </Provider>
 
         </>
     )
@@ -55,29 +91,32 @@ const PrePickupInfo = props => {
 const mapStateToProps = state => {
     return {
         scheduledPickups: state.scheduledPickups,
-        currentPickup: state.currentPickup
+        currentPickup: state.currentPickup,
+        geoLocation: state.geoLocation
     }
 }
 
 const mapDispatchToProps = {
-    navigate: navigate
+    navigate: navigate,
+    updateToLocation: updateToLocation,
+    updateFromLocation: updateFromLocation
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrePickupInfo);
 
 const styles = StyleSheet.create({
     statusContainer: {
-        width: 100 * vw,
-        height: 4 * vh,
-        top: 12 * vh,
+        width: 100 * units.vw,
+        height: 4 * units.vh,
+        top: 12 * units.vh,
         backgroundColor: theme.colors.accentSecondary,
         alignItems: "center",
         justifyContent: "center"
     },
     pickupTimeContainer: {
-        width: 100 * vw,
-        height: 4 * vh,
-        top: 14 * vh,
+        width: 100 * units.vw,
+        height: 4 * units.vh,
+        top: 14 * units.vh,
         backgroundColor: theme.colors.accentSecondary,
         alignItems: "center",
         justifyContent: "center"
@@ -89,9 +128,9 @@ const styles = StyleSheet.create({
         letterSpacing: 2
     },
     contactButtonPosition: {
-        width: 80 * vw,
-        height: 5 * vh,
-        top: 14 * vh
+        width: 80 * units.vw,
+        height: 5 * units.vh,
+        top: 14 * units.vh
     },
     contactButton: {
         width: "100%",
@@ -107,19 +146,19 @@ const styles = StyleSheet.create({
         color: theme.colors.secondary,
     },
     bottomContainer: {
-        width: 94 * vw,
-        height: 15 * vh,
+        width: 94 * units.vw,
+        height: 15 * units.vh,
         borderRadius: 10,
-        top: 62 * vh,
+        top: 62 * units.vh,
         backgroundColor: theme.colors.secondary,
         alignItems: "center"
     },
     cancelButton: {
-        width: 94 * vw,
+        width: 94 * units.vw,
         backgroundColor: "red",
         borderRadius: 10,
-        height: 8 * vh,
-        top: 60 * vh
+        height: 8 * units.vh,
+        top: 60 * units.vh
     },
     cancelButtonText: {
         fontFamily: Platform.OS === 'ios' ? "Arial" : "Roboto",
@@ -143,8 +182,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     buttonContainer: {
-        top: 58 * vh,
-        width: 94 * vw
+        top: 58 * units.vh,
+        width: 94 * units.vw
     },
     backButton: {
         borderRadius: 10,
