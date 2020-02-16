@@ -17,6 +17,7 @@ const Router = createStackNavigator(
       HomeScreen,
       LoginScreen,
       SignupScreen,
+      DriverDash,
    },
    {
       initialRouteName: "AuthLoadingScreen",
