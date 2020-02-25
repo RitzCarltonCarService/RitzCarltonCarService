@@ -12,7 +12,7 @@
  - [How to Use?](#how-to-use)
 
 ## Demo
-![GIF OF DEMO]()
+![RCBlackCarGIF](assets/IntroGIF.gif)
 
 ## Video Demo
 Watch the full demo on YouTube here: [Ritz-Carlton Black Car Service](https://youtu.be/xvPz7iBd87U)
